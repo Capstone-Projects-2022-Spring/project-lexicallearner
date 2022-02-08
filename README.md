@@ -15,7 +15,7 @@ All information required, such as profiles, assignments, module details will be 
 
 ## Contributors
 * [Cole Linse Fitzpatrick][ColeFitz88]
-* Grant Gwiazdowski
+* [Grant Gwiazdowski][GrantGwiaz]
 * Jacky Chen He
 * [Leomar Duran][lduran2]
 * Shane Phillip Grinkewitz
@@ -24,3 +24,4 @@ All information required, such as profiles, assignments, module details will be 
 
 [ColeFitz88]: https://github.com/ColeFitz88
 [lduran2]: https://github.com/lduran2
+[GrantGwiaz]: https://github.com/GrantGwiaz
