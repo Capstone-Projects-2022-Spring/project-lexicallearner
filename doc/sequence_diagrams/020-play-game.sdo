@@ -1,0 +1,18 @@
+title Playing a game
+
+user->log-in screen:email, password, student account
+log-in screen->account database:verify account information
+account database->log-in screen:validate account information
+log-in screen->list of classrooms:GETs
+list of classrooms->user:sends response
+user->list of classrooms:selects a classroom
+list of classrooms->selected classroom:GETs
+selected classroom->user:sends response
+user->selected classroom:selects the 'Game' mode
+selected classroom->Game mode:GETs
+Game mode->user:sends response
+user->Game mode:plays until the vocabulary words run out
+Game mode->user:sends score, Home option, Play again option
+user->Game mode:selects Home option or Play again option
+Game mode->list of classrooms:returns to Home if user selected it
+Game mode->user:starts the game over if user selected Play again
