@@ -1,0 +1,13 @@
+title Creating a classroom
+
+user->splash screen:clicks create account button
+splash screen->registration window:GETs
+registration window->user:sends response
+user->registration window:email, password, 'Teacher' account class, clicks 'submit'
+registration window->account database:PUTs account information
+user->log-in screen:email, password
+log-in screen->account database:verify account information
+account database->log-in screen:validate account information
+log-in screen->black classroom:GETs
+black classroom->user:sends response, access code
+user->black classroom:upload vocabulary words/definitions, additional details, clicks 'create assignment button'

@@ -1,0 +1,22 @@
+title Completing a quiz
+
+user->log-in screen:email, password, student account
+log-in screen->account database:verify account information
+account database->log-in screen:validate account information
+log-in screen->list of classrooms:GETs
+list of classrooms->user:sends response
+user->list of classrooms:selects a classroom
+list of classrooms->selected classroom:GETs
+selected classroom->user:sends response
+user->selected classroom:scrolls down to Quizes and selects the uncompleted quiz
+selected classroom->quiz main:GETs
+quiz main->user:sends response, Practice with flashcards option, Take now option
+user->quiz main:selects Take now option
+quiz main->quiz Take now:GETs
+quiz Take now->user:sends response, quiz questions
+user->quiz Take now:answers quiz questions, submits the quiz
+quiz Take now->user:sends score, Exit option, Next assignment option, Try again option
+user->quiz Take now:selects an option from the quiz
+quiz Take now->log-in screen:if the user selects Exit
+quiz Take now->selected classroom:if the user selects Next assignment
+quiz Take now->user:sends quiz questions if the user selects Try again
