@@ -1,0 +1,9 @@
+title Learning to play tournament mode
+
+Tournament mode->user:provides vocabulary words
+user->Tournament mode:drags the words to their appropriate definition
+Tournament mode->user:detracts points to the user
+user->Tournament mode:drags the words to their appropriate definition
+Tournament mode->user:rewards points to the user
+Tournament mode->user:eliminates if the user has negative points
+Tournament mode->user:sends final score

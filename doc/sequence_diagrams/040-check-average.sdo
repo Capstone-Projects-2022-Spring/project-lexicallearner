@@ -1,0 +1,13 @@
+title Checking the average of an assignment
+
+user->log-in screen:email, password, teacher account
+log-in screen->account database:verify account information
+account database->log-in screen:validate account information
+log-in screen->teacher's classroom:GETs
+teacher's classroom->user:sends response
+user->teacher's classroom:scrolls down to Assignments and selects the appropriate assignment
+teacher's classroom->assignment main:GETs
+assignment main->user:sends response, 'Check score' option
+user->assignment main:selects 'Check score' option
+assignment main->grading book:GETs
+grading book->user:sends response, all student attempts at the assignment
