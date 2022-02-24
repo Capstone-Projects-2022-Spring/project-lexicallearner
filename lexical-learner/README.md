@@ -1,6 +1,7 @@
 # React Web File Structure Message
 
-For readability and organization, for each component and page we should put them in the corresponding folder: 'components' folder, and 'pages' folder, respectively. 
+For readability and organization, for each component and page we should put them in the corresponding folder: 'components' folder, and 'pages' folder, respectively.
+All components or pages should have its css files placed with them. For instance, Home page folder should have Home react element and its css file.
 
 If anyone has better suggestion, please share it.
 
