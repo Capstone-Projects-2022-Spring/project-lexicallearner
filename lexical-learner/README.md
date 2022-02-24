@@ -1,3 +1,9 @@
+# React Web File Structure Message
+
+For readability and organization, for each component and page we should put them in the corresponding folder: 'components' folder, and 'pages' folder, respectively. 
+
+If anyone has better suggestion, please share it.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
