@@ -9,15 +9,10 @@ const Navbar = () => {
         <div className='Navbar'>
             <ul>
                 <li>
-                    <BsIcons.BsChatSquareText 
-                        style={{fontSize: '2rem', marginRight: '0.5rem'}}/>
-                    <span className='logo'>Lexical Chat</span>
+                    <span className='logo'>Lexical</span>
                 </li>
             </ul>
             <ul>
-                <li>
-                    About
-                </li>
                 <li>
                     <Link to='upload'>
                         Login
