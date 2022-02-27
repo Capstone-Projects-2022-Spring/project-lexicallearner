@@ -1,0 +1,27 @@
+.Dashboard {
+    background-color: white;
+}
+
+.classrooms {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.classroom {
+    flex: 200px;
+    min-height: 200px;
+    background-color: gray;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+}
+
+.Dashboard footer {
+    background-color: rgb(179, 179, 179);
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500Z;
+}
