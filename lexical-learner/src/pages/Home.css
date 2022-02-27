@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
     height: 300px;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .Home .intro-aside {
@@ -19,7 +19,6 @@
 }
 
 .Home .intro-title {
-    width: 50vw;
     font-weight: bolder;
 }
 
@@ -58,8 +57,8 @@
 .Home .features li {
     display: flex;
     flex-direction: column;
-    margin: 1rem;
-    width: 45%;
+    margin-left: 5rem;
+    margin-right: 5rem;
     line-height: 2rem;
     text-align: center;
 }
@@ -71,7 +70,6 @@
 
 .Home .quickdemo {
     border: 5px dashed hotpink;
-    height: 300px;
 }
 
 .Home footer {

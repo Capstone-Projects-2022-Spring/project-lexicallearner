@@ -1,5 +1,6 @@
 {
   "name": "lexical-learner",
+  "homepage": "https://capstone-projects-2022-spring.github.io/project-lexicallearner/lexical-learner",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

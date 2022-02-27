@@ -27,7 +27,7 @@ const Home = () => {
         <ul>
           <li>
             <span className="features-title">Real Time Text Translation</span>
-            <span>Translates to thousands languages</span>
+            <span>Translates to hundred of languages</span>
             <span>Powered by Google Translate</span>
             <BsIcons.BsImages style={{fontSize: '15rem', margin: '0 auto'}}/>
           </li>
@@ -41,7 +41,7 @@ const Home = () => {
         </ul>
       </section>
       <section className="quickdemo">
-        <h1>PLACE HOLDER FOR DEMO</h1>
+        <h1>PLACE HOLDER FOR CHAT DEMO</h1>
       </section>
       <footer>
         <span>Lexical</span>
