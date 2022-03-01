@@ -15,6 +15,8 @@ The account database can be bypassed by using a Canvas account which is linked u
 1. Each lesson has a lesson ID, a level, and one or more questions.
 1. A question has a question ID and includes question item ID.
 1. An item has an ID number, a name and a source.
+1. Items can answer questions.
+1. An answer may be correct or incorrect.
 
 ## Entity&ndash;Relation diagram
 
@@ -26,7 +28,18 @@ The account database can be bypassed by using a Canvas account which is linked u
 
 - Account(__acid__, password)
 - Profile(__pfid__, pfLevel, score)
-- Lesson(__lsid__, pfid, level, lsLevel)
-- LessonQuestion(__qsid__, lsid, question_item_id)
-- answers(__anid__, qsid, itid)
-- Items(__itid__, item_name, item_source)
+- Lesson(__lsid__, pfid, lsLevel)
+- Question(__qsid__, lsid, questionItid)
+- answers(__anid__, qsid, itid, isC)
+- Items(__itid__, itemName, itemSource)
+
+## Data dictionary
+
+Table name | Table description
+-----------|------------------------------------
+Account    | Contains account login information.
+Profile    | Contains publicly available profile information.
+Lesson     | Contains a lesson's questions.
+Question   | Contains a specific question.
+answers    | Represents a possible answer to a question.
+Items      | Contains information about an item.
