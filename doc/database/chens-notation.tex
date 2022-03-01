@@ -2,11 +2,21 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage{tikz}
+\usetikzlibrary{matrix}
 
 \begin{document}
 
 \begin{tikzpicture}
-    \node{Account};
+    \matrix{
+        \node{Account};
+        & & \node{Lesson};
+        & & \node{answers};
+        \\
+        & \node{Profile};
+        & & \node{Question};
+        & & \node{Item};
+        \\
+    };
 \end{tikzpicture}
 
 \end{document}

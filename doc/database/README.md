@@ -31,7 +31,7 @@ The account database can be bypassed by using a Canvas account which is linked u
 - Lesson(__lsid__, pfid, lsLevel)
 - Question(__qsid__, lsid, questionItid)
 - answers(__anid__, qsid, itid, isCorrect)
-- Items(__itid__, itName, itSource)
+- Item(__itid__, itName, itSource)
 
 ## Data dictionary
 
@@ -42,7 +42,7 @@ Table name                  | Table description
 [Lesson](#lesson-table)     | Contains a lesson's questions.
 [Question](#question-table) | Contains a specific question.
 [answers](#answers-table)   | Represents a possible answer to a question.
-[Items](#items-table)       | Contains information about an item.
+[Item](#item-table)         | Contains information about an item.
 
 ### Account table
 
@@ -85,7 +85,7 @@ qsid           | ID number of the question this answer answers.
 itid           | ID number of the item used for this answer.
 isCorrect      | Whether the answer is correct or wrong.
 
-### Items table
+### Item table
 
 Attribute name | Attribute description
 ---------------|---------------------------------------------------
