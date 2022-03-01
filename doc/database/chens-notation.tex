@@ -1,15 +1,33 @@
-\documentclass{standalone}
+\documentclass[10pt]{standalone}
 \usepackage[utf8]{inputenc}
 
 \usepackage{tikz}
-\usetikzlibrary{matrix}
-\usetikzlibrary{trees}
-\usetikzlibrary{graphs}
+\usetikzlibrary{matrix,trees}
+\usetikzlibrary{graphs,quotes}
+\usetikzlibrary{decorations.text}
+
+\tikzset{%
+    matrix/.append style={%
+        column sep=0.375in,%
+        row sep=1.5in%
+    },%
+    cardinality/.style={%
+        postaction={decorate,%
+            decoration={%
+                raise=-9pt,%
+                text along path,%
+                text={#1},%
+                text align={align=center}%
+            }%
+        }
+    },%
+    cardinality/.default={1:1},%
+}
 
 \begin{document}
 
 \begin{tikzpicture}
-    \matrix [column sep=0.375in, row sep=1.5in]{
+    \matrix {
         \node (account) {Account}
             child { node{acid} }
             child { node{password} }
@@ -45,9 +63,14 @@
         \\
     };
     \graph{
-        (account) -- (profile) -- (lesson)
-        -- (question) -- (answers) -- (item)
-        -- (question);
+        (account)
+            --[cardinality] (profile)
+            --[cardinality={1:M}] (lesson)
+            --[cardinality={1:M}] (question)
+            --[cardinality={1:M}] (answers)
+            --[cardinality={M:1}] (item);
+        (question)
+            --[cardinality] (item);
     };
 \end{tikzpicture}
 
