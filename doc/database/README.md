@@ -29,7 +29,7 @@ The account database can be bypassed by using a Canvas account which is linked u
 - Account(__acid__, password)
 - Profile(__pfid__, acid, pfLevel, score)
 - Lesson(__lsid__, pfid, lsLevel)
-- Question(__qsid__, lsid, questionItid)
+- Question(__qsid__, lsid, qsItid)
 - answers(__anid__, qsid, itid, isCorrect)
 - Item(__itid__, itName, itSource)
 
@@ -74,7 +74,7 @@ Attribute name | Attribute description
 ---------------|---------------------------------------------------
 qsid           | Generated ID number for this question.
 lsid           | ID number of the lesson this question belongs to.
-questionItid   | ID of the item that is used to ask the question.
+qsItid         | ID of the item that is used to ask the question.
 
 ### answers table
 

@@ -4,19 +4,45 @@
 
 \usepackage{tikz}
 \usetikzlibrary{matrix}
+\usetikzlibrary{trees}
 \usetikzlibrary{graphs}
 
 \begin{document}
 
 \begin{tikzpicture}
     \matrix [column sep=0.375in, row sep=1.5in]{
-        \node (account) {Account};
-        & & \node (lesson) {Lesson};
-        & & \node (answers) {answers};
+        \node (account) {Account}
+            child { node{acid} }
+            child { node{password} }
+        ;
+        & & \node (lesson) {Lesson}
+            child { node{lsid} }
+            child { node{pfid} }
+            child { node{lsLevel} }
+        ;
+        & & \node (answers) {answers}
+            child { node{anid} }
+            child { node{qsid} }
+            child { node{itid} }
+            child { node{isCorrect} }
+        ;
         \\
-        & \node (profile) {Profile};
-        & & \node (question) {Question};
-        & & \node (item) {Item};
+        & \node (profile) {Profile}
+            child { node{pfid} }
+            child { node{acid} }
+            child { node{pfLevel} }
+            child { node{score} }
+        ;
+        & & \node (question) {Question}
+            child { node{qsid} }
+            child { node{lsid} }
+            child { node{qsItid} }
+        ;
+        & & \node (item) {Item}
+            child { node{itid} }
+            child { node{itName} }
+            child { node{itSource} }
+        ;
         \\
     };
     \graph{
