@@ -1,21 +1,28 @@
 \documentclass{standalone}
 \usepackage[utf8]{inputenc}
+\renewcommand*\familydefault{\sfdefault}%
 
 \usepackage{tikz}
 \usetikzlibrary{matrix}
+\usetikzlibrary{graphs}
 
 \begin{document}
 
 \begin{tikzpicture}
-    \matrix{
-        \node{Account};
-        & & \node{Lesson};
-        & & \node{answers};
+    \matrix [column sep=0.375in, row sep=1.5in]{
+        \node (account) {Account};
+        & & \node (lesson) {Lesson};
+        & & \node (answers) {answers};
         \\
-        & \node{Profile};
-        & & \node{Question};
-        & & \node{Item};
+        & \node (profile) {Profile};
+        & & \node (question) {Question};
+        & & \node (item) {Item};
         \\
+    };
+    \graph{
+        (account) -- (profile) -- (lesson)
+        -- (question) -- (answers) -- (item)
+        -- (question);
     };
 \end{tikzpicture}
 
