@@ -27,7 +27,7 @@ The account database can be bypassed by using a Canvas account which is linked u
 ## Relational schema
 
 - Account(__acid__, password)
-- Profile(__pfid__, pfLevel, score)
+- Profile(__pfid__, acid, pfLevel, score)
 - Lesson(__lsid__, pfid, lsLevel)
 - Question(__qsid__, lsid, questionItid)
 - answers(__anid__, qsid, itid, isC)
@@ -43,3 +43,10 @@ Lesson     | Contains a lesson's questions.
 Question   | Contains a specific question.
 answers    | Represents a possible answer to a question.
 Items      | Contains information about an item.
+
+Attribute name | Attribute description
+---------------+-------------------------------------
+acid           | Generated ID number for this account
+password       | password related to the account
+
+: Account table
