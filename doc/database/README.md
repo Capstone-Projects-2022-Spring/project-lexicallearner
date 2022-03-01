@@ -36,7 +36,7 @@ The account database can be bypassed by using a Canvas account which is linked u
 ## Data dictionary
 
 Table name | Table description
------------|------------------------------------
+-----------|-------------------------------------------------
 Account    | Contains account login information.
 Profile    | Contains publicly available profile information.
 Lesson     | Contains a lesson's questions.
@@ -45,8 +45,8 @@ answers    | Represents a possible answer to a question.
 Items      | Contains information about an item.
 
 Attribute name | Attribute description
----------------+-------------------------------------
-acid           | Generated ID number for this account
-password       | password related to the account
+---------------|--------------------------------------
+acid           | Generated ID number for this account.
+password       | Password to log into this account.
 
 : Account table
