@@ -16,7 +16,7 @@ The account database can be bypassed by using a Canvas account which is linked u
 1. A question has a question ID and includes question item ID.
 1. An item has an ID number, a name and a source.
 
-## Entity--Relation diagram
+## Entity&ndash;Relation diagram
 
 ### Chen's notation
 
@@ -24,9 +24,9 @@ The account database can be bypassed by using a Canvas account which is linked u
 
 ## Relational schema
 
-- Account(__acid__, password)
-- Profile(__pfid__, pfLevel, score)
-- Lesson(__lsid__, pfid, level, lsLevel)
-- LessonQuestion(__qsid__, lsid, question_item_id)
-- answers(__anid__, qsid, itid)
-- Items(__itid__, item_name, item_source)
+- Account(<u>acid</u>, password)
+- Profile(<u>pfid</u>, pfLevel, score)
+- Lesson(<u>lsid</u>, pfid, level, lsLevel)
+- LessonQuestion(<u>qsid</u>, lsid, question_item_id)
+- answers(<u>anid</u>, qsid, itid)
+- Items(<u>itid</u>, item_name, item_source)
