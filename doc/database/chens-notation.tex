@@ -1,27 +1,33 @@
 \documentclass[10pt]{standalone}
 \usepackage[utf8]{inputenc}
 
+\usepackage{./articlethemer}
+\usecolortheme{erdiagram}
+
 \usepackage{tikz}
 \usetikzlibrary{matrix,trees}
 \usetikzlibrary{graphs,quotes}
 \usetikzlibrary{decorations.text}
 
 \tikzset{%
+    every path/.append style={edgecolor},%
     matrix/.append style={%
         column sep=0.375in,%
         row sep=1.5in%
     },%
     cardinality/.style={%
-        postaction={decorate,%
+        postaction={%
+            decorate,%
             decoration={%
                 raise=-9pt,%
                 text along path,%
                 text={#1},%
+                text color=edgecolor,%
                 text align={align=center}%
             }%
-        }
+        }%
     },%
-    cardinality/.default={1:1},%
+    cardinality/.default={1:1}%
 }
 
 \begin{document}
