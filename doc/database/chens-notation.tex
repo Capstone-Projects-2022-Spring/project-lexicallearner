@@ -5,15 +5,42 @@
 \usecolortheme{erdiagram}
 
 \usepackage{tikz}
-\usetikzlibrary{matrix,trees}
-\usetikzlibrary{graphs,quotes}
+\usetikzlibrary{shapes.geometric}
 \usetikzlibrary{decorations.text}
+\usetikzlibrary{matrix}
+\usetikzlibrary{trees}
+\usetikzlibrary{graphs}
 
 \tikzset{%
     every path/.append style={edgeColor},%
+    % shapes
+    entity/.style={%
+        rectangle,%
+        minimum size=2.8em%
+    },%
+    relation/.style={%
+        diamond,%
+        aspect=2%
+    },%
+    attribute/.style={%
+        ellipse,%
+        minimum size=1pt,%
+        scale=0.7%
+    },%
     matrix/.append style={%
         column sep=0.375in,%
-        row sep=1.5in%
+        row sep=1.5in,%
+        % default to entity on level 0
+        every node/.append style={%
+            entity,%
+            fill=titleBack,%
+            text=titleText%
+        },%
+        level 1/.append style={%
+            every node/.append style={%
+                attribute%
+            }%
+        }%
     },%
     cardinality/.style={%
         postaction={%
@@ -43,7 +70,7 @@
             child { node{pfid} }
             child { node{lsLevel} }
         ;
-        & & \node (answers) {answers}
+        & & \node[relation] (answers) {answers}
             child { node{anid} }
             child { node{qsid} }
             child { node{itid} }
