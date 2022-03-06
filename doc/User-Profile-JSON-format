@@ -1,0 +1,10 @@
+
+{
+  "UserId": int,       // the database assotiated user id
+  "UserEmail": String, // the email associuated with the user
+  "UserName": String,  // the user's name
+  "UserType": String,  // the type of user, such as educator or student
+  "UserPortrait": ,    // for the user's profile portrait
+  "DarkMode": bool,    // for choosing darkmode 
+  "UserGroup": String  // the group assoctiated with the user, such as a classroom, school, etc.
+}
