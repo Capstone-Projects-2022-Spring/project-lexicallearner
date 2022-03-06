@@ -1,0 +1,13 @@
+.login {
+    background-color: white;
+}
+
+
+.login footer {
+    background-color: rgb(179, 179, 179);
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500Z;
+}
