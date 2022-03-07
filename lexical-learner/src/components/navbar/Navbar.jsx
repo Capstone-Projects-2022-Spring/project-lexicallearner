@@ -18,7 +18,7 @@ const Navbar = () => {
                         Dashboard
                     </Link>
                     <Link to='upload'>
-                        Login
+                        Upload
                     </Link>
                 </li>
             </ul>

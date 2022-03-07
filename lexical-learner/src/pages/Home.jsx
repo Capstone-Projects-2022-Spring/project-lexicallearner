@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../components/navbar/Navbar";
 import * as BsIcons from "react-icons/bs";
 import "./Home.css";
+import Chat from "../components/chat/Chat"
 
 const Home = () => {
   return (
@@ -14,7 +15,7 @@ const Home = () => {
         <BsIcons.BsTranslate style={{ fontSize: "7rem", color: "black" }} />
         <div className="intro-aside">
           <span className="intro-title">
-            A Online Web Chat for languages learner<br />
+            A Online Lexical for languages learner<br />
           </span>
           <ul className="intro-features">
             <li>Real Time Text Translation</li>
@@ -41,7 +42,7 @@ const Home = () => {
         </ul>
       </section>
       <section className="quickdemo">
-        <h1>PLACE HOLDER FOR CHAT DEMO</h1>
+        <Chat />
       </section>
       <footer>
         <span>Lexical</span>

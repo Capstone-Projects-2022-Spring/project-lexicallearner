@@ -2,6 +2,7 @@ import React from 'react'
 import './Upload.css'
 
 const Upload = () => {
+
   return (
     <div className='Upload'>
       <span className="Upload-title">Upload</span>
@@ -11,7 +12,7 @@ const Upload = () => {
       </span>
       <div className="Upload-filecontainer"></div>
 
-      <form action="/action_page.php">
+      <form action=''>
         <input type="file" id="myFile" name="filename" />
         <input type="submit" />
       </form>

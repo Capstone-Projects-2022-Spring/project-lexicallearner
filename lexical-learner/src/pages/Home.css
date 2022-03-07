@@ -8,6 +8,7 @@
     align-items: center;
     height: 300px;
     gap: 2rem;
+    padding-top: 1rem;
 }
 
 .Home .intro-aside {
@@ -31,6 +32,7 @@
     border: 5px solid black;
     border-radius: 5%;
     font-size: 1.5rem;
+    filter: drop-shadow(0 0 0.25rem grey);
 }
 
 .Home .intro-features {
@@ -70,6 +72,7 @@
 
 .Home .quickdemo {
     border: 5px dashed hotpink;
+    border: none;
 }
 
 .Home footer {
