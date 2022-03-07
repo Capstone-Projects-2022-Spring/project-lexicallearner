@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "../components/navbar/Navbar";
-import * as BsIcons from "react-icons/bs";
 import "./Login.css";
 
 const Login = () => {

@@ -18,11 +18,10 @@
 
 .Navbar li {
     padding: 0.75rem;  
-    color: white;  
+    color: white; 
 }
 
 .Navbar a {
-    border: 2px solid white;
     border-radius: 5%;
     padding: 0.5rem;
     text-decoration: none;
@@ -30,11 +29,32 @@
 }
 
 .Navbar a:hover {
-    border: 2px solid var(--loginbtn-hover-color);
     color: var(--loginbtn-hover-color);
 }
 
+
+.Navbar .login {
+    border: 1px solid white;
+    border-radius: 5%;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: white;
+}
+
+.Navbar .login:hover {
+    border: 1px solid var(--loginbtn-hover-color);
+    color: var(--loginbtn-hover-color);
+}
+
+/* overwriting navbar a */
 .Navbar .logo{
     font-size: 1.5rem;
+    border: none;
+    padding: 0;
+}
+
+.Navbar .logo:hover{
+    border: none;
+    color: none;
 }
 
