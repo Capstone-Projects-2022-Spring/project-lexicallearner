@@ -1,3 +1,10 @@
+# React Web File Structure Message
+
+For readability and organization, for each component and page we should put them in the corresponding folder: 'components' folder, and 'pages' folder, respectively.
+All components or pages should have its css files placed with them. For instance, Home page folder should have Home react element and its css file.
+
+If anyone has better suggestion, please share it.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
