@@ -12,6 +12,8 @@
 \usetikzlibrary{graphs}
 
 \tikzset{%
+    grow cyclic,%
+    level distance=0.75in,%
     every path/.append style={edgeColor},%
     % shapes
     entity/.style={%
@@ -62,34 +64,35 @@
 \begin{tikzpicture}
     \matrix {
         \node (account) {Account}
-            child { node{acid} }
+            child { node {\underline{acid}} }
             child { node{password} }
         ;
         & & \node (lesson) {Lesson}
-            child { node{lsid} }
+            child { node{\underline{lsid}} }
             child { node{pfid} }
             child { node{lsLevel} }
         ;
         & & \node[relation] (answers) {answers}
-            child { node{anid} }
+            child { node{\underline{anid}} }
             child { node{qsid} }
             child { node{itid} }
             child { node{isCorrect} }
         ;
         \\
         & \node (profile) {Profile}
-            child { node{pfid} }
+            child { node{\underline{pfid}} }
             child { node{acid} }
             child { node{pfLevel} }
             child { node{score} }
         ;
         & & \node (question) {Question}
-            child { node{qsid} }
+            [grow=down]
+            child { node{\underline{qsid}} }
             child { node{lsid} }
             child { node{qsItid} }
         ;
         & & \node (item) {Item}
-            child { node{itid} }
+            child { node{\underline{itid}} }
             child { node{itName} }
             child { node{itSource} }
         ;
