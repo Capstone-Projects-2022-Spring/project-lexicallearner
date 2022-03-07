@@ -11,12 +11,20 @@
     padding-top: 1rem;
 }
 
+.Home .intro-logo {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem;
+}
+
 .Home .intro-aside {
     display: flex;
     flex-direction: column;
     font-size: 2rem;
     color: black;
     gap: 1rem;
+    margin: 2rem;
 }
 
 .Home .intro-title {
@@ -29,7 +37,7 @@
     background-color: black;
     width: max-content;
     padding: 0.25rem;
-    border: 5px solid black;
+    border: 2px solid black;
     border-radius: 5%;
     font-size: 1.5rem;
     filter: drop-shadow(0 0 0.25rem grey);

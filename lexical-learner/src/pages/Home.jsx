@@ -9,19 +9,24 @@ const Home = () => {
     <div className="Home">
       <Navbar />
       <section className="intro">
-        <BsIcons.BsChatSquareTextFill
-          style={{ fontSize: "7rem", color: "black", }}
-        />
-        <BsIcons.BsTranslate style={{ fontSize: "7rem", color: "black" }} />
+        <div className="intro-logo">
+          <BsIcons.BsChatSquareTextFill
+            style={{ fontSize: "7rem", color: "black" }}
+          />
+          <BsIcons.BsTranslate style={{ fontSize: "7rem", color: "black" }} />
+        </div>
         <div className="intro-aside">
           <span className="intro-title">
-            A Online Lexical for languages learner<br />
+            A Online Lexical Learning Platform for Languages Learners
+            <br />
           </span>
           <ul className="intro-features">
             <li>Real Time Text Translation</li>
             <li>Flashcards</li>
           </ul>
-          <a href="login" className="intro-getstarted">Get Started</a>
+          <a href="login" className="intro-getstarted">
+            Get Started
+          </a>
         </div>
       </section>
       <section className="features">
@@ -30,14 +35,14 @@ const Home = () => {
             <span className="features-title">Real Time Text Translation</span>
             <span>Translates to hundred of languages</span>
             <span>Powered by Google Translate</span>
-            <BsIcons.BsImages style={{fontSize: '15rem', margin: '0 auto'}}/>
+            <BsIcons.BsImages style={{ fontSize: "15rem", margin: "0 auto" }} />
           </li>
           <li>
             <span className="features-title">Flashcards</span>
             <span>Convert cards to quizes / tests</span>
             <span>Fully Customizable</span>
             <span>Games</span>
-            <BsIcons.BsImages style={{fontSize: '15rem', margin: '0 auto'}}/>
+            <BsIcons.BsImages style={{ fontSize: "15rem", margin: "0 auto" }} />
           </li>
         </ul>
       </section>
