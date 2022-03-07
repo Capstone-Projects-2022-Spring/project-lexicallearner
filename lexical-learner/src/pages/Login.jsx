@@ -17,8 +17,7 @@ const Login = () => {
             <form>
                 {/* Labels and inputs for form data */}
                 <label className="label">Username</label>
-                <input className="input"
-                       value={name} type="text" />
+                <input className="input" type="text" />
 
                 <label className="label">Email</label>
                 <input className="input" type="email" />

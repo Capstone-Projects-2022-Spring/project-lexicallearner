@@ -1,6 +1,5 @@
 import React from 'react'
 import './Navbar.css'
-import * as BsIcons from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
@@ -14,13 +13,13 @@ const Navbar = () => {
             </ul>
             <ul>
                 <li>
-                    <Link to='dashboard'>
+                    <Link to='/dashboard'>
                         Dashboard
                     </Link>
-                    <Link to='upload'>
+                    <Link to='/upload'>
                         Upload
                     </Link>
-                    <Link to='login'>
+                    <Link to='/login'>
                         Login
                     </Link>
                 </li>
