@@ -5,6 +5,14 @@ import "./Home.css";
 import Chat from "../components/chat/Chat"
 
 const Home = () => {
+
+  const user = {
+    icon: <BsIcons.BsAward/>,
+    username: 'user',
+    password: '',
+    type: '',
+  }
+
   return (
     <div className="Home">
       <Navbar />
@@ -15,6 +23,7 @@ const Home = () => {
           />
           <BsIcons.BsTranslate style={{ fontSize: "7rem", color: "black" }} />
         </div>
+
         <div className="intro-aside">
           <span className="intro-title">
             A Online Lexical Learning Platform for Languages Learners
@@ -29,6 +38,7 @@ const Home = () => {
           </a>
         </div>
       </section>
+
       <section className="features">
         <ul>
           <li>
@@ -46,9 +56,11 @@ const Home = () => {
           </li>
         </ul>
       </section>
+
       <section className="quickdemo">
-        <Chat />
+        <Chat user={user} />
       </section>
+
       <footer>
         <span>Lexical</span>
       </footer>

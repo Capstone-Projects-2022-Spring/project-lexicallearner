@@ -3,40 +3,96 @@
 }
 
 .chat-leftbox{
-    width: 30vw;
-    height: 100vh;
+    width: 300px;
+    height: 900px;
     border: 1px solid lightgrey;
     background-color: rgb(241, 241, 241);
+    overflow-y: auto;
+}
+
+.chat-lefttitle{
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-bottom: 1px solid lightgray;
+    height: 55px;
+}
+
+.chat-righttitle{
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-bottom: 1px solid lightgray;
+    height: 55px;
 }
 
 .chat-rightbox{
     display: flex;
     flex-direction: column;
-    width: 100%;  
+    width: 600px;  
+    border-right: 1px solid lightgrey;
+    background-color: rgb(244, 244, 244);
 }
 
 .chat-messages{
-    width: 100%;
-    height: 80vh;
+    width: inherit;
+    height: 639px;
     border-left: none;
-    background-color: rgb(244, 244, 244);
+    border-right: 1px solid lightgrey;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.chat-message {
+    display: flex;
+    padding: 0.5rem;
+}
+
+.chat-message-logo {
+    display: inline-block;
+    padding: 0.5rem;
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 5%;
+}
+
+.chat-mymessage{
+    display: flex;
+    margin-left: auto;
+    gap: 0.25rem;
+}
+
+.chat-theirmessage{
+    display: flex;
+    gap: 0.25rem;
+}
+
+.chat-messagebox{
+    background-color: white;
+    padding: 1rem;
+    max-width: 400px;
 }
 
 .chat-sendmessage{
     position: relative;
-    width: 100%;
-    height: 20vh;
+    width: inherit;
+    height: 200px;
     border-top: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    background-color: white;
 }
 
+
+
 textarea {
-    width: 100%;
-    height: 75%;
+    width: inherit;
+    height: 150px;
     border: none;
     outline: none;
     padding: 1rem;
     scroll-behavior: smooth;
     resize: none;
+    border-right: 1px solid lightgrey;
 }
 
 input[type=submit]{
