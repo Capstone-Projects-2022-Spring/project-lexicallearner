@@ -5,19 +5,106 @@
 \usecolortheme{erdiagram}
 
 \usepackage{tikz}
+\usetikzlibrary{shapes.multipart}
 \usetikzlibrary{matrix}
+\usetikzlibrary{graphs}
 
 \tikzset{%
     every matrix/.style={%
-        matrix of nodes%
+        matrix of nodes,%
+        anchor=north%
+    },%
+    layout/.style={%
+        row sep=1.5in,%
+        column sep=2in,%
     }%
 }%
 
 \begin{document}
 
 \begin{tikzpicture}
-    \matrix {
+    \matrix[layout] (layout) {
+        {} & {} \\
+        {} & {} \\
+        {} & {} \\
+    };
+    \matrix (account) at (layout-1-1) {
+        & & Account
         \\
+        PK & & acid
+        \\
+        \hline
+        & & password
+        \\
+    };
+    \matrix (profile) at (layout-1-2) {
+        & & Profile
+        \\
+        PK & & pfid
+        \\
+        \hline
+        & FK & acid
+        \\
+        & & pfLevel
+        \\
+        & & score
+        \\
+    };
+    \matrix (lesson) at (layout-2-2) {
+        & & Lesson
+        \\
+        PK & & lsid
+        \\
+        \hline
+        & FK & pfid
+        \\
+        & & isLevel
+        \\
+    };
+    \matrix (question) at (layout-2-1) {
+        & & Question
+        \\
+        PK & & qsid
+        \\
+        \hline
+        & FK & lsid
+        \\
+        & FK & qsItid
+        \\
+    };
+    \matrix (answers) at (layout-3-1) {
+        & & answers
+        \\
+        PK & & anid
+        \\
+        \hline
+        & FK & qsid
+        \\
+        & FK & itid
+        \\
+        & & isCorrect
+        \\
+    };
+    \matrix (item) at (layout-3-2) {
+        & & Item
+        \\
+        PK & & itid
+        \\
+        \hline
+        & & itName
+        \\
+        & & itSource
+        \\
+    };
+    \graph{
+        (account)
+            -- (profile)
+            -- (lesson)
+            -- (question)
+            -- (answers)
+            -- (item);
+        (question)
+            -- (item);
     };
 \end{tikzpicture}
 
