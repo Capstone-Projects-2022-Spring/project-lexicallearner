@@ -5,16 +5,17 @@
 .classrooms {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 
 }
 
 .classroom {
-    flex: 200px;
+    width: 200px;
     min-height: 200px;
     background-color: gray;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin: 20px 50px;
     text-align: center;
+    cursor: pointer;
 }
 
 .Dashboard footer {
