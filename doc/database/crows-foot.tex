@@ -3,20 +3,69 @@
 
 \usepackage{./articlethemer}
 \usecolortheme{erdiagram}
+\useinnertheme{erdiagram}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes.multipart}
 \usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+\usetikzlibrary{fit}
+
+% echo boolean
+\def\echotrue{true}
+\def\echofalse{false}
+% echos directions
+\def\echoeast{east}
+\def\echowest{west}
 
 \tikzset{%
-    every matrix/.style={%
+    fill=pictureBack,
+    every path/.append style={edgeColor},%
+    every matrix/.append style={%
         matrix of nodes,%
         anchor=north%
     },%
+    tables/.style={%
+        every matrix/.append style={%
+            fill=recordBack,%
+            column sep=3pt,%
+        },%
+        row 1 column 3/.append style={%
+            nodes={title}%
+        }%
+    },%
     layout/.style={%
-        row sep=1.5in,%
-        column sep=2in,%
-    }%
+        row sep=2in,%
+        column sep=2in%
+    },
+    title/.style={%
+        titleText,
+        fill=titleBack,%
+    },%
+    key/.style={%
+        keyText,%
+        fill=#1,%
+        font={\tiny\sffamily},%
+        draw=keyBorder,%
+        line width=0.5pt%
+    },%
+    key/.default={keyBack},%
+    primary key/.style={key=primaryKeyBack},
+    % the crow's feet
+	zero/.pic={%
+		\draw [thick, fill=pictureBack] (12pt, 0pt) circle (6pt);%
+	},%
+	one/.pic={%
+		\draw [thick] (12pt, 6pt) -- (12pt, -6pt);%
+	},%
+	to one/.pic={%
+		\draw [thick] (6pt, 6pt) -- (6pt, -6pt);%
+	},%
+	at least/.pic={%
+		\draw [thick] (6pt, 0pt) -- (0pt, -6pt);%
+		\draw [thick] (6pt, 0pt) -- (0pt, 0pt);%
+		\draw [thick] (6pt, 0pt) -- (0pt, 6pt);%
+	},%
 }%
 
 \begin{document}
@@ -27,80 +76,197 @@
         {} & {} \\
         {} & {} \\
     };
-    \matrix (account) at (layout-1-1) {
-        {} & {} & Account
-        \\
-        PK & {} & acid
-        \\
-        \hline
-        {} & {} & password
-        \\
+    \begin{scope}[tables]
+        % Note: \vphantom{pl} is used to uniform the height
+        % of each row
+        \matrix (Account) at (layout-1-1) {
+            \phantom{PK} & \phantom{FK} & Account%
+            \vphantom{pl}\\
+            |[primary key]|PK & {} & acid%
+            \vphantom{pl}\\
+            \hline
+            {} & {} & password%
+            \vphantom{pl}\\
+        };
+        \matrix (Profile) at (layout-1-2) {
+            \phantom{PK} & \phantom{FK} & Profile%
+            \vphantom{pl}\\
+            |[primary key]|PK & {} & pfid%
+            \vphantom{pl}\\
+            \hline
+            {} & |[key]|FK & acid%
+            \vphantom{pl}\\
+            {} & {} & pfLevel%
+            \vphantom{pl}\\
+            {} & {} & score%
+            \vphantom{pl}\\
+        };
+        \matrix (Lesson) at (layout-2-2) {
+            \phantom{PK} & \phantom{FK} & Lesson%
+            \vphantom{pl}\\
+            |[primary key]|PK & {} & lsid%
+            \vphantom{pl}\\
+            \hline
+            {} & |[key]|FK & pfid%
+            \vphantom{pl}\\
+            {} & {} & isLevel%
+            \vphantom{pl}\\
+        };
+        \matrix (Question) at (layout-2-1) {
+            \phantom{PK} & \phantom{FK} & Question%
+            \vphantom{pl}\\
+            |[primary key]|PK & {} & qsid%
+            \vphantom{pl}\\
+            \hline
+            {} & |[key]|FK & lsid%
+            \vphantom{pl}\\
+            {} & |[key]|FK & qsItid%
+            \vphantom{pl}\\
+        };
+        \matrix (answers) at (layout-3-1) {
+            \phantom{PK} & \phantom{FK} & answers%
+            \vphantom{pl}\\
+            |[primary key]|PK & {} & anid%
+            \vphantom{pl}\\
+            \hline
+            {} & |[key]|FK & qsid%
+            \vphantom{pl}\\
+            {} & |[key]|FK & itid%
+            \vphantom{pl}\\
+            {} & {} & isCorrect%
+            \vphantom{pl}\\
+        };
+        \matrix (Item) at (layout-3-2) {
+            \phantom{PK} & \phantom{FK} & Item%
+            \vphantom{pl}\\
+            |[primary key]|PK & {} & itid%
+            \vphantom{pl}\\
+            \hline
+            {} & {} & itName%
+            \vphantom{pl}\\
+            {} & {} & itSource%
+            \vphantom{pl}\\
+        };
+    \end{scope}
+
+    % add titles
+    \foreach \table in {Account,Profile,Question,Lesson,answers,Item}{
+        % corners of title
+        \coordinate (\table-title-north west) at
+            ($(\table-1-1.north-|\table.west)
+                +(3pt,0)+(\pgflinewidth,0)$);
+        \coordinate (\table-title-south east) at
+            ($(\table-1-3.south-|\table.east)
+                +(-3pt,4pt)+(-\pgflinewidth,0)$);
+        % title background
+        \node[
+            fit=(\table-title-north west)%
+                (\table-title-south east),%
+            title,%
+            draw=white,%
+        ] (\table-title back) {\phantom{\table}};
+        % title text
+        \node[title,anchor=center] (\table-title text) at
+        (\table-title back) {\table};
     };
-    \matrix (profile) at (layout-1-2) {
-        {} & {} & Profile
-        \\
-        PK & {} & pfid
-        \\
-        \hline
-        {} & FK & acid
-        \\
-        {} & {} & pfLevel
-        \\
-        {} & {} & score
-        \\
-    };
-    \matrix (lesson) at (layout-2-2) {
-        {} & {} & Lesson
-        \\
-        PK & {} & lsid
-        \\
-        \hline
-        {} & FK & pfid
-        \\
-        {} & {} & isLevel
-        \\
-    };
-    \matrix (question) at (layout-2-1) {
-        {} & {} & Question
-        \\
-        PK & {} & qsid
-        \\
-        \hline
-        {} & FK & lsid
-        \\
-        {} & FK & qsItid
-        \\
-    };
-    \matrix (answers) at (layout-3-1) {
-        {} & {} & answers
-        \\
-        PK & {} & anid
-        \\
-        \hline
-        {} & FK & qsid
-        \\
-        {} & FK & itid
-        \\
-        {} & {} & isCorrect
-        \\
-    };
-    \matrix (item) at (layout-3-2) {
-        {} & {} & Item
-        \\
-        PK & {} & itid
-        \\
-        \hline
-        {} & {} & itName
-        \\
-        {} & {} & itSource
-        \\
-    };
-    \draw (account-2-3.east) -- (profile-3-1.west);
-    \draw (profile-2-3.east) -- (lesson-3-3.east);
-    \draw (lesson-2-1.west) -- (question-3-3.east);
-    \draw (question-2-1.west) -- (answers-3-1.west);
-    \draw (answers-4-3.east) -- (item-2-1.west);
-    \draw (question-4-3.east) -- (item-2-1.west);
+
+    % edges
+    % \from* = related to the table the edge comes from
+    % \to* = related to the table the edge goes to
+    % \*table = the actual table's name
+    % \*row = the row of the key to link
+    % \*side = the side of the table to leave/enter from
+    % \*MUp = upper bound of multiplicty
+    % \*MLo = lower bound of multiplicty
+    % \doMidpoint, whether to calculate the overshoot for
+    %       the midpoint used when the path has to go around a
+    %       table
+    \foreach \fromtable/\fromrow/\fromside/\fromMUp/\fromMLo/\totable/\torow/\toside/\toMUp/\toMLo/\doMidpoint in {
+        Account/2/east/one/to one/%
+            Profile/3/west/one/to one/%
+            false,%
+        Profile/2/east/one/to one/%
+            Lesson/3/east/at least/zero/%
+            false,%
+        Lesson/2/west/one/to one/%
+            Question/3/east/at least/one/%
+            false,%
+        Question/2/west/one/to one/%
+            answers/3/west/at least/one/%
+            false,%
+        answers/4/east/at least/zero/%
+            Item/2/west/one/to one/%
+            false,%
+        Question/4/east/one/to one/%
+            Item/2/east/one/to one/%
+            true%
+    }{
+        % \*portno = column from which to exit or to enter
+        % \*sign = whether to add or subtract from the port
+        % to get the terminal
+        % \*footrot = rotation of the foot
+
+        % set the side port numbers from according to
+        % \fromside
+        \ifx\fromside\echowest
+            \def\fromportno{1}
+            \def\fromsign{-}
+            \def\fromfootrot{180}
+        % \ifx\fromside\echowest
+        \else\ifx\fromside\echoeast
+            \def\fromportno{3}
+            \def\fromsign{+}
+            \def\fromfootrot{0}
+        \fi\fi % \fromside\echoeast
+        % set the side port numbers to according to \toside
+        \ifx\toside\echowest
+            \def\toportno{1}
+            \def\tosign{-}
+            \def\tofootrot{180}
+        % \ifx\toside\echowest
+        \else\ifx\toside\echoeast
+            \def\toportno{3}
+            \def\tosign{+}
+            \def\tofootrot{0}
+        \fi\fi % \toside\echoeast
+
+        % edge of from port
+        \coordinate (\fromtable-\fromrow-\fromside) at (\fromtable.\fromside|-\fromtable-\fromrow-\fromportno.\fromside);
+
+        % edge of to port
+        \coordinate (\totable-\torow-\toside) at (\totable.\toside|-\totable-\torow-\toportno.\toside);
+
+        % terminal from
+        \draw (\fromtable-\fromrow-\fromside)
+        -- ++(\fromsign\terminalLength,0) coordinate (\fromtable-\fromrow-\fromside-terminal);
+        % terminal to
+        \draw (\totable-\torow-\toside) -- ++(\tosign\terminalLength,0) coordinate (\totable-\torow-\toside-terminal);
+        % foot from
+        \draw (\fromtable-\fromrow-\fromside)
+        pic[rotate=\fromfootrot] {\fromMUp}
+        pic[rotate=\fromfootrot] {\fromMLo};
+        % foot to
+        \draw (\totable-\torow-\toside)
+        pic[rotate=\tofootrot] {\toMUp}
+        pic[rotate=\tofootrot] {\toMLo};
+
+        % mid point
+        % set the side port numbers from according to
+        % \fromside
+        \ifx\doMidpoint\echotrue
+            % if true, calculate the overshoot
+            \coordinate (\totable-overshoot-\fromtable) at (\totable-\torow-\toside-terminal|-\fromtable-\fromrow-\fromside-terminal);
+        % \ifx\doMidpoint\echotrue
+        \else\ifx\doMidpoint\echofalse
+            % if false, reuse the from terminal the overshoot
+            \coordinate (\totable-overshoot-\fromtable) at (\totable-\torow-\toside-terminal);
+        \fi\fi % \doMidpoint\echofalse
+
+        % connect terminals
+        \draw (\totable-\torow-\toside-terminal)
+            -- ($(\totable-\torow-\toside-terminal)!0.5!(\totable-overshoot-\fromtable)$)
+            -| (\fromtable-\fromrow-\fromside-terminal);
+    }
 \end{tikzpicture}
 
 \end{document}
