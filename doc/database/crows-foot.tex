@@ -7,7 +7,6 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.multipart}
 \usetikzlibrary{matrix}
-\usetikzlibrary{graphs}
 
 \tikzset{%
     every matrix/.style={%
@@ -29,83 +28,79 @@
         {} & {} \\
     };
     \matrix (account) at (layout-1-1) {
-        & & Account
+        {} & {} & Account
         \\
-        PK & & acid
+        PK & {} & acid
         \\
         \hline
-        & & password
+        {} & {} & password
         \\
     };
     \matrix (profile) at (layout-1-2) {
-        & & Profile
+        {} & {} & Profile
         \\
-        PK & & pfid
+        PK & {} & pfid
         \\
         \hline
-        & FK & acid
+        {} & FK & acid
         \\
-        & & pfLevel
+        {} & {} & pfLevel
         \\
-        & & score
+        {} & {} & score
         \\
     };
     \matrix (lesson) at (layout-2-2) {
-        & & Lesson
+        {} & {} & Lesson
         \\
-        PK & & lsid
+        PK & {} & lsid
         \\
         \hline
-        & FK & pfid
+        {} & FK & pfid
         \\
-        & & isLevel
+        {} & {} & isLevel
         \\
     };
     \matrix (question) at (layout-2-1) {
-        & & Question
+        {} & {} & Question
         \\
-        PK & & qsid
+        PK & {} & qsid
         \\
         \hline
-        & FK & lsid
+        {} & FK & lsid
         \\
-        & FK & qsItid
+        {} & FK & qsItid
         \\
     };
     \matrix (answers) at (layout-3-1) {
-        & & answers
+        {} & {} & answers
         \\
-        PK & & anid
+        PK & {} & anid
         \\
         \hline
-        & FK & qsid
+        {} & FK & qsid
         \\
-        & FK & itid
+        {} & FK & itid
         \\
-        & & isCorrect
+        {} & {} & isCorrect
         \\
     };
     \matrix (item) at (layout-3-2) {
-        & & Item
+        {} & {} & Item
         \\
-        PK & & itid
+        PK & {} & itid
         \\
         \hline
-        & & itName
+        {} & {} & itName
         \\
-        & & itSource
+        {} & {} & itSource
         \\
     };
-    \graph{
-        (account)
-            -- (profile)
-            -- (lesson)
-            -- (question)
-            -- (answers)
-            -- (item);
-        (question)
-            -- (item);
-    };
+    \draw (account-2-3.east) -- (profile-3-1.west);
+    \draw (profile-2-3.east) -- (lesson-3-3.east);
+    \draw (lesson-2-1.west) -- (question-3-3.east);
+    \draw (question-2-1.west) -- (answers-3-1.west);
+    \draw (answers-4-3.east) -- (item-2-1.west);
+    \draw (question-4-3.east) -- (item-2-1.west);
 \end{tikzpicture}
 
 \end{document}
