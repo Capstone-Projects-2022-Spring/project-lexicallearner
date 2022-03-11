@@ -1,7 +1,18 @@
 \RequirePackage{xcolor}
 
+% background of the picture (for zero feet)
+\colorlet{pictureBack}{white}
+
 % Table blue, a simulation of Microsoft's main shape background
 \colorlet{tableBlue}{white!36!cyan!60!blue!84!black}
+% a nice silver color
+\colorlet{foundSilver}{black!15}
+% Key blue, a simulation of Microsoft's background color for
+% foreign keys
+\colorlet{keyBlue}{white!18!cyan!45!blue!72!black}
+% Strong blue, a simulation of Microsoft's background color for
+% primary keys
+\colorlet{strongBlue}{white!12!cyan!30!blue!48!black}
 
 % color of graph edges
 \colorlet{edgeColor}{tableBlue}
@@ -12,3 +23,17 @@
 \colorlet{titleBack}{tableBlue}
 % color of text for entity, relation nodes
 \colorlet{titleText}{white}
+% color of borders around the entity, relation nodes
+\colorlet{titleBorder}{white}
+
+% color of background for the record matrix shapes in Crow's foot
+\colorlet{recordBack}{foundSilver}
+
+% color of background for keys
+\colorlet{keyBack}{keyBlue}
+% color of text for keys
+\colorlet{keyText}{white}
+% color of borders around keys
+\colorlet{keyBorder}{white}
+% color of background for keys
+\colorlet{primaryKeyBack}{strongBlue}
