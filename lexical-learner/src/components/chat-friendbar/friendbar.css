@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    width: 100%;
+    width: inherit;
     height: 5vh; 
     padding: 2.5rem 0.5rem 2.5rem 0.5rem;
 }
@@ -26,22 +26,26 @@
 }
 
 .friendbar-friend{
-    width: 210px;
+    width: 220px;
+    border: 2px solid blue;
 }
 
 .friendbar-friend-name {
     position: absolute;
-    width: 40%;
+    width: 30%;
     top: 1.25rem;
-    overflow: hidden;
+    border: 2px solid red;    
+    text-overflow: ellipsis;
 }
 
 
 .friendbar-friend-lastmsg{
     overflow: hidden;
-    width: 97%;
+    width: inherit;
     margin-top: 2.2rem;
     color: grey;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .friendbar-lastdate{

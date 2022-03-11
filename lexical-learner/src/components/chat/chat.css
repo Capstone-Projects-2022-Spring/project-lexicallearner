@@ -1,16 +1,21 @@
 .chat {
-    display: flex;
+    display:flex;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
 }
 
 .chat-leftbox{
-    width: 300px;
+    flex-basis: 250px;
     height: 900px;
     border: 1px solid lightgrey;
     background-color: rgb(241, 241, 241);
     overflow-y: auto;
+    border: 2px dashed red;
 }
 
 .chat-lefttitle{
+    width: inherit;
     padding: 1rem;
     font-size: 1.5rem;
     border-bottom: 1px solid lightgray;
@@ -18,6 +23,7 @@
 }
 
 .chat-righttitle{
+    width: inherit;
     padding: 1rem;
     font-size: 1.5rem;
     border-bottom: 1px solid lightgray;
@@ -27,9 +33,11 @@
 .chat-rightbox{
     display: flex;
     flex-direction: column;
-    width: 600px;  
+    flex: 1;
+    height: 900px;
     border-right: 1px solid lightgrey;
     background-color: rgb(244, 244, 244);
+    border: 2px dashed blue;
 }
 
 .chat-messages{
@@ -81,8 +89,6 @@
     border-right: 1px solid lightgrey;
     background-color: white;
 }
-
-
 
 textarea {
     width: inherit;
