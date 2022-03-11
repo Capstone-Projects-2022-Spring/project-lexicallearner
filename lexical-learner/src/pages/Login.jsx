@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/navbar/Navbar";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import "./Login.css";
 
 const Login = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    function validateForm() {
+        return email.length > 0 && password.length > 0;
+    }
+    function handleSubmit(event) {
+        event.preventDefault();
+    }
     return (
         <div className="Login">
             <Navbar />
@@ -13,21 +24,28 @@ const Login = () => {
                 <span>Lexical</span>
             </footer>
 
-            <form>
-                {/* Labels and inputs for form data */}
-                <label className="label">Username</label>
-                <input className="input" type="text" />
-
-                <label className="label">Email</label>
-                <input className="input" type="email" />
-
-                <label className="label">Password</label>
-                <input  className="input"  type="password" />
-
-                <button>
-                    Submit
-                </button>
-            </form>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group size="lg" controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        autoFocus
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group size="lg" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </Form.Group>
+                <Button block size="lg" type="submit" disabled={!validateForm()}>
+                    Login
+                </Button>
+            </Form>
         </div>
     );
 };
