@@ -21,8 +21,10 @@ The account database can be bypassed by using a Canvas account which is linked u
 ## Entity&ndash;Relation diagram
 
 ### Chen's notation
+![Entity–Relation diagram in Chen's notation][chens-image]
 
 ### Crow's Foot notation
+![Entity–Relation diagram in Crow's Foot notation][crows-image]
 
 ## Relational schema
 
@@ -92,3 +94,6 @@ Attribute name | Attribute description
 itid           | Generated ID number for this item.
 itName         | The name of the item.
 itSource       | The source of the file containing the item.
+
+[chens-image]: chens-notation.png
+[crows-image]: crows-foot.png
