@@ -9,7 +9,6 @@ const Chat = (props) => {
   //current chat
   const [current, setCurrent] = useState('')
 
-
   return (
     <div className='chat'>
       <div className="chat-leftbox">
@@ -36,7 +35,7 @@ const Chat = (props) => {
           <Friendbar
             logo={<BsIcons.BsShield />}
             name={'Ranni'}
-            lastmsg={'OJkoaegkoaegk'}
+            lastmsg={'OJkoaegkoaeggggggggggggggggggk'}
             current={current}
             setCurrent={setCurrent}
           />

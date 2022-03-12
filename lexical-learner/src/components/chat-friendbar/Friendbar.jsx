@@ -21,9 +21,9 @@ const Friendbar = (props) => {
                     {props.lastmsg}
                 </div>
             </div>
-            <div className="friendbar-lastdate">
+            {/* <div className="friendbar-lastdate">
                 {props.lastdate}
-            </div>
+            </div> */}
         </div>
     )
 }
