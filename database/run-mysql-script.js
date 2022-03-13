@@ -1,5 +1,5 @@
 /**
- * Runs a given MySQL script file.
+ * Runs a given MySQL script template file.
  * @param file : string = name of the script file
  * @param callback : (err, res)=>undefined = callback function for
  *    queries executed from the script
@@ -29,6 +29,10 @@ function runMySqlScript(file, callback) {
         console.log('Executing: ', LINE);
         connection.query(LINE, [], callback);
       } /* next LINE */
+
+      /* terminate the connection */
+      connection.end();
+      console.log('Connection terminated');
     }); /* end callback fs.readFile */
   }); /* end callback startDb */
 } /* end function runMySqlScript(file) */

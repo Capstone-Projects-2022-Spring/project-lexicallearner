@@ -36,6 +36,15 @@ CREATE TABLE IF NOT EXISTS Lesson (
   CONSTRAINT Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
 );
 
+-- Create the Item entity table
+CREATE TABLE IF NOT EXISTS Item (
+  itid              CHAR(21)        NOT NULL,
+  itName            VARCHAR(255)    NOT NULL,
+  itSource          VARCHAR(32000)  NOT NULL,
+
+  CONSTRAINT id_is_primary_key PRIMARY KEY (itid)
+);
+
 -- Create the Question entity table
 CREATE TABLE IF NOT EXISTS Question (
   qsid              CHAR(20)        NOT NULL,
@@ -57,13 +66,4 @@ CREATE TABLE IF NOT EXISTS answers (
   CONSTRAINT id_is_primary_key PRIMARY KEY (anid),
   CONSTRAINT Question_id_references FOREIGN KEY (qsid) REFERENCES Question(lsid),
   CONSTRAINT Item_id_references FOREIGN KEY (itid) REFERENCES Item(itid)
-);
-
--- Create the Item entity table
-CREATE TABLE IF NOT EXISTS Item (
-  itid              CHAR(21)        NOT NULL,
-  itName            VARCHAR(255)    NOT NULL,
-  itSource          VARCHAR(32000)  NOT NULL,
-
-  CONSTRAINT id_is_primary_key PRIMARY KEY (itid)
 );
