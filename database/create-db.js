@@ -28,7 +28,7 @@ startDb((connection, database) => {
     for (const LINE of SQL_SCRIPT.split(';')) {
       /* log the line */
       console.log('Executing: ', LINE);
-      connection.query(SQL_SCRIPT, [], (err, res) => {
+      connection.query(LINE, [], (err, res) => {
         /* if any errors */
         if (err) {
           /* cascade the error */
