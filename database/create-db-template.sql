@@ -36,7 +36,7 @@ CREATE TABLE Question (
 );
 
 -- Create the answers relation table
-CREATE TABLE Question (
+CREATE TABLE answers (
   anid      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
   qsid      INT         NOT NULL                FOREIGN KEY,
   itid      INT         NOT NULL                FOREIGN KEY,
