@@ -43,3 +43,10 @@ CREATE TABLE answers (
   isCorrect BOOLEAN     NOT NULL  
 );
 
+-- Create the Item entity table
+CREATE TABLE Item (
+  itid      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  itName    VCHAR(255)  NOT NULL,
+  itSource  VCHAR(32000)  NOT NULL
+);
+
