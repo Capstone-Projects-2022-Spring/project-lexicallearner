@@ -25,5 +25,12 @@ CREATE TABLE Profile (
 CREATE TABLE Lesson (
   lsid      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
   pfid      INT         NOT NULL                FOREIGN KEY,
-  lsLevel   INT         NOT NULL,
+  lsLevel   INT         NOT NULL
+);
+
+-- Create the Question table
+CREATE TABLE Question (
+  qsid      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  lsid      INT         NOT NULL                FOREIGN KEY,
+  qsItid    INT         NOT NULL                FOREIGN KEY
 );
