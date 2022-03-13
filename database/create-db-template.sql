@@ -37,10 +37,11 @@ CREATE TABLE IF NOT EXISTS Lesson (
 );
 
 -- Create the Item entity table
+-- Note: 16383 is the maximum column size
 CREATE TABLE IF NOT EXISTS Item (
   itid              CHAR(21)        NOT NULL,
   itName            VARCHAR(255)    NOT NULL,
-  itSource          VARCHAR(32000)  NOT NULL,
+  itSource          VARCHAR(10000)  NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (itid)
 );
