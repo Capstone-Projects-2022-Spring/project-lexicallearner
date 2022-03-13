@@ -1,5 +1,9 @@
 {
   "devDependencies": {
     "gh-pages": "^3.2.3"
+  },
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "mysql2": "^2.3.3"
   }
 }
