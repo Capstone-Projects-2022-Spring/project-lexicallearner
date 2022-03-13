@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * Starts the database.
- * @param callback : function = accepts a mysqld.Connection after the
- *    connection is established
+ * @param callback : (mysqld.Connection, string) = accepts a
+ *    mysqld.Connection and database name after the connection is
+ *    established
  * @throws if error reading password file or connecting to database
  */
 
@@ -49,7 +50,7 @@ function main(callback) {
  */
 function connectDb(login, callback) {
   /* create and use the connection */
-  const CONNECTION = mysqld.createConnection(login);
+  const CONNECTION = mysqld.createConnection(login.connection);
   console.log('connecting to database . . .');
   CONNECTION.connect((err) => {
     /* if any errors */
@@ -59,8 +60,8 @@ function connectDb(login, callback) {
     } /* end if (err) */
 
     /* apply the callback */
-    console.log('connection established . . .');
-    callback(CONNECTION);
+    console.log('Connection established.');
+    callback(CONNECTION, login.database);
   }); /* end callback CONNECTION.connect */
 } /* end function connectDb(login) */
 
