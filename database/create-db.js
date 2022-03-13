@@ -17,9 +17,27 @@ const TEMPLATE_FILE = 'create-db-template.sql';
 startDb((connection, database) => {
   /* read the template file */
   fs.readFile(TEMPLATE_FILE, 'utf8', (err, res) => {
+    /* if any errors */
+    if (err) {
+      /* cascade the error */
+      throw err;
+    } /* end if (err) */
+
     /* fill in the template */
     const SQL_SCRIPT = res.replace(/@\{database\}/g, database);
-    /* print the resulting script */
-    console.log(SQL_SCRIPT);
+    for (const LINE of SQL_SCRIPT.split(';')) {
+      /* log the line */
+      console.log('Executing: ', LINE);
+      connection.query(SQL_SCRIPT, [], (err, res) => {
+        /* if any errors */
+        if (err) {
+          /* cascade the error */
+          throw err;
+        } /* end if (err) */
+
+        /* log the response */
+        console.log(res);
+      });
+    } /* next LINE */
   }); /* end callback fs.readFile */
 }); /* end callback startDb */
