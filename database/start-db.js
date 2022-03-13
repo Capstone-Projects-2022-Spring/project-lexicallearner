@@ -16,8 +16,6 @@ function main() {
   fs.readFile(PASSWORD_FILE, 'utf8', (err, res) => {
     /* if any errors */
     if (err) {
-      /* log the error */
-      console.error(err);
       /* cascade the error */
       throw err;
     } /* end if (err) */
@@ -39,8 +37,6 @@ function connectDb(login) {
   CONNECTION.connect((err) => {
     /* if any errors */
     if (err) {
-      /* log the error */
-      console.error(err);
       /* cascade the error */
       throw err;
     } /* end if (err) */
