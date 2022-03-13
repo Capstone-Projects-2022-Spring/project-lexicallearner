@@ -25,8 +25,12 @@ function runMySqlScript(file, callback) {
       /* fill in the template */
       const SQL_SCRIPT = res.replace(/@\{database\}/g, database);
       for (const LINE of SQL_SCRIPT.split(';')) {
+        /* remove whitespace from commands */
+        const COMMAND = LINE.trim();
+        /* if empty, skip the command */
+        if (COMMAND==='') continue;
         /* log the line */
-        console.log('Executing: ', LINE);
+        console.log('Executing: ', COMMAND);
         connection.query(LINE, [], callback);
       } /* next LINE */
 

@@ -68,3 +68,6 @@ CREATE TABLE IF NOT EXISTS answers (
   CONSTRAINT Question_id_references FOREIGN KEY (qsid) REFERENCES Question(lsid),
   CONSTRAINT Item_id_references FOREIGN KEY (itid) REFERENCES Item(itid)
 );
+
+-- Show all tables created
+SHOW TABLES;
