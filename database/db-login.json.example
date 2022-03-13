@@ -1,1 +1,13 @@
-Place password here, and rename to `password`.
+/* please
+    1. copy to `db-login.json`
+    2. fill in the login information, and
+    3. remove this comment
+ */
+[
+  {
+    "host": "hostname",
+    "user": "username",
+    "password": "password",
+    "database": "database_name"
+  }
+]

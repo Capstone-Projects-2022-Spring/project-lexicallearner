@@ -7,7 +7,7 @@
 const fs = require('fs');
 
 /* constants */
-const PASSWORD_FILE = 'password';
+const PASSWORD_FILE = 'db-login.json';  /* contains the login information */
 
 function main() {
   /* read the password file */
