@@ -1,4 +1,5 @@
 import './friendbar.css'
+import React, { Component }  from 'react';
 
 const Friendbar = (props) => {
 

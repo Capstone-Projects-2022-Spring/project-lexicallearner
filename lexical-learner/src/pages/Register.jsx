@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import Navbar from "../components/navbar/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import "./Register.css";
 
-const Login = () => {
-    const navigate = useNavigate();
+const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -16,12 +14,11 @@ const Login = () => {
     function handleSubmit(event) {
         event.preventDefault();
     }
-
     return (
-        <div className="Login">
+        <div className="Register">
             <Navbar />
             <div>
-                <h1>Login</h1>
+                <h1>User Registration</h1>
             </div>
             <footer>
                 <span>Lexical</span>
@@ -46,16 +43,11 @@ const Login = () => {
                     />
                 </Form.Group>
                 <Button block size="lg" type="submit" disabled={!validateForm()}>
-                    Login
+                    Register
                 </Button>
-
             </Form>
-            <span><br />Not Registered Yet? Sign up Here</span>
-            <p> <button onClick={() => navigate("/register")}>Register Now</button> </p>
-
-        
         </div>
     );
 };
 
-export default Login;
+export default Register;
