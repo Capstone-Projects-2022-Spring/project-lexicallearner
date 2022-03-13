@@ -6,7 +6,7 @@
 /* for reading files */
 const fs = require('fs');
 /* for the MySQL driver */
-const mysqld = require('mysql');
+const mysqld = require('mysql2');
 
 /* constants */
 const PASSWORD_FILE = 'db-login.json';  /* contains the login information */
@@ -24,12 +24,29 @@ function main() {
 
     /* parse the response */
     const LOGINS = JSON.parse(res);
-    /* log each log-in information */
+
+    /* for each log-in information */
     for (const LOGIN of LOGINS) {
-      console.log(LOGIN);
-    }
-  }); /* end fs.readFile */
+      connectDb(LOGIN);
+    } /* for (const LOGIN of LOGINS) */
+  }); /* end callback fs.readFile */
 } /* end function main() */
+
+function connectDb(login) {
+  /* create and use the connection */
+  const CONNECTION = mysqld.createConnection(login);
+  console.log('connecting to database . . .');
+  CONNECTION.connect((err) => {
+    /* if any errors */
+    if (err) {
+      /* log the error */
+      console.error(err);
+      /* cascade the error */
+      throw err;
+    } /* end if (err) */
+    console.log('connection established . . .');
+  }); /* end callback CONNECTION.connect */
+} /* end function connectDb(login) */
 
 /* run the program */
 main();
