@@ -16,9 +16,14 @@ CREATE TABLE Account (
 -- Create the Profile table
 CREATE TABLE Profile (
   pfid      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  acid      INT         NOT NULL AUTO_INCREMENT FOREIGN KEY,
+  acid      INT         NOT NULL                FOREIGN KEY,
   pfLevel   INT         NOT NULL,
   score     INT         NOT NULL
 );
 
--- 
+-- Create the Lesson table
+CREATE TABLE Lesson (
+  lsid      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  pfid      INT         NOT NULL                FOREIGN KEY,
+  lsLevel   INT         NOT NULL,
+);
