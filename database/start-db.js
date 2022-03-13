@@ -5,6 +5,8 @@
 /* imports */
 /* for reading files */
 const fs = require('fs');
+/* for the MySQL driver */
+const mysqld = require('mysql');
 
 /* constants */
 const PASSWORD_FILE = 'db-login.json';  /* contains the login information */
@@ -20,8 +22,12 @@ function main() {
       throw err;
     } /* end if (err) */
 
-    /* log the response */
-    console.log(res);
+    /* parse the response */
+    const LOGINS = JSON.parse(res);
+    /* log each log-in information */
+    for (const LOGIN of LOGINS) {
+      console.log(LOGIN);
+    }
   }); /* end fs.readFile */
 } /* end function main() */
 
