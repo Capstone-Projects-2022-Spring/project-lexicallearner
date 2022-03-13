@@ -12,3 +12,13 @@ CREATE TABLE Account (
   acid      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
   password  VARCHAR(40) NOT NULL
 );
+
+-- Create the Profile table
+CREATE TABLE Profile (
+  pfid      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  acid      INT         NOT NULL AUTO_INCREMENT FOREIGN KEY,
+  pfLevel   INT         NOT NULL,
+  score     INT         NOT NULL
+);
+
+-- 
