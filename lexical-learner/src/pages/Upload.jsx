@@ -1,10 +1,15 @@
 import React from 'react'
 import './Upload.css'
+import Navbar from "../components/navbar/Navbar";
 
 const Upload = () => {
 
   return (
     <div className='Upload'>
+        <Navbar />
+            <footer>
+                <span>Lexical</span>
+            </footer>
       <span className="Upload-title">Upload</span>
       <hr />
       <span className="Upload-description">
