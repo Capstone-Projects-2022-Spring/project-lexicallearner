@@ -97,7 +97,7 @@ textarea {
     resize: none;
 }
 
-input[type=submit]{
+.chat-sendbtn {
     position:absolute;
     right: 1.5rem;
     bottom: 0.2rem;

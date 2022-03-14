@@ -1,6 +1,5 @@
 import React from 'react'
 import './Upload.css'
-import Navbar from "../components/navbar/Navbar";
 
 const Upload = () => {
 
@@ -15,7 +14,7 @@ const Upload = () => {
 
       <form action=''>
         <input type="file" id="myFile" name="filename" />
-        <input type="submit" />
+        <input type="submit" className='Upload-btn'/>
       </form>
 
     </div>

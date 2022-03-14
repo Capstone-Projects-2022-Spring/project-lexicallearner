@@ -22,9 +22,8 @@
 .Upload-filecontainer {
     position: relative;
     width: 350px;
-    height: 10px;
+    min-height: 10px;
     border: 2px dashed black;
-    background-color: white;
 }
 
 .Upload button {

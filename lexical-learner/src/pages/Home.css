@@ -83,6 +83,11 @@
     border: none;
 }
 
+.feautures-webchatimg{
+    width: 75%;
+    margin: 0 auto;
+}
+
 .Home footer {
     background-color: rgb(179, 179, 179);
     background-color: black;

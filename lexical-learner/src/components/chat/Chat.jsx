@@ -92,7 +92,7 @@ const Chat = (props) => {
                 <Friendbar
                   logo={<BsIcons.BsRainbow />}
                   name={message.room}
-                  lastmsg={'GAAAAAAAAAAkkkkkkkkkkkkkkkkkAAYOGJOAaejojojojojogk'}
+                  lastmsg={'for demo'}
                   lastdate={'Yesterday'}
                   current={current}
                   setCurrent={setCurrent}
@@ -129,7 +129,13 @@ const Chat = (props) => {
                       {props.user.icon}
                     </span> :
                     <div>
-                      <div style={{paddingBottom: "0.35rem", marginLeft: "0.2rem"}}>{msg.from}</div>
+                      <div style={{
+                        marginBottom: "0.75rem", 
+                        marginLeft: "0.2rem",
+                        maxWidth: "400px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis"
+                      }}>{msg.from}</div>
                       <div className="chat-messagebox">
                         {msg.msg}
                       </div>
