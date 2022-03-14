@@ -59,11 +59,13 @@ const Home = () => {
 
       <section className="quickdemo">
         {user.username !== "" ? 
-          <Chat user={user} />
+          <Chat user={{
+            user: user, 
+          }} />
           :
           <Chat user={{
             icon: <BsIcons.BsExclamationDiamond/>,
-            username: 'demo',
+            demo: true,
           }}/>
         }
       </section>

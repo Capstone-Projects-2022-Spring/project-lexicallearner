@@ -1,5 +1,5 @@
 import './friendbar.css'
-import React, { Component }  from 'react';
+import React from 'react';
 
 const Friendbar = (props) => {
 
@@ -10,7 +10,7 @@ const Friendbar = (props) => {
             onClick={() => {
                 props.setCurrent(props.name)
                 props.setCurrentMessages(props.currentMessages)
-                props.setRoom(props.room)
+                props.setRoom(props.currentRoom)
             }}
             >
             <div className="friendbar-logo">
