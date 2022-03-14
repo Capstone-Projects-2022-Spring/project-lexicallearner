@@ -1,0 +1,107 @@
+.chat {
+    display:flex;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%; /* fixes width 100vw */
+}
+
+.chat-leftbox{
+    flex-basis: 250px;
+    height: 900px;
+    border: 1px solid lightgrey;
+    background-color: rgb(241, 241, 241);
+    overflow-y: auto;
+}
+
+.chat-lefttitle{
+    width: inherit;
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-bottom: 1px solid lightgray;
+    height: 55px;
+}
+
+.chat-righttitle{
+    width: inherit;
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-bottom: 1px solid lightgray;
+    height: 55px;
+}
+
+.chat-rightbox{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 900px;
+    border-right: 1px solid lightgrey;
+    background-color: rgb(244, 244, 244);
+}
+
+.chat-messages{
+    width: inherit;
+    height: 639px;
+    border-left: none;
+    border-right: 1px solid lightgrey;
+    overflow-y: auto;
+}
+
+.chat-message {
+    display: flex;
+    padding: 0.5rem;
+}
+
+.chat-message-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    max-width: 100px;
+    min-width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 5%;
+}
+
+.chat-mymessage{
+    display: flex;
+    margin-left: auto;
+    gap: 0.25rem;
+}
+
+.chat-theirmessage{
+    gap: 0.25rem;
+}
+
+.chat-messagebox{
+    background-color: white;
+    padding: 1rem;
+    max-width: 400px;
+}
+
+.chat-sendmessage{
+    position: relative;
+    width: inherit;
+    height: 200px;
+    border-top: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    background-color: white;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    resize: none;
+}
+
+.chat-sendbtn {
+    position:absolute;
+    right: 1.5rem;
+    bottom: 0.2rem;
+    padding: 0.5rem;
+    border-radius: 2.5%;
+    border: 1px solid lightgray;
+}

@@ -1,0 +1,36 @@
+.Classroom {
+    background-color: white;
+}
+.Classroom .chat {
+    width: 60%;
+   position: absolute;
+   left: 0px;
+   height: 100%;
+
+}
+
+.Classroom .flashcards{
+    width: 50%;
+   position: absolute;
+   right: 0px;
+   height: 100%;
+}
+
+.Classroom .flashcards .flash-title{
+   position: relative;
+   left: 50;
+}
+.Classroom .flashcards .cards{
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1 rem;
+ }
+
+
+ .card-grid{
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1 rem;
+  }
