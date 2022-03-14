@@ -8,7 +8,7 @@ const Home = () => {
 
   const user = {
     icon: <BsIcons.BsAward/>,
-    username: 'user',
+    username: '',
     password: '',
     type: '',
   }
@@ -58,7 +58,14 @@ const Home = () => {
       </section>
 
       <section className="quickdemo">
-        <Chat user={user} />
+        {user.username !== "" ? 
+          <Chat user={user} />
+          :
+          <Chat user={{
+            icon: <BsIcons.BsExclamationDiamond/>,
+            username: 'demo',
+          }}/>
+        }
       </section>
 
       <footer>

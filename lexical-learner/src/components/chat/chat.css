@@ -2,7 +2,7 @@
     display:flex;
     width: 100vw;
     height: 100vh;
-    max-width: 100%;
+    max-width: 100%; /* fixes width 100vw */
 }
 
 .chat-leftbox{
@@ -92,10 +92,8 @@ textarea {
     height: 150px;
     border: none;
     outline: none;
-    padding: 1rem;
-    scroll-behavior: smooth;
+    padding: 0.5rem;
     resize: none;
-    border-right: 1px solid lightgrey;
 }
 
 input[type=submit]{
@@ -103,6 +101,6 @@ input[type=submit]{
     right: 1.5rem;
     bottom: 0.2rem;
     padding: 0.5rem;
-    border-radius: 0;
+    border-radius: 2.5%;
     border: 1px solid lightgray;
 }
