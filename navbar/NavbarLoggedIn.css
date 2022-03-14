@@ -1,0 +1,53 @@
+.NavBarLoggedIn {
+    --NavBarLoggedIn-bg-color: black;
+    --loginbtn-hover-color: lightgray;
+
+    background-color: var(--NavBarLoggedIn-bg-color);
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 5px 10px 1px gray;
+}
+
+.NavBarLoggedIn ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    gap: 1rem;
+}
+
+.NavBarLoggedIn li {
+    padding: 0.75rem;  
+    color: white; 
+}
+
+.NavBarLoggedIn a {
+    border-radius: 5%;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: white;
+}
+
+.NavBarLoggedIn a:hover {
+    border: 1px solid white;
+    border-radius: 5%;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: white;
+    color: var(--loginbtn-hover-color);
+}
+
+
+/* overwriting NavBarLoggedIn a */
+.NavBarLoggedIn .logo{
+    font-size: 1.5rem;
+    border: none;
+    padding: 0;
+}
+
+.NavBarLoggedIn .logo:hover{
+    border: none;
+    color: none;
+}
+
