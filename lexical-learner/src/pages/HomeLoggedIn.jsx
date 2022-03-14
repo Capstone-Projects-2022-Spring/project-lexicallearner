@@ -1,22 +1,20 @@
 import React from "react";
-import Navbar from "../components/navbar/Navbar";
+import Navbar from "../components/navbar/NavbarLoggedIn";
 import * as BsIcons from "react-icons/bs";
-import "./styles/Home.css";
+import "./styles/HomeLoggedIn.css";
 import Chat from "../components/chat/Chat"
 
-import webchatimg from "./../images/webchatdemo.jpg"
-
-const Home = () => {
+const HomeLoggedIn = () => {
 
   const user = {
     icon: <BsIcons.BsAward/>,
-    username: '',
+    username: 'user',
     password: '',
     type: '',
   }
 
   return (
-    <div className="Home">
+    <div className="HomeLoggedIn">
       <Navbar />
       <section className="intro">
         <div className="intro-logo">
@@ -28,14 +26,14 @@ const Home = () => {
 
         <div className="intro-aside">
           <span className="intro-title">
-            A Online Lexical Learning Platform for Languages Learners
+            Welcome Back User!
             <br />
           </span>
           <ul className="intro-features">
             <li>Real Time Text Translation</li>
             <li>Flashcards</li>
           </ul>
-          <a href="login" className="intro-getstarted">
+          <a href="dashboard" className="intro-getstarted">
             Get Started
           </a>
         </div>
@@ -47,8 +45,7 @@ const Home = () => {
             <span className="features-title">Real Time Text Translation</span>
             <span>Translates to hundred of languages</span>
             <span>Powered by Google Translate</span>
-            <img src={webchatimg} alt="web chat" className="feautures-webchatimg"/>
-            
+            <BsIcons.BsImages style={{ fontSize: "15rem", margin: "0 auto" }} />
           </li>
           <li>
             <span className="features-title">Flashcards</span>
@@ -59,26 +56,15 @@ const Home = () => {
           </li>
         </ul>
       </section>
-
       <section className="quickdemo">
-        <h2 style={{textAlign:'center'}}>Web Chat Demo</h2>
-        {user.username !== "" ? 
-          <Chat user={{
-            user: user, 
-          }} />
-          :
-          <Chat user={{
-            icon: <BsIcons.BsExclamationDiamond/>,
-            demo: true,
-          }}/>
-        }
+        <Chat user={user} />
       </section>
 
       <footer>
-        <span>Lexical</span>
+        <span>Lexical Learner</span>
       </footer>
     </div>
   );
 };
 
-export default Home;
+export default HomeLoggedIn;

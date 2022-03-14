@@ -1,15 +1,14 @@
 import React, {useState} from "react";
-import Navbar from "../components/navbar/Navbar";
-import * as BsIcons from "react-icons/bs";
-import "./Profile.css";
+import Navbar from "../components/navbar/NavbarLoggedIn";
+import "./styles/Profile.css";
 import Button from "react-bootstrap/Button";
 
 const Profile = () => {
   const [show, setShow] = useState(false);
 
-  function editPortrait() {
+  //function editPortrait() {
 
-  }
+  //}
 
   return (
     <div className="Profile">

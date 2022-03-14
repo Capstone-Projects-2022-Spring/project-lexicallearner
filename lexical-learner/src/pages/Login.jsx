@@ -3,7 +3,7 @@ import Navbar from "../components/navbar/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import "./styles/Login.css";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -52,6 +52,9 @@ const Login = () => {
             </Form>
             <span><br />Not Registered Yet? Sign up Here</span>
             <p> <button onClick={() => navigate("/register")}>Register Now</button> </p>
+
+            <span><br />Login Cheat Button</span>
+            <p> <button onClick={() => navigate("/homeLoggedIn")}>To Get to Login Quick</button> </p>
 
         
         </div>

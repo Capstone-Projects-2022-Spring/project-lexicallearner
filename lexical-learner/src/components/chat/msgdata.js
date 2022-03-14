@@ -1,334 +1,334 @@
 //data for testing
 const messages = [
     {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER IM THE DUNG EATERIM THE DUNG EATERIM THE DUNG EATERIM THE DUNG EATERIM THE DUNG EATERIM THE DUNG EATERIM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog I am Sparky_The_Dog I am Sparky_The_Dog I am Sparky_The_Dog I am Sparky_The_Dog I am Sparky_The_Dog I am Sparky_The_Dog I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
         msgs: 'GEGEGE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },{
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:00 PM',
-        msgs: 'IM THE DUNG EATER',
+        msgs: 'I am Sparky_The_Dog',
         file: null
     }, {
-        to: 'demo',
-        from: 'DUNG EATER',
+        to: 'user',
+        from: 'Sparky_The_Dog',
         date: '1:05PM',
-        msgs: 'IM THE ONE',
+        msgs: 'I am ONE',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'NO IM',
+        msgs: 'No, I am!',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '1:06 PM',
-        msgs: 'FU',
+        msgs: 'Hello',
         file: null
     }, {
-        to: 'DUNG EATER',
-        from: 'demo',
+        to: 'Sparky_The_Dog',
+        from: 'user',
         date: '2:00 PM',
-        msgs: 'IM THE GOLDEN ORDER',
+        msgs: 'I am GOLDEN ORDER',
         file: null
     },
 ]

@@ -1,10 +1,15 @@
 import React from 'react'
-import './Upload.css'
+import './styles/Upload.css'
+import Navbar from "../components/navbar/NavbarLoggedIn";
 
 const Upload = () => {
 
   return (
     <div className='Upload'>
+        <Navbar />
+            <footer>
+                <span>Lexical</span>
+            </footer>
       <span className="Upload-title">Upload</span>
       <hr />
       <span className="Upload-description">
@@ -14,7 +19,7 @@ const Upload = () => {
 
       <form action=''>
         <input type="file" id="myFile" name="filename" />
-        <input type="submit" className='Upload-btn'/>
+        <input type="submit" />
       </form>
 
     </div>

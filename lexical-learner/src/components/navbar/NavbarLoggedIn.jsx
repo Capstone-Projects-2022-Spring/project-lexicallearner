@@ -2,11 +2,11 @@ import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const NavbarLoggedIn = () => {
   return (
     <div className="Navbar">
       <ul>
-        <Link to='/' className="logo">
+        <Link to='/homeLoggedIn' className="logo">
           <li>
             <span>Lexical</span>
           </li>
@@ -14,12 +14,15 @@ const Navbar = () => {
       </ul>
       <ul>
         <li>
-          <Link to="/login" className="login">Login</Link>
-          <Link to="/register" className="register">Register</Link>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/upload">Upload</Link>
+          <Link to="/profile">Profile</Link>
+          <Link to='/'>Log Out</Link>
+          
         </li>
       </ul>
     </div>
   );
 };
 
-export default Navbar;
+export default NavbarLoggedIn;

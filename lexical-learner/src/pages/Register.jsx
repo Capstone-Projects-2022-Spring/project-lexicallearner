@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/navbar/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./Register.css";
+import "./styles/Register.css";
 
 const Register = () => {
     const [email, setEmail] = useState("");
