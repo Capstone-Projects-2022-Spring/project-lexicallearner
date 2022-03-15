@@ -3,12 +3,14 @@
     width: 100vw;
     height: 100vh;
     max-width: 100%; /* fixes width 100vw */
+    border-top: 1px solid lightgrey;
 }
 
 .chat-leftbox{
     flex-basis: 250px;
     height: 900px;
     border: 1px solid lightgrey;
+    border-top: none;
     background-color: rgb(241, 241, 241);
     overflow-y: auto;
 }
@@ -42,7 +44,6 @@
     width: inherit;
     height: 639px;
     border-left: none;
-    border-right: 1px solid lightgrey;
     overflow-y: auto;
 }
 
@@ -84,7 +85,6 @@
     width: inherit;
     height: 200px;
     border-top: 1px solid lightgrey;
-    border-right: 1px solid lightgrey;
     background-color: white;
 }
 
