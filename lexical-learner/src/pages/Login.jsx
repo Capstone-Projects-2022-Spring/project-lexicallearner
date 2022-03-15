@@ -1,33 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/navbar/Navbar";
-import "./Login.css";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
+import "./styles/Login.css";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    function validateForm() {
+        return email.length > 0 && password.length > 0;
+    }
+    function handleSubmit(event) {
+        event.preventDefault();
+    }
+
     return (
         <div className="Login">
             <Navbar />
             <div>
-                <h1>User Registration</h1>
+                <h1>Login</h1>
             </div>
             <footer>
                 <span>Lexical</span>
             </footer>
 
-            <form>
-                {/* Labels and inputs for form data */}
-                <label className="label">Username</label>
-                <input className="input" type="text" />
+            <Form onSubmit={handleSubmit}>
+                <Form.Group size="lg" controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        autoFocus
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group size="lg" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </Form.Group>
+                <Button block size="lg" type="submit" disabled={!validateForm()}>
+                    Login
+                </Button>
 
-                <label className="label">Email</label>
-                <input className="input" type="email" />
+            </Form>
+            <span><br />Not Registered Yet? Sign up Here</span>
+            <p> <button onClick={() => navigate("/register")}>Register Now</button> </p>
 
-                <label className="label">Password</label>
-                <input  className="input"  type="password" />
+            <span><br />Login Cheat Button</span>
+            <p> <button onClick={() => navigate("/homeLoggedIn")}>To Get to Login Quick</button> </p>
 
-                <button>
-                    Submit
-                </button>
-            </form>
+        
         </div>
     );
 };

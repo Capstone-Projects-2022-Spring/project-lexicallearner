@@ -1,0 +1,113 @@
+\documentclass[10pt]{standalone}
+\usepackage[utf8]{inputenc}
+
+\usepackage{./articlethemer}
+\usecolortheme{erdiagram}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{matrix}
+\usetikzlibrary{trees}
+\usetikzlibrary{graphs}
+
+\tikzset{%
+    grow cyclic,%
+    level distance=0.75in,%
+    every path/.append style={edgeColor},%
+    % shapes
+    entity/.style={%
+        rectangle,%
+        minimum size=2.8em%
+    },%
+    relation/.style={%
+        diamond,%
+        aspect=2%
+    },%
+    attribute/.style={%
+        ellipse,%
+        minimum size=1pt,%
+        scale=0.7%
+    },%
+    matrix/.append style={%
+        column sep=0.375in,%
+        row sep=1.5in,%
+        % default to entity on level 0
+        every node/.append style={%
+            entity,%
+            fill=titleBack,%
+            text=titleText%
+        },%
+        level 1/.append style={%
+            every node/.append style={%
+                attribute%
+            }%
+        }%
+    },%
+    cardinality/.style={%
+        postaction={%
+            decorate,%
+            decoration={%
+                raise=-9pt,%
+                text along path,%
+                text={#1},%
+                text color=edgeLabelText,%
+                text align={align=center}%
+            }%
+        }%
+    },%
+    cardinality/.default={1:1}%
+}%
+
+\begin{document}
+
+\begin{tikzpicture}
+    \matrix {
+        \node (account) {Account}
+            child { node {\underline{acid}} }
+            child { node{password} }
+        ;
+        & & \node (lesson) {Lesson}
+            child { node{\underline{lsid}} }
+            child { node{pfid} }
+            child { node{lsLevel} }
+        ;
+        & & \node[relation] (answers) {answers}
+            child { node{\underline{anid}} }
+            child { node{qsid} }
+            child { node{itid} }
+            child { node{isCorrect} }
+        ;
+        \\
+        & \node (profile) {Profile}
+            child { node{\underline{pfid}} }
+            child { node{acid} }
+            child { node{pfLevel} }
+            child { node{score} }
+        ;
+        & & \node (question) {Question}
+            [grow=down]
+            child { node{\underline{qsid}} }
+            child { node{lsid} }
+            child { node{qsItid} }
+        ;
+        & & \node (item) {Item}
+            child { node{\underline{itid}} }
+            child { node{itName} }
+            child { node{itSource} }
+        ;
+        \\
+    };
+    \graph{
+        (account)
+            --[cardinality] (profile)
+            --[cardinality={1:M}] (lesson)
+            --[cardinality={1:M}] (question)
+            --[cardinality={1:M}] (answers)
+            --[cardinality={M:1}] (item);
+        (question)
+            --[cardinality] (item);
+    };
+\end{tikzpicture}
+
+\end{document}
