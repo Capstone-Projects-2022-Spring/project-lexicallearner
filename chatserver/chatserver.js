@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const app = require('express')()
 const http = require('http').createServer(app)
 const cors = require('cors')
@@ -8,7 +10,7 @@ app.use(cors())
 
 const io = new Server(http, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.SOCKET_CHATSERVER,
     mthods: ['GET','POST'],
   }
 })
@@ -16,15 +18,16 @@ const io = new Server(http, {
 io.on('connection', (socket) => {
   console.log('user joined: '+socket.id);
 
+  //join room 
   socket.on('join room', (data) => {
     socket.join(data)
     console.log(`User ${socket.id} joined room ${data}`)
   })
 
+  //receive message from 'send message'
   socket.on("send_message", (data) => {
     console.log(`msg '${data.msg}' received from ${data.from}, room ${data.room}`)
     socket.to(data.room).emit("received_message", data)
-    console.log(`sent msg '${data.msg}' from ${data.from} to room ${data.room}`);
   })
 
   socket.on('disconnect', () => {
