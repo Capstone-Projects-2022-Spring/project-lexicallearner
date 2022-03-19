@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "fs": "0.0.1-security",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "pg": "^8.7.3"
   }
 }

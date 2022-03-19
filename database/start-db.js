@@ -11,7 +11,7 @@
 /* for reading files */
 const fs = require('fs');
 /* for the MySQL driver */
-const mysqld = require('mysql2');
+const pg = require('pg');
 
 /* constants */
 const PASSWORD_FILE = 'db-login.json';  /* contains the login information */
@@ -49,20 +49,26 @@ function main(callback) {
  * @throws if error connecting to database
  */
 function connectDb(login, callback) {
-  /* create and use the connection */
-  const CONNECTION = mysqld.createConnection(login.connection);
-  console.log('connecting to database . . .');
-  CONNECTION.connect((err) => {
-    /* if any errors */
-    if (err) {
-      /* cascade the error */
-      throw err;
-    } /* end if (err) */
+  /* create and use the pool and client connections */
+  const BUILDERS = [ pg.Pool, pg.Client ];
+  for (const BUILDER of BUILDERS) {
+    /* build the connection */
+    const CONNECTION = new BUILDER(login.connection);
 
-    /* apply the callback */
-    console.log('Connection established.');
-    callback(CONNECTION, login.database);
-  }); /* end callback CONNECTION.connect */
+    console.log(`connecting to ${BUILDER.name} . . .`);
+    /* create and use the connection */
+    CONNECTION.query('SELECT NOW()', (err, res) => {
+      /* if any errors */
+      if (err) {
+        /* cascade the error */
+        throw err;
+      } /* end if (err) */
+
+      /* apply the callback */
+      console.log(`Connection to ${BUILDER.name} established.`);
+      callback(CONNECTION, login.database);
+    }); /* end callback CONNECTION.query */
+  } /* next BUILDER */
 } /* end function connectDb(login) */
 
 /* if main module */
