@@ -1,6 +1,8 @@
 const app = require('express')()
 const http = require('http').createServer(app)
 const cors = require('cors')
+const dotenv = require('dotenv')
+dotenv.config();
 const PORT = process.env.PORT || 8000
 const { Server } = require('socket.io')
 
@@ -8,7 +10,7 @@ app.use(cors())
 
 const io = new Server(http, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN,
     mthods: ['GET','POST'],
   }
 })
@@ -33,7 +35,7 @@ io.on('connection', (socket) => {
 })
 
 app.get('/', (req, res) => {
-  res.send('Server is up and running')
+  res.send('Server is up and running + cors origin = '+process.env.CORS_ORIGIN)
 })
 
 app.get('/hello', (req, res) => {

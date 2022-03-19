@@ -3,7 +3,8 @@ import "./chat.css"
 import * as BsIcons from 'react-icons/bs'
 import Friendbar from '../chat-friendbar/Friendbar'
 import io from 'socket.io-client'
-const socket = io('http://localhost:8000')
+
+const socket = io(process.env.REACT_APP_LOCALHOST || 'http://localhost:8000')
 
 const Chat = (props) => {
   //current chat
@@ -15,7 +16,6 @@ const Chat = (props) => {
   const [currentMessage, setCurrentMessage] = useState('')
   const [currentMessages, setCurrentMessages] = useState([])
 
-  console.log(currentMessages);
   //messages for demo
   const [messages, setMessages] = useState([
     {
@@ -32,17 +32,7 @@ const Chat = (props) => {
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),'
         },
       ]
-    }/* ,
-    {
-      room: 'demo2',
-      messages: [
-        {
-          from: 'demo',
-          msg: 'Welcome to demo room',
-          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),'
-        },
-      ]
-    } */
+    }
   ])
 
   const sendMessage = async () => {
