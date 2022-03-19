@@ -4,7 +4,7 @@ import * as BsIcons from 'react-icons/bs'
 import Friendbar from '../chat-friendbar/Friendbar'
 import io from 'socket.io-client'
 
-const socket = io(process.env.REACT_APP_LOCALHOST || 'http://localhost:8000')
+const socket = io(process.env.REACT_APP_CHATSERVER_URL || 'http://localhost:8000')
 
 const Chat = (props) => {
   //current chat
