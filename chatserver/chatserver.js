@@ -15,6 +15,8 @@ const io = new Server(http, {
   }
 })
 
+console.log(io)
+
 io.on('connection', (socket) => {
   console.log('user joined: '+socket.id);
 
