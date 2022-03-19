@@ -65,8 +65,29 @@ CREATE TABLE IF NOT EXISTS answers (
   isCorrect         BOOLEAN         NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (anid),
-  CONSTRAINT Question_id_references FOREIGN KEY (qsid) REFERENCES Question(lsid),
+  CONSTRAINT Question_id_references FOREIGN KEY (qsid) REFERENCES Question(qsid),
   CONSTRAINT Item_id_references FOREIGN KEY (itid) REFERENCES Item(itid)
+);
+
+-- Create the Room entity table
+CREATE TABLE IF NOT EXISTS Message (
+  room_id           CHAR(12)        NOT NULL,
+  room_name         VARCHAR(200)    NOT NULL,
+  room_type         VARCHAR(20)     NOT NULL,
+
+  CONSTRAINT id_is_primary_key PRIMARY KEY (room_id)
+);
+
+-- Create the Message entity table
+CREATE TABLE IF NOT EXISTS Message (
+  message_id        CHAR(12)        NOT NULL,
+  room_id           CHAR(12)        NOT NULL,
+  from_user_id      INT             NOT NULL,
+  to_user_id        INT             NOT NULL,
+  content           VARCHAR(200)    NOT NULL,
+
+  CONSTRAINT id_is_primary_key PRIMARY KEY (message_id),
+  CONSTRAINT Room_id_references FOREIGN KEY (room_id) REFERENCES Room(room_id)
 );
 
 -- Show all tables created
