@@ -5,6 +5,7 @@ import Friendbar from '../chat-friendbar/Friendbar'
 import io from 'socket.io-client'
 
 const socket = io(process.env.REACT_APP_CHATSERVER_URL || 'http://localhost:8000')
+console.log(process.env.REACT_APP_CHATSERVER_URL)
 
 const Chat = (props) => {
   //current chat
