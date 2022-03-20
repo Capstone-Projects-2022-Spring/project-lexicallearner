@@ -3,7 +3,8 @@ import "./chat.css"
 import * as BsIcons from 'react-icons/bs'
 import Friendbar from '../chat-friendbar/Friendbar'
 import io from 'socket.io-client'
-const socket = io('http://localhost:8000')
+
+const socket = io(process.env.REACT_APP_LOCALHOST || 'http://localhost:8000')
 
 const Chat = (props) => {
   //current chat
@@ -11,11 +12,16 @@ const Chat = (props) => {
 
   //considering useReducer
   const [username, setUsername] = useState(props.user.username || "")
+
+  //room
   const [room, setRoom] = useState('')
+
+  //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState('')
+
+  //current msgs in the chat msgs box
   const [currentMessages, setCurrentMessages] = useState([])
 
-  console.log(currentMessages);
   //messages for demo
   const [messages, setMessages] = useState([
     {
@@ -32,7 +38,7 @@ const Chat = (props) => {
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),'
         },
       ]
-    }/* ,
+    },
     {
       room: 'demo2',
       messages: [
@@ -41,37 +47,50 @@ const Chat = (props) => {
           msg: 'Welcome to demo room',
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),'
         },
+        {
+          from: 'ranni',
+          msg: 'HELLO',
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),'
+        },
       ]
-    } */
+    }
   ])
 
+  //send msg if not empty else alert error
   const sendMessage = async () => {
     if (currentMessage !== "" && room !== "" && username !== "") {
+      //sending data to chatserver
       let data = {
         room: room,
         from: username,
         msg: currentMessage,
         time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
       };
-
       console.log(data);
-      await socket.emit("send_message", data)
+
+      //socket -> send msg
+      await socket.emit("send msg", data)
+
+      //update current chat messages
       setCurrentMessages(msgs => [...msgs, data])
       setCurrentMessage("")
     } else {
+      //alert no room, message, or username
       alert("no room or no message or no username")
       setCurrentMessage("")
     }
   }
 
+  //join room when first loaded
   useEffect(() => {
     messages.map((msg, key) => {
       return socket.emit("join room", msg.room)
     })
   }, [])
 
+  //socket -> received msg
   useEffect(() => {
-    socket.on("received_message", (data) => {
+    socket.on("received msg", (data) => {
       console.log('receive msg: ' + data.msg);
       setCurrentMessages(msgs => [...msgs, data])
     })
