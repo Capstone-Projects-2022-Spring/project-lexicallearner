@@ -19,6 +19,13 @@ CREATE TABLE IF NOT EXISTS Account (
 CREATE TABLE IF NOT EXISTS Profile (
   pfid              CHAR(12)        NOT NULL,
   acid              CHAR(12)        NOT NULL,
+  UserEmail         VARCHAR(40)     NOT NULL,
+  UserName          VARCHAR(20)     NOT NULL,
+  UserType          ENUM('educator', 'student')
+                                    NOT NULL,
+  UserImage         VARCHAR(10000)  NOT NULL,
+  StyleSheet        ENUM('lightmode', 'darkmode')
+                                    NOT NULL,
   pfLevel           INT             NOT NULL,
   score             INT             NOT NULL,
 
