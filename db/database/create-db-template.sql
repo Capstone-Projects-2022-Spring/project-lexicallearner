@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS Profile (
 );
 
 -- Create the Group entity table
-CREATE TABLE IF NOT EXISTS Group (
+CREATE TABLE IF NOT EXISTS UserGroup (
   grid              CHAR(12)        NOT NULL,
   groupName         VARCHAR(50)     NOT NULL,
 
-  CONSTRAINT id_is_primary_key PRIMARY KEY (grid),
+  CONSTRAINT id_is_primary_key PRIMARY KEY (grid)
 );
 
 -- Create the "is in Group" relation table
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS isinGroup (
   grid              CHAR(12)        NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (grid),
-  CONSTRAINT Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid),
-  CONSTRAINT Group_id_references FOREIGN KEY (grid) REFERENCES Grid(grid)
+  CONSTRAINT isinGr_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid),
+  CONSTRAINT Group_id_references FOREIGN KEY (grid) REFERENCES UserGroup(grid)
 );
 
 -- Create the Lesson entity table
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS Lesson (
   lsLevel           INT             NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (lsid),
-  CONSTRAINT Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
+  CONSTRAINT ls_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
 );
 
 -- Create the Item entity table
