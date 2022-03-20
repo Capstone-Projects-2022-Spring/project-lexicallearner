@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS answers (
 );
 
 -- Create the Room entity table
-CREATE TABLE IF NOT EXISTS Message (
+CREATE TABLE IF NOT EXISTS Room (
   room_id           CHAR(12)        NOT NULL,
   room_name         VARCHAR(200)    NOT NULL,
   room_type         VARCHAR(20)     NOT NULL,
