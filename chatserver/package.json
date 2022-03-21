@@ -11,10 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^5.18.2",
+    "@google-cloud/translate": "^6.3.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "nodemon": "^2.0.15",
-    "socket.io": "^4.4.1"
+    "socket.io": "^4.4.1",
+    "yargs": "^17.4.0"
   }
 }
