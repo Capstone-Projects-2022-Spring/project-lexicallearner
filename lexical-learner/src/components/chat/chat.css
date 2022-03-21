@@ -16,11 +16,30 @@
 }
 
 .chat-lefttitle{
+    display: flex;
+    margin-bottom: auto;
     width: inherit;
-    padding: 1rem;
+    padding: 1.25rem 0.85rem 0.5rem 0.85rem;
     font-size: 1.5rem;
     border-bottom: 1px solid lightgray;
     height: 55px;
+}
+
+.chat-lefttitle input{
+    width: 180px;
+    border: none;
+    background-color: rgb(216, 216, 216);
+    border-radius: 2.5% 2.5% 2.5% 2.5%;
+}
+
+.chat-lefttitle button{
+    display: flex;
+    margin-left: auto;
+    font-size: 1.5rem;
+    padding: 0;
+    border: none;
+    background-color: rgb(216, 216, 216);
+    border-radius: 10%;
 }
 
 .chat-righttitle{

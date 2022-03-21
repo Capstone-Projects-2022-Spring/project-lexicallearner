@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "./chat.css"
 import * as BsIcons from 'react-icons/bs'
+import * as IoIcons from 'react-icons/io'
 import Friendbar from '../chat-friendbar/Friendbar'
 import io from 'socket.io-client'
 
@@ -66,6 +67,7 @@ const Chat = (props) => {
         msg: currentMessage,
         time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
       };
+      console.log("msg sent");
       console.log(data);
 
       //socket -> send msg
@@ -81,11 +83,13 @@ const Chat = (props) => {
     }
   }
 
-  //join room when first loaded
+  //one time effect
   useEffect(() => {
+    //join room when loaded
     messages.map((msg, key) => {
       return socket.emit("join room", msg.room)
     })
+
   }, [])
 
   //socket -> received msg
@@ -93,6 +97,7 @@ const Chat = (props) => {
     socket.on("received msg", (data) => {
       console.log('receive msg: ' + data.msg);
       setCurrentMessages(msgs => [...msgs, data])
+      /* setCurrentMessages() */ //TODO
     })
   }, [socket])
 
@@ -101,8 +106,10 @@ const Chat = (props) => {
       {/* left box */}
       <div className="chat-leftbox">
         <div className="chat-lefttitle">
-          <input type="text" placeholder='set username'
-            onChange={(e) => setUsername(e.target.value)} />
+          <input type="text" placeholder={'Search...'}
+            onChange={(e) => setUsername(e.target.value)}>
+          </input>
+          <button><IoIcons.IoIosAdd /></button>
         </div>
         <div className="chat-friends">
           {props.user.demo ?
@@ -149,7 +156,7 @@ const Chat = (props) => {
                     </span> :
                     <div>
                       <div style={{
-                        marginBottom: "0.75rem", 
+                        marginBottom: "0.75rem",
                         marginLeft: "0.2rem",
                         maxWidth: "400px",
                         overflow: "hidden",
@@ -169,10 +176,13 @@ const Chat = (props) => {
         {/* textbox */}
         <div className="chat-sendmessage">
           {/* textarea */}
-          <textarea cols="30" rows="10" value={currentMessage}
-            onChange={(e) => setCurrentMessage(e.target.value)}></textarea>
+          <textarea cols="30" rows="10" value={currentMessage} id="textarea"
+            onChange={e => setCurrentMessage(e.target.value)}
+            onKeyPress={e => {if(e.key === "Enter" && !e.shiftKey) sendMessage()}}
+          />
           {/* send button */}
-          <input type="submit" value="Send" className="chat-sendbtn" onClick={sendMessage} />
+          <input type="submit" value="Send" className="chat-sendbtn" onClick={sendMessage}
+          />
         </div>
       </div>
     </div>
