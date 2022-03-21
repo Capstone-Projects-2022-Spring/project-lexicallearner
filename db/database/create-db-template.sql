@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS Profile (
   UserImage         VARCHAR(10000)  NOT NULL,
   StyleSheet        ENUM('lightmode', 'darkmode')
                                     NOT NULL,
+  PreferredLanguage VARCHAR(40)     NOT NULL,
   pfLevel           INT             NOT NULL,
   score             INT             NOT NULL,
 
