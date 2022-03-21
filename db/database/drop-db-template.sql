@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS Profile;
 DROP TABLE IF EXISTS Account;
 DROP TABLE IF EXISTS Message;
 DROP TABLE IF EXISTS Room;
-DROP TABLE IF EXISTS Tables_in;
+DROP TABLE IF EXISTS Tables_here;
 SHOW TABLES;
 
 -- Now remove the database, and check
