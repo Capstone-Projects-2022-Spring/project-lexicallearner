@@ -11,6 +11,7 @@ USE @{database};
 CREATE TABLE IF NOT EXISTS Account (
   acid              CHAR(12)        NOT NULL,
   password          VARCHAR(40)     NOT NULL,
+  PAT               CHAR(12)        NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (acid)
 );
