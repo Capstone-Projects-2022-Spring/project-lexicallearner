@@ -3,6 +3,7 @@ import "./chat.css";
 import * as BsIcons from "react-icons/bs";
 import * as IoIcons from "react-icons/io";
 import Friendbar from "../chat-friendbar/Friendbar";
+import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
 
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
@@ -105,6 +106,7 @@ const Chat = (props) => {
 
   return (
     <div className="chat">
+      <Roommodal />
       {/* left box */}
       <div className="chat-leftbox">
         <div className="chat-lefttitle">
@@ -156,7 +158,12 @@ const Chat = (props) => {
 
       {/* right box */}
       <div className="chat-rightbox">
-        <div className="chat-righttitle"> {current} </div>
+        <div className="chat-righttitle">
+          {current}
+          <button className="chat-righttitle-userprofile">
+            <BsIcons.BsPerson />
+          </button>
+        </div>
         {/* spawns messages */}
         <div className="chat-messages">
           {currentMessages.map((msg, key) => (

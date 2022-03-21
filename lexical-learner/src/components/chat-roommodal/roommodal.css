@@ -1,0 +1,15 @@
+.roommodal{
+    display: flex;
+    border: 2px solid red;
+    width: 960px;
+    height: 480px;
+}
+
+.roommodal-left{
+    width: 50%;
+    border: 2px solid blue;
+}
+
+.roommodal-right{
+    width: 50%;
+}
