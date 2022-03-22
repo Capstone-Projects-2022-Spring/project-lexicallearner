@@ -49,8 +49,13 @@ function main(callback) {
  * @throws if error connecting to database
  */
 function connectDb(login, callback) {
+  /* allow executing an entire SQL script */
+  const connection_options = {
+    ...login.connection,
+    ...{multipleStatements: true}
+  };
   /* create and use the connection */
-  const CONNECTION = mysqld.createConnection(login.connection);
+  const CONNECTION = mysqld.createConnection(connection_options);
   console.log('connecting to database . . .');
   CONNECTION.connect((err) => {
     /* if any errors */
