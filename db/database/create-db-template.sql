@@ -133,13 +133,15 @@ SELECT @N_TABLES_HERE;
 DROP PROCEDURE IF EXISTS describe_tables_here;
 CREATE PROCEDURE describe_tables_here(IN n_tables INT)
 BEGIN
-  -- for each table
+  -- index of the tables
   DECLARE   k   INT   DEFAULT 0;
-  -- DECLARE   expression   VARCHAR(300)   DEFAULT '';
-  -- DECLARE   expression  VARCHAR(1024)   DEFAULT '';
+  -- for each table
   WHILE (k < n_tables) DO
     -- Concatenate the describe statement
-    SET @expression := (SELECT CONCAT('DESCRIBE ', TABLE_NAME, ';') FROM Tables_here LIMIT k, 1);
+    SET @expression := (
+      SELECT CONCAT('DESCRIBE ', TABLE_NAME, ';')
+        FROM Tables_here ORDER BY tid LIMIT k, 1
+    );
     SELECT @expression;
     -- Create the statement
     PREPARE stmt FROM @expression;
