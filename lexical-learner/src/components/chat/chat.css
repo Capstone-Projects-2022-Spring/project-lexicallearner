@@ -26,10 +26,14 @@
 }
 
 .chat-lefttitle input{
-    width: 180px;
+    width: 160px;
+    height: 25px;
     border: none;
     background-color: rgb(216, 216, 216);
-    border-radius: 2.5% 2.5% 2.5% 2.5%;
+    outline: none;
+    border-top-right-radius: 2.5%;
+    border-bottom-right-radius: 2.5%;
+
 }
 
 .chat-lefttitle button{
@@ -42,12 +46,26 @@
     border-radius: 10%;
 }
 
+.chat-searchbar {
+    display: flex;
+    align-items: center;
+}
+
 .chat-righttitle{
+    display: flex;
+    justify-content: space-between;
     width: inherit;
     padding: 1rem;
     font-size: 1.5rem;
     border-bottom: 1px solid lightgray;
     height: 55px;
+}
+
+.chat-righttitle-userprofile{
+    border: 2px solid red;
+    width: 25px;
+    height: 25px;
+    
 }
 
 .chat-rightbox{
