@@ -7,6 +7,9 @@ SHOW DATABASES;
 -- Enter the database
 USE @{database};
 
+-- Constant for number of tables here
+SET @N_TABLES_HERE := 0;
+
 -- Procedure to add all tables so far in a given database to
 -- "Tables_here"
 DROP PROCEDURE IF EXISTS update_Tables_here;
@@ -16,9 +19,11 @@ BEGIN
     SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS
       WHERE TABLE_SCHEMA=database_name
   );
-END;
+  SET @N_TABLES_HERE = row_count();
+END; -- PROCEDURE update_Tables_here(database_name)
 
 -- Create a table of tables
+-- tid gives creation order
 CREATE TABLE IF NOT EXISTS Tables_here (
   tid               INT             NOT NULL    AUTO_INCREMENT,
   TABLE_NAME        VARCHAR(255)    NOT NULL,
@@ -120,8 +125,12 @@ CREATE TABLE IF NOT EXISTS Message (
 );
 CALL update_Tables_here(database());
 
--- Show table of tables
-SELECT tid, TABLE_NAME FROM Tables_here;
-
 -- Show all tables created
 SHOW TABLES;
+
+-- Show table of tables in creation order
+SELECT tid, TABLE_NAME FROM Tables_here;
+
+-- Count the tables stored
+SET @N_TABLES_HERE := (SELECT COUNT(*) FROM Tables_here);
+SELECT @N_TABLES_HERE;
