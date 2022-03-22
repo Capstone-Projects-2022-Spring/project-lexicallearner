@@ -97,6 +97,7 @@ const Chat = (props) => {
     socket.on("received msg", (data) => {
       console.log('receive msg: ' + data.msg);
       setCurrentMessages(msgs => [...msgs, data])
+      
       /* setCurrentMessages() */ //TODO
     })
   }, [socket])
