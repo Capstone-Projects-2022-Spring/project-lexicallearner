@@ -31,28 +31,9 @@ CREATE TABLE IF NOT EXISTS Tables_here (
 );
 CALL update_Tables_here(database());
 
--- Create the Canvas-linked Accounts entity table
-CREATE TABLE IF NOT EXISTS CanvasAccount (
-  acid              CHAR(12)        NOT NULL,
-  PAT               CHAR(12)        NOT NULL,
-
-  CONSTRAINT id_is_primary_key PRIMARY KEY (acid)
-);
-CALL update_Tables_here(database());
-
--- Create the Game Accounts entity table
-CREATE TABLE IF NOT EXISTS GameAccount (
-  acid              CHAR(12)        NOT NULL,
-  password          VARCHAR(40)     NOT NULL,
-
-  CONSTRAINT id_is_primary_key PRIMARY KEY (acid)
-);
-CALL update_Tables_here(database());
-
 -- Create the Profile entity table
 CREATE TABLE IF NOT EXISTS Profile (
   pfid              CHAR(12)        NOT NULL,
-  acid              CHAR(12)        NOT NULL,
   UserEmail         VARCHAR(40)     NOT NULL,
   UserName          VARCHAR(20)     NOT NULL,
   UserType          ENUM('educator', 'student')
@@ -64,8 +45,29 @@ CREATE TABLE IF NOT EXISTS Profile (
   pfLevel           INT             NOT NULL,
   score             INT             NOT NULL,
 
-  CONSTRAINT id_is_primary_key PRIMARY KEY (pfid),
-  CONSTRAINT Account_id_references FOREIGN KEY (acid) REFERENCES Account(acid)
+  CONSTRAINT id_is_primary_key PRIMARY KEY (pfid)
+);
+CALL update_Tables_here(database());
+
+-- Create the Canvas-linked Accounts entity table
+CREATE TABLE IF NOT EXISTS CanvasAccount (
+  cacid             CHAR(12)        NOT NULL,
+  pfid              CHAR(12)        NOT NULL,
+  PAT               CHAR(12)        NOT NULL,
+
+  CONSTRAINT id_is_primary_key PRIMARY KEY (cacid),
+  CONSTRAINT cac_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
+);
+CALL update_Tables_here(database());
+
+-- Create the Game Accounts entity table
+CREATE TABLE IF NOT EXISTS GameAccount (
+  gacid             CHAR(12)        NOT NULL,
+  pfid              CHAR(12)        NOT NULL,
+  password          VARCHAR(40)     NOT NULL,
+
+  CONSTRAINT id_is_primary_key PRIMARY KEY (gacid),
+  CONSTRAINT gac_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
 );
 CALL update_Tables_here(database());
 
