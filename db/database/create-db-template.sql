@@ -31,11 +31,19 @@ CREATE TABLE IF NOT EXISTS Tables_here (
 );
 CALL update_Tables_here(database());
 
--- Create the Accounts entity table
-CREATE TABLE IF NOT EXISTS Account (
+-- Create the Canvas-linked Accounts entity table
+CREATE TABLE IF NOT EXISTS CanvasAccount (
+  acid              CHAR(12)        NOT NULL,
+  PAT               CHAR(12)        NOT NULL,
+
+  CONSTRAINT id_is_primary_key PRIMARY KEY (acid)
+);
+CALL update_Tables_here(database());
+
+-- Create the Game Accounts entity table
+CREATE TABLE IF NOT EXISTS GameAccount (
   acid              CHAR(12)        NOT NULL,
   password          VARCHAR(40)     NOT NULL,
-  PAT               CHAR(12)        NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (acid)
 );
