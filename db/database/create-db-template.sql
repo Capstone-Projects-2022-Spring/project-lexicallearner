@@ -7,9 +7,6 @@ SHOW DATABASES;
 -- Enter the database
 USE @{database};
 
--- Constant for number of tables here
-SET @N_TABLES_HERE := 0;
-
 -- Procedure to add all tables so far in a given database to
 -- "Tables_here"
 DROP PROCEDURE IF EXISTS update_Tables_here;
@@ -134,3 +131,16 @@ SELECT tid, TABLE_NAME FROM Tables_here;
 -- Count the tables stored
 SET @N_TABLES_HERE := (SELECT COUNT(*) FROM Tables_here);
 SELECT @N_TABLES_HERE;
+
+-- Describe every table
+DROP PROCEDURE IF EXISTS describe_tables_here();
+CREATE PROCEDURE describe_tables_here()
+BEGIN
+  -- for each table
+  DECLARE   k   INT   DEFAULT 0;
+  WHILE (k <= @N_TABLE_HERE) DO
+    SET k := k + 1;
+  END WHILE;
+END; -- PROCEDURE describe_tables_here()
+CALL describe_tables_here();
+DROP describe_tables_here();
