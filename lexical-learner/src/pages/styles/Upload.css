@@ -1,0 +1,36 @@
+.Upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}
+
+.Upload-title {
+    font-size: 1.5rem;
+    margin: 10px;
+}
+
+.Upload hr {
+    margin: 0;
+    width: 80%;
+}
+
+.Upload-description {
+    padding: 10px;
+}
+
+.Upload-filecontainer {
+    position: relative;
+    width: 350px;
+    min-height: 10px;
+    border: 2px dashed black;
+}
+
+.Upload button {
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+
+.Upload form{
+    margin: 1rem;
+}

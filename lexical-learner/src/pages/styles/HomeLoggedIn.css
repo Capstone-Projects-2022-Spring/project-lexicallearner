@@ -1,0 +1,125 @@
+.HomeLoggedIn {
+    background-color: white;
+}
+
+.HomeLoggedIn .intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    gap: 2rem;
+    padding-top: 1rem;
+}
+
+.HomeLoggedIn .intro-logo {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.HomeLoggedIn .intro-aside {
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+    color: black;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.HomeLoggedIn .intro-title {
+    font-weight: bolder;
+}
+
+.HomeLoggedIn .intro-getstarted {
+    text-decoration: none;
+    color: white;
+    background-color: black;
+    width: max-content;
+    padding: 0.25rem;
+    border: 2px solid black;
+    border-radius: 5%;
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 0.25rem grey);
+}
+
+.HomeLoggedIn .intro-features {
+    list-style: square;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+.HomeLoggedIn .features {
+    background-color: black;
+    color: white;
+    padding: 0.5rem;
+}
+
+.HomeLoggedIn .features ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.HomeLoggedIn .features li {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5rem;
+    margin-right: 5rem;
+    line-height: 2rem;
+    text-align: center;
+}
+
+.HomeLoggedIn .features-title {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.HomeLoggedIn .quickdemo {
+    border: 5px dashed hotpink;
+    border: none;
+}
+
+.HomeLoggedIn footer {
+    background-color: rgb(179, 179, 179);
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500Z;
+}
+
+@media screen and (max-width: 428px){
+    .HomeLoggedIn .intro {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 10px;
+    }
+
+    .HomeLoggedIn .intro-title {
+        width: 100%;
+        text-align: center;
+    }
+
+    .HomeLoggedIn .intro-features {
+        margin: 0 auto;
+    }
+
+    .HomeLoggedIn .intro-getstarted{
+        margin: 0 auto;
+    }
+
+    .HomeLoggedIn .features ul{
+        display: block;
+    }
+
+    .HomeLoggedIn .features li{
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+    }
+}
