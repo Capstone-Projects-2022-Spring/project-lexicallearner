@@ -123,10 +123,8 @@ CALL update_Tables_here(database());
 
 -- Show all tables created
 SHOW TABLES;
-
 -- Show table of tables in creation order
 SELECT tid, TABLE_NAME FROM Tables_here;
-
 -- Count the tables stored
 SET @N_TABLES_HERE := (SELECT COUNT(*) FROM Tables_here);
 SELECT @N_TABLES_HERE;
@@ -137,12 +135,19 @@ CREATE PROCEDURE describe_tables_here(IN n_tables INT)
 BEGIN
   -- for each table
   DECLARE   k   INT   DEFAULT 0;
-  DECLARE   str   VARCHAR(1024)   DEFAULT '';
-  WHILE (k <= n_tables) DO
-    SET str = CONCAT(str, k, ';');
+  -- DECLARE   expression   VARCHAR(300)   DEFAULT '';
+  -- DECLARE   expression  VARCHAR(1024)   DEFAULT '';
+  WHILE (k < n_tables) DO
+    -- Concatenate the describe statement
+    SET @expression := (SELECT CONCAT('DESCRIBE ', TABLE_NAME, ';') FROM Tables_here LIMIT k, 1);
+    SELECT @expression;
+    -- Create the statement
+    PREPARE stmt FROM @expression;
+    -- Perform the statement
+    EXECUTE stmt;
+    -- increment the counter
     SET k := k + 1;
   END WHILE; -- WHILE (k <= n_tables)
-  SELECT str;
 END; -- PROCEDURE describe_tables_here()
 CALL describe_tables_here((@N_TABLES_HERE));
 DROP PROCEDURE describe_tables_here;
