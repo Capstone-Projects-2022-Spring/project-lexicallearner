@@ -16,7 +16,6 @@ BEGIN
     SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS
       WHERE TABLE_SCHEMA=database_name
   );
-  SET @N_TABLES_HERE = row_count();
 END; -- PROCEDURE update_Tables_here(database_name)
 
 -- Create a table of tables
@@ -133,14 +132,17 @@ SET @N_TABLES_HERE := (SELECT COUNT(*) FROM Tables_here);
 SELECT @N_TABLES_HERE;
 
 -- Describe every table
-DROP PROCEDURE IF EXISTS describe_tables_here();
-CREATE PROCEDURE describe_tables_here()
+DROP PROCEDURE IF EXISTS describe_tables_here;
+CREATE PROCEDURE describe_tables_here(IN n_tables INT)
 BEGIN
   -- for each table
   DECLARE   k   INT   DEFAULT 0;
-  WHILE (k <= @N_TABLE_HERE) DO
+  DECLARE   str   VARCHAR(1024)   DEFAULT '';
+  WHILE (k <= n_tables) DO
+    SET str = CONCAT(str, k, ';');
     SET k := k + 1;
-  END WHILE;
+  END WHILE; -- WHILE (k <= n_tables)
+  SELECT str;
 END; -- PROCEDURE describe_tables_here()
-CALL describe_tables_here();
-DROP describe_tables_here();
+CALL describe_tables_here((@N_TABLES_HERE));
+DROP PROCEDURE describe_tables_here;
