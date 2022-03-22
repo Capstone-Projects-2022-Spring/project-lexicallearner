@@ -13,9 +13,11 @@ DROP PROCEDURE IF EXISTS update_Tables_here;
 CREATE PROCEDURE update_Tables_here(IN database_name CHAR(64))
 BEGIN
   INSERT IGNORE INTO Tables_here (TABLE_NAME) (
-    SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS
+    SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
       WHERE TABLE_SCHEMA=database_name
   );
+  -- show number of rows inserted
+  SELECT ROW_COUNT();
 END; -- PROCEDURE update_Tables_here(database_name)
 
 -- Create a table of tables
@@ -66,17 +68,19 @@ CREATE TABLE IF NOT EXISTS UserGroup (
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (grid)
 );
+CALL update_Tables_here(database());
 
 -- Create the "is in Group" relation table
-CREATE TABLE IF NOT EXISTS isinGroup (
-  isinGrid          CHAR(24)        NOT NULL,
+CREATE TABLE IF NOT EXISTS inGroup (
+  inGrid            CHAR(24)        NOT NULL,
   pfid              CHAR(12)        NOT NULL,
   grid              CHAR(12)        NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (grid),
-  CONSTRAINT isinGr_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid),
+  CONSTRAINT inGr_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid),
   CONSTRAINT Group_id_references FOREIGN KEY (grid) REFERENCES UserGroup(grid)
 );
+CALL update_Tables_here(database());
 
 -- Create the Lesson entity table
 CREATE TABLE IF NOT EXISTS Lesson (
