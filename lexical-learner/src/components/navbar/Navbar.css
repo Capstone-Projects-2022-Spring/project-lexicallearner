@@ -32,12 +32,10 @@
 .Navbar a:hover {
     border: 1px solid white;
     border-radius: 5%;
-    padding: 0.5rem;
     text-decoration: none;
     color: white;
     color: var(--loginbtn-hover-color);
 }
-
 
 /* overwriting navbar a */
 .Navbar .logo{

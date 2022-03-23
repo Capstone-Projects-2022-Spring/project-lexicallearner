@@ -1,0 +1,102 @@
+.roommodal {
+    position: absolute;
+    display: flex;
+    width: 540px;
+    height: 480px;
+    border-radius: 0.5%;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 100;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.roommodal-close{
+    position: absolute;
+    padding: 10px;
+    padding-top: 5px;
+    top: 0;
+    right: 0;
+    font-size: 1rem;
+    border: none;
+    background-color: white;
+}
+
+.roommodal-left {
+    width: 55%;
+    border-right: 1px solid rgb(238, 238, 238);
+    padding: 1rem;
+    padding-top: 2rem;
+}
+
+.roommodal-right {
+    width: 45%;
+    padding: 1rem;
+    padding-top: 2rem;
+}
+
+.roommodal-left-title {
+    font-weight: bold;
+}
+
+.roommodal-left input[type=text] {
+    width: 100%;
+    height: 30px;
+    margin: 0.5rem;
+    margin-left: 0;
+    background-color: rgb(244, 244, 244);
+    border: 1px solid grey;
+    outline: none;
+    border-radius: 2.5%;
+}
+
+.roommodal-left input[type=radio] {
+    margin: 0.5rem;
+    margin-left: 0;
+}
+
+.roommodal-left label {
+    padding-right: 1rem;
+}
+
+.roommodal-left input[type=submit] {
+    padding: 0.3rem;
+    width: 50px;
+    border-radius: 5%;
+    box-shadow: none;
+    border: 1px solid lightgrey;
+}
+
+.roommodal-right-title {
+    font-weight: bold;
+}
+
+.roommodal-right-invited {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 0.25rem;
+    overflow-y: auto;
+}
+
+.roommodal-right-invited li {
+    /*     position: relative;
+ */
+    padding-bottom: 1rem;
+}
+
+.roommodal-right-invited button {
+    /*    position: absolute;
+    top: 0;
+    right: 0; */
+
+    float: right;
+    border-radius: 5%;
+    padding: 0.35rem;
+    border: 1px solid lightgrey;
+}
+
+.roommodal-right-invited span {
+    color: gray;
+}

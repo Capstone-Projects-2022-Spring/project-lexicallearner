@@ -67,10 +67,9 @@
 .Home .features li {
     display: flex;
     flex-direction: column;
-    margin-left: 5rem;
-    margin-right: 5rem;
     line-height: 2rem;
     text-align: center;
+    margin: 1rem;
 }
 
 .Home .features-title {
@@ -79,13 +78,15 @@
 }
 
 .Home .quickdemo {
-    border: 5px dashed hotpink;
     border: none;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .feautures-webchatimg{
-    width: 75%;
+    max-width: 500px;
     margin: 0 auto;
+    flex-shrink: 1;
 }
 
 .Home footer {
@@ -97,7 +98,7 @@
     font-weight: 500Z;
 }
 
-@media screen and (max-width: 428px){
+@media screen and (max-width: 800px){
     .Home .intro {
         display: flex;
         flex-direction: column;
@@ -127,4 +128,10 @@
         margin: 0 auto;
         margin-bottom: 1rem;
     }
+
+    .feautures-webchatimg{
+        width: 100%;
+        margin: 0 auto;
+    }
+    
 }
