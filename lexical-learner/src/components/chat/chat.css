@@ -1,12 +1,14 @@
 .chat {
-    display:flex;
+    position: relative;
+    display: flex;
     width: 100vw;
     height: 100vh;
-    max-width: 100%; /* fixes width 100vw */
+    max-width: 100%;
+    /* fixes width 100vw */
     border-top: 1px solid lightgrey;
 }
 
-.chat-leftbox{
+.chat-leftbox {
     flex-basis: 250px;
     height: 900px;
     border: 1px solid lightgrey;
@@ -15,7 +17,7 @@
     overflow-y: auto;
 }
 
-.chat-lefttitle{
+.chat-lefttitle {
     display: flex;
     margin-bottom: auto;
     width: inherit;
@@ -25,7 +27,7 @@
     height: 55px;
 }
 
-.chat-lefttitle input{
+.chat-lefttitle input {
     width: 160px;
     height: 25px;
     border: none;
@@ -36,7 +38,7 @@
 
 }
 
-.chat-lefttitle button{
+.chat-lefttitle button {
     display: flex;
     margin-left: auto;
     font-size: 1.5rem;
@@ -51,7 +53,7 @@
     align-items: center;
 }
 
-.chat-righttitle{
+.chat-righttitle {
     display: flex;
     justify-content: space-between;
     width: inherit;
@@ -61,14 +63,14 @@
     height: 55px;
 }
 
-.chat-righttitle-userprofile{
+.chat-righttitle-userprofile {
     border: 2px solid red;
     width: 25px;
     height: 25px;
-    
+
 }
 
-.chat-rightbox{
+.chat-rightbox {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -77,7 +79,7 @@
     background-color: rgb(244, 244, 244);
 }
 
-.chat-messages{
+.chat-messages {
     width: inherit;
     height: 639px;
     border-left: none;
@@ -86,7 +88,7 @@
 
 .chat-message {
     display: flex;
-    padding: 0.5rem;
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem;
 }
 
 .chat-message-logo {
@@ -101,27 +103,29 @@
     border-radius: 5%;
 }
 
-.chat-mymessage{
+.chat-mymessage {
     display: flex;
     margin-left: auto;
     gap: 0.25rem;
 }
 
-.chat-theirmessage{
+.chat-theirmessage {
     gap: 0.25rem;
 }
 
-.chat-messagebox{
+.chat-messagebox {
     background-color: white;
-    padding: 1rem;
+    padding: 0.75rem;
     max-width: 400px;
+    border-radius: 5.5%;
 }
 
-.chat-sendmessage{
+.chat-sendmessage {
     position: relative;
     width: inherit;
-    height: 200px;
-    border-top: 1px solid lightgrey;
+    height: 205px;
+    border-top: 1px solid rgb(231, 231, 231);
+    border-bottom: 1px solid lightgrey;
     background-color: white;
 }
 
@@ -135,10 +139,27 @@ textarea {
 }
 
 .chat-sendbtn {
-    position:absolute;
+    position: absolute;
     right: 1.5rem;
     bottom: 0.2rem;
     padding: 0.5rem;
     border-radius: 2.5%;
     border: 1px solid lightgray;
+}
+
+.chat-sendmessage-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 1rem;
+    border: 1px solid red;
+}
+
+.chat-sendmessage-toolbar button{
+    border: none;
+    background-color: transparent;
 }

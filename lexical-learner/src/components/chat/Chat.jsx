@@ -18,6 +18,12 @@ const Chat = (props) => {
   //room
   const [room, setRoom] = useState("");
 
+  //room modal
+  const [roommodal, setRoommodal] = useState(false);
+
+  //rooms
+  const [rooms, setRooms] = useState([]);
+
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
 
@@ -106,7 +112,11 @@ const Chat = (props) => {
 
   return (
     <div className="chat">
-      <Roommodal />
+      {roommodal && <Roommodal
+        setRooms={setRooms}
+        roommodal={roommodal}
+        setRoommodal={setRoommodal}
+      />}
       {/* left box */}
       <div className="chat-leftbox">
         <div className="chat-lefttitle">
@@ -128,7 +138,9 @@ const Chat = (props) => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <button>
+          <button onClick={() => {
+            setRoommodal(!roommodal)
+          }}>
             <IoIcons.IoIosAdd />
           </button>
         </div>
@@ -136,21 +148,21 @@ const Chat = (props) => {
           {
             props.user.demo
               ? messages.map((message, key) => (
-                  <div key={key}>
-                    <Friendbar
-                      logo={<BsIcons.BsRainbow />}
-                      name={message.room}
-                      lastmsg={"for demo"}
-                      lastdate={"Yesterday"}
-                      current={current}
-                      setCurrent={setCurrent}
-                      currentMessages={message.messages}
-                      setCurrentMessages={setCurrentMessages}
-                      currentRoom={message.room}
-                      setRoom={setRoom}
-                    />
-                  </div>
-                ))
+                <div key={key}>
+                  <Friendbar
+                    logo={<BsIcons.BsRainbow />}
+                    name={message.room}
+                    lastmsg={"for demo"}
+                    lastdate={"Yesterday"}
+                    current={current}
+                    setCurrent={setCurrent}
+                    currentMessages={message.messages}
+                    setCurrentMessages={setCurrentMessages}
+                    currentRoom={message.room}
+                    setRoom={setRoom}
+                  />
+                </div>
+              ))
               : null //TODO database
           }
         </div>
@@ -212,7 +224,16 @@ const Chat = (props) => {
               if (e.key === "Enter" && !e.shiftKey) sendMessage();
             }}
           />
-          {/* send button */}
+
+          {/*TOOLBAR IS HERE*/}
+          <div className="chat-sendmessage-toolbar">
+            <span>TOOLBAR GOES HERE, TRANSLANTION FEATURE GOES HERE ->>></span>
+            <button>
+              <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
+            </button>
+          </div>
+
+          {/* send msg button */}
           <input
             type="submit"
             value="Send"
