@@ -31,13 +31,13 @@ const Chat = (props) => {
   //current msgs in the chat msgs box
   const [currentMessages, setCurrentMessages] = useState([]);
 
-  //messages for demo
+  //messages for demo, default
   const [messages, setMessages] = useState([
     {
       room: "demo1",
       messages: [
         {
-          from: "demo",
+          from: "Lexical Chat",
           msg: "Welcome to demo room",
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
         },
@@ -52,13 +52,13 @@ const Chat = (props) => {
       room: "demo2",
       messages: [
         {
-          from: "demo",
+          from: "Lexical Chat",
           msg: "Welcome to demo room",
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
         },
         {
           from: "ranni",
-          msg: "HELLO",
+          msg: "hello world",
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
         },
       ],
@@ -89,9 +89,19 @@ const Chat = (props) => {
       setCurrentMessage("");
 
       //update entire chat messages
-      messages?.map((message) => {
-        console.log(message);
-      })
+      setMessages((messages) => {
+        const messagesCopy = [...messages];
+        const index = messagesCopy.findIndex((item) => item.room === room);
+        console.log("index" + index);
+        if (index !== -1) {
+          messagesCopy[index] = {
+            ...messagesCopy[index],
+            messages: [...messages[index].messages, data],
+          };
+        }
+
+        return messagesCopy;
+      });
     } else {
       //alert no room, message, or username
       alert("no room or no message or no username");
@@ -110,25 +120,38 @@ const Chat = (props) => {
   //socket -> received msg
   useEffect(() => {
     socket.on("received msg", (data) => {
-      console.log("receive msg: " + data.msg);
+      console.log(data);
       setCurrentMessages((msgs) => [...msgs, data]);
-      /* setCurrentMessages() */ //TODO
+
+      setMessages((messages) => {
+        const messagesCopy = [...messages];
+        const index = messagesCopy.findIndex((item) => item.room === data.room);
+        messagesCopy[index] = {
+          ...messagesCopy[index],
+          messages: [...messages[index].messages, data],
+        };
+        return messagesCopy;
+      });
     });
   }, [socket]);
 
-  console.log("ROOMS: ");
-  console.log(rooms);
+  console.log("messages vvvv");
+  console.log(messages);
 
   return (
     <div className="chat">
       {/*room moda*/}
-      {roommodal && <Roommodal
-        rooms={rooms}
-        setRooms={setRooms}
-        roommodal={roommodal}
-        setRoommodal={setRoommodal}
-        socket={socket}
-      />}
+      {roommodal && (
+        <Roommodal
+          rooms={rooms}
+          setRooms={setRooms}
+          roommodal={roommodal}
+          setRoommodal={setRoommodal}
+          socket={socket}
+          messages={messages}
+          setMessages={setMessages}
+        />
+      )}
 
       {/* left box */}
       <div className="chat-leftbox">
@@ -151,51 +174,57 @@ const Chat = (props) => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <button onClick={() => {
-            setRoommodal(!roommodal)
-          }}>
+          <button
+            onClick={() => {
+              setRoommodal(!roommodal);
+            }}
+          >
             <IoIcons.IoIosAdd />
           </button>
         </div>
         <div className="chat-friends">
           {/*for demo*/}
-          {props.user.demo
-            ? messages.map((message, key) => (
+          {
+            props.user.demo
+              ? messages.map((message, key) => (
+                  <div key={key}>
+                    <Friendbar
+                      logo={<BsIcons.BsRainbow />}
+                      name={message.room}
+                      lastmsg={
+                        message.messages[message.messages.length - 1].msg
+                      }
+                      lastdate={"Yesterday"}
+                      current={current}
+                      setCurrent={setCurrent}
+                      currentMessages={message.messages}
+                      setCurrentMessages={setCurrentMessages}
+                      currentRoom={message.room}
+                      setRoom={setRoom}
+                    />
+                  </div>
+                ))
+              : null //TODO database
+          }
+          {/*rooms*/}
+          {/* rooms.map((room, key) => {
+            return (
               <div key={key}>
                 <Friendbar
                   logo={<BsIcons.BsRainbow />}
-                  name={message.room}
-                  lastmsg={message.room}
+                  name={room.room}
+                  lastmsg={room.messages[room.messages.length - 1].msg}
                   lastdate={"Yesterday"}
                   current={current}
                   setCurrent={setCurrent}
-                  currentMessages={message.messages}
+                  currentMessages={room.messages}
                   setCurrentMessages={setCurrentMessages}
-                  currentRoom={message.room}
+                  currentRoom={room.room}
                   setRoom={setRoom}
                 />
               </div>
-            ))
-            : null //TODO database
-          }
-
-          {/*rooms*/}
-          {rooms.map((room, key) => {
-            return <div key={key}>
-              <Friendbar
-                logo={<BsIcons.BsRainbow />}
-                name={room.room}
-                lastmsg={room.messages[room.messages.length-1]}
-                /* lastdate={"Yesterday"} */
-                current={current}
-                setCurrent={setCurrent}
-                currentMessages={room.messages}
-                setCurrentMessages={setCurrentMessages}
-                currentRoom={room.room}
-                setRoom={setRoom}
-              />
-            </div>
-          })}
+            );
+          }) */}
         </div>
       </div>
 
@@ -244,7 +273,6 @@ const Chat = (props) => {
 
         {/* textbox */}
         <div className="chat-sendmessage">
-
           {/*TOOLBAR IS HERE, if you are doing integration with google translate
           , then work on the last button that has a translate icon*/}
           <div className="chat-sendmessage-toolbar">
@@ -268,8 +296,8 @@ const Chat = (props) => {
             rows="10"
             value={currentMessage}
             id="textarea"
-            onChange={e => setCurrentMessage(e.target.value)}
-            onKeyPress={e => {
+            onChange={(e) => setCurrentMessage(e.target.value)}
+            onKeyPress={(e) => {
               if (e.key === "Enter" && !e.shiftKey) sendMessage();
             }}
           />
