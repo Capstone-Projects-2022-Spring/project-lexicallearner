@@ -17,7 +17,11 @@ All information required, such as profiles, assignments, module details will be 
 
 ### ./ [db](./db) /
 
+Contains the database, its dependency modules, and some related documentation.
+
 #### [database](./db/database) /
+
+Contains the files needed to maintain the database and the API of the database in Node.js.
 
 ##### [create-db-template.sql](./db/database/create-db-template.sql), [create-db.js](./db/database/create-db.js)
 
