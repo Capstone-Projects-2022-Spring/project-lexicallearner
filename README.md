@@ -19,20 +19,22 @@ All information required, such as profiles, assignments, module details will be 
 
 #### [database](./db/database) /
 
-##### [create-db-template.sql](./database/db/database/create-db-template.sql), [create-db.js](./database/db/database/create-db.js)
+##### [create-db-template.sql](./db/database/create-db-template.sql), [create-db.js](./db/database/create-db.js)
 
 The MySQL script and template for creating database, including all tables that it uses, `create-db-template.sql`,
 and its Node.js wrapper `create-db.js`.
 The template contains the templating string `@{database}`, which will be converted to the proper database name given by the login file `db-login.json`.
-The Node.js wrapper calls [`runMySqlScript` from `run-mysql-script`](./database/db/database/run-mysql-script.js#L14) to fetch the name of the database and run the MySQL script.
-The tables created are described in the [Database description](db decription).
+The Node.js wrapper calls [`runMySqlScript` from `run-mysql-script`](./db/database/run-mysql-script.js#L14) to fetch the name of the database and run the MySQL script.
 
-##### [drop-db-template.sql](./database/db/database/drop-db-template.sql), [drop-db.js](./database/db/database/drop-db.js)
+The tables created are described in the [Database description][db description].
+
+##### [drop-db-template.sql](./db/database/drop-db-template.sql), [drop-db.js](./db/database/drop-db.js)
 
 The MySQL script and template for cleaning up the tables used for the database and the database itself, `drop-db-template.sql`,
 and its Node.js wrapper `drop-db.js`.
 The template contains the templating string `@{database}`, which will be converted to the proper database name given by the login file `db-login.json`.
-The Node.js wrapper calls [`runMySqlScript` from `run-mysql-script`](./database/db/database/run-mysql-script.js#L14) to fetch the name of the database and run the MySQL script.
+The Node.js wrapper calls [`runMySqlScript` from `run-mysql-script`][run sql line] to fetch the name of the database and run the MySQL script.
+
 All tables named by `TABLE_NAME` in the table `Tables_here` will be deleted,
 as well as `Tables_here` itself.
 Then the database will be deleted.
@@ -44,10 +46,15 @@ Then the database will be deleted.
 * [Leomar Duran][lduran2]
 * Shane Phillip Grinkewitz
 
+<!--
+      link references
+-->
+
 [project-lexicallearner]: https://github.com/Capstone-Projects-2022-Spring/project-lexicallearner
+
+[db description]: ./tree/main/doc/database#readme
+[run sql line]: ./db/database/run-mysql-script.js#L14
 
 [ColeFitz88]: https://github.com/ColeFitz88
 [lduran2]: https://github.com/lduran2
 [GrantGwiaz]: https://github.com/GrantGwiaz
-
-[db description]: ./tree/main/doc/database#readme
