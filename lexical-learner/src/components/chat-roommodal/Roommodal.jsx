@@ -1,27 +1,51 @@
 import React from 'react'
 import { BsAlarm } from 'react-icons/bs'
 import { AiOutlineClose } from 'react-icons/ai'
+import Friendbar from '../chat-friendbar/Friendbar'
 import './roommodal.css'
 
 const Roommodal = (props) => {
 
   const publicrooms = [
     {
-      name: "PR1",
+      room: "demo3",
       description: "gaming aming aming aming aming aming aming aming aming"
     },
     {
-      name: "PR2",
+      room: "PR1",
       description: "something"
     }
   ]
 
-  console.log(props);
+  const createRoom = () => {
+
+  }
+
+  //join room. await?
+  const joinRoom = (room) => {
+    let repeat = false;
+    props.rooms.map((roomx) => {
+      if(roomx.room === room.room) return repeat = true;
+    })
+    //if room not repeated
+    if(!repeat){
+      props.setRooms((rooms) => [...rooms, {
+        room: room.room,
+        messages: []
+      }
+      ])
+      props.socket.emit("join room", room.room);
+    }else{
+      alert("already joined")
+    }
+  }
+
   return (
     <div className='roommodal'>
       <button className="roommodal-close" onClick={() => {
         props.setRoommodal(!props.roommodal)
       }}><AiOutlineClose /></button>
+
       <div className="roommodal-left">
         <span className="roommodal-left-title">Create Chat Room</span><br />
         <form action="#">
@@ -40,13 +64,14 @@ const Roommodal = (props) => {
           <input type="submit" value="Join" />
         </form>
       </div>
+
       <div className="roommodal-right">
-        <span className="roommodal-right-title">Public Room</span><br />
+        <span className="roommodal-right-title">Public Room /WIP/</span><br />
         <ul className="roommodal-right-invited">
           {publicrooms.map((room, key) => {
             return <li key={key}>
-              <button>Join</button>
-              {room.name} <br />
+              <button onClick={() => { joinRoom(room) }}>Join</button>
+              {room.room} <br />
               <span>{room.description}</span>
             </li>
           })}

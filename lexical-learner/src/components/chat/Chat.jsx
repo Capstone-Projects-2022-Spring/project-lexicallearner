@@ -6,14 +6,15 @@ import Friendbar from "../chat-friendbar/Friendbar";
 import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
 
+//connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
 
 const Chat = (props) => {
   //current chat
   const [current, setCurrent] = useState("");
 
-  //considering useReducer
-  const [username, setUsername] = useState(props.user.username || "");
+  //username
+  const [username, setUsername] = useState(props.user.username || "demo");
 
   //room
   const [room, setRoom] = useState("");
@@ -48,7 +49,7 @@ const Chat = (props) => {
       ],
     },
     {
-      room: "demo2 not working",
+      room: "demo2",
       messages: [
         {
           from: "demo",
@@ -86,6 +87,11 @@ const Chat = (props) => {
       //update current chat messages
       setCurrentMessages((msgs) => [...msgs, data]);
       setCurrentMessage("");
+
+      //update entire chat messages
+      messages?.map((message) => {
+        console.log(message);
+      })
     } else {
       //alert no room, message, or username
       alert("no room or no message or no username");
@@ -110,13 +116,20 @@ const Chat = (props) => {
     });
   }, [socket]);
 
+  console.log("ROOMS: ");
+  console.log(rooms);
+
   return (
     <div className="chat">
+      {/*room moda*/}
       {roommodal && <Roommodal
+        rooms={rooms}
         setRooms={setRooms}
         roommodal={roommodal}
         setRoommodal={setRoommodal}
+        socket={socket}
       />}
+
       {/* left box */}
       <div className="chat-leftbox">
         <div className="chat-lefttitle">
@@ -145,26 +158,44 @@ const Chat = (props) => {
           </button>
         </div>
         <div className="chat-friends">
-          {
-            props.user.demo
-              ? messages.map((message, key) => (
-                <div key={key}>
-                  <Friendbar
-                    logo={<BsIcons.BsRainbow />}
-                    name={message.room}
-                    lastmsg={"for demo"}
-                    lastdate={"Yesterday"}
-                    current={current}
-                    setCurrent={setCurrent}
-                    currentMessages={message.messages}
-                    setCurrentMessages={setCurrentMessages}
-                    currentRoom={message.room}
-                    setRoom={setRoom}
-                  />
-                </div>
-              ))
-              : null //TODO database
+          {/*for demo*/}
+          {props.user.demo
+            ? messages.map((message, key) => (
+              <div key={key}>
+                <Friendbar
+                  logo={<BsIcons.BsRainbow />}
+                  name={message.room}
+                  lastmsg={message.room}
+                  lastdate={"Yesterday"}
+                  current={current}
+                  setCurrent={setCurrent}
+                  currentMessages={message.messages}
+                  setCurrentMessages={setCurrentMessages}
+                  currentRoom={message.room}
+                  setRoom={setRoom}
+                />
+              </div>
+            ))
+            : null //TODO database
           }
+
+          {/*rooms*/}
+          {rooms.map((room, key) => {
+            return <div key={key}>
+              <Friendbar
+                logo={<BsIcons.BsRainbow />}
+                name={room.room}
+                lastmsg={room.messages[room.messages.length-1]}
+                /* lastdate={"Yesterday"} */
+                current={current}
+                setCurrent={setCurrent}
+                currentMessages={room.messages}
+                setCurrentMessages={setCurrentMessages}
+                currentRoom={room.room}
+                setRoom={setRoom}
+              />
+            </div>
+          })}
         </div>
       </div>
 
@@ -213,25 +244,35 @@ const Chat = (props) => {
 
         {/* textbox */}
         <div className="chat-sendmessage">
+
+          {/*TOOLBAR IS HERE, if you are doing integration with google translate
+          , then work on the last button that has a translate icon*/}
+          <div className="chat-sendmessage-toolbar">
+            <div className="chat-sendmessage-toolbar-left">
+              <button className="chat-sendmessage-toolbar-image">
+                <BsIcons.BsImages style={{ width: "25px", height: "25px" }} />
+              </button>
+              <button>
+                <BsIcons.BsFolder style={{ width: "25px", height: "25px" }} />
+              </button>
+            </div>
+
+            <button>
+              <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
+            </button>
+          </div>
+
           {/* textarea */}
           <textarea
             cols="30"
             rows="10"
             value={currentMessage}
             id="textarea"
-            onChange={(e) => setCurrentMessage(e.target.value)}
-            onKeyPress={(e) => {
+            onChange={e => setCurrentMessage(e.target.value)}
+            onKeyPress={e => {
               if (e.key === "Enter" && !e.shiftKey) sendMessage();
             }}
           />
-
-          {/*TOOLBAR IS HERE*/}
-          <div className="chat-sendmessage-toolbar">
-            <span>TOOLBAR GOES HERE, TRANSLANTION FEATURE GOES HERE ->>></span>
-            <button>
-              <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
-            </button>
-          </div>
 
           {/* send msg button */}
           <input
