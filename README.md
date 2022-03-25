@@ -15,7 +15,7 @@ All information required, such as profiles, assignments, module details will be 
 
 ## Design
 
-### [./db](./db) /
+### ./ [db](./db) /
 
 #### [database](./db/database) /
 
@@ -23,7 +23,7 @@ All information required, such as profiles, assignments, module details will be 
 
 The MySQL script and template for creating database, including all tables that it uses, `create-db-template.sql`,
 and its Node.js wrapper `create-db.js`.
-The template contains the templating string `@{database}`, which will be converted to the proper database name given by the login file `db-login.json`.
+The template contains the templating string `@{database}`, which will be converted to the proper database name given by [the log-in file `db-log-in.json`][log-in file].
 The Node.js wrapper calls [`runMySqlScript` from `run-mysql-script`](./db/database/run-mysql-script.js#L14) to fetch the name of the database and run the MySQL script.
 
 The tables created are described in the [Database description][db description].
@@ -32,12 +32,45 @@ The tables created are described in the [Database description][db description].
 
 The MySQL script and template for cleaning up the tables used for the database and the database itself, `drop-db-template.sql`,
 and its Node.js wrapper `drop-db.js`.
-The template contains the templating string `@{database}`, which will be converted to the proper database name given by the login file `db-login.json`.
+The template contains the templating string `@{database}`, which will be converted to the proper database name given by [the log-in file `db-log-in.json`][log-in file].
 The Node.js wrapper calls [`runMySqlScript` from `run-mysql-script`][run sql line] to fetch the name of the database and run the MySQL script.
 
 All tables named by `TABLE_NAME` in the table `Tables_here` will be deleted,
 as well as `Tables_here` itself.
 Then the database will be deleted.
+
+##### [run-mysql-script.js](./db/database/run-mysql-script.js)
+
+Exports the function [`runMySqlScript`][run sql line].
+This function accepts a MySQL script file and a callback function.
+The function will establish a database connection and run the MySQL script from the file in the connection, recieving a response.
+It will then message the callback function with that response.
+
+##### [start-db.js](./db/database/start-db.js)
+
+Exports itself as a function, which the dependent file may name.
+This program can be called itself to check if the connection can be established.
+The function accepts a callback function.
+If no callback is provided, it will instead use a `noop` function.
+The function in the case of being `require`d, or program in the case of being ran directly, will read [the log-in file `db-log-in.json`][log-in file] and use the configuration contained therein to establish a database connection.
+Once the connection is established, it will call the callback function,
+sending it the connection as well as the name of the database,
+which may be used by templating functions.
+
+##### db-login.json
+
+The database log-in configuration file.
+In its place, [an example named `db-login.json.example`] is provided instead.
+This is the required format.
+However, it should be configured exactly as the database created in the
+MySQL Workbench or equivalent.
+
+##### .gitignore
+
+A standard `.gitignore` file for preventing the `git commit`ing of undesired files.
+
+The files that we will `.gitignore` are
+* The database log-in configuration file `db-login.json`.
 
 ## Contributors
 * [Cole Linse Fitzpatrick][ColeFitz88]
@@ -54,6 +87,8 @@ Then the database will be deleted.
 
 [db description]: ./tree/main/doc/database#readme
 [run sql line]: ./db/database/run-mysql-script.js#L14
+[log-in file]: #db-login.json
+[log-in example]: #db-login.json.example
 
 [ColeFitz88]: https://github.com/ColeFitz88
 [lduran2]: https://github.com/lduran2
