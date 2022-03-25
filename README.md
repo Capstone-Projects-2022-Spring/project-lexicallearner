@@ -69,7 +69,7 @@ This is the required format.
 However, it should be configured exactly as the database created in the
 MySQL Workbench or equivalent.
 
-##### [.gitignore](./db/database/.gitignore.js)
+##### [.gitignore](./db/database/.gitignore)
 
 A standard `.gitignore` file for preventing the `git commit`ing of undesired files.
 
