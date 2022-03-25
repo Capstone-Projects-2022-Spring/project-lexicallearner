@@ -52,7 +52,7 @@ It will then message the callback function with that response.
 
 ##### [start-db.js](./db/database/start-db.js)
 
-Exports itself as a function, which the dependent file may name.
+Exports [its main function][start-db main] as itself, which the dependent file may name.
 This program can be called itself to check if the connection can be established.
 The function accepts a callback function.
 If no callback is provided, it will instead use a `noop` function.
@@ -64,7 +64,7 @@ which may be used by templating functions.
 ##### db-login.json
 
 The database log-in configuration file.
-In its place, [an example named `db-login.json.example`] is provided instead.
+In its place, [an example named `db-login.json.example`][log-in example] is provided instead.
 This is the required format.
 However, it should be configured exactly as the database created in the
 MySQL Workbench or equivalent.
@@ -91,8 +91,9 @@ The files that we will `.gitignore` are
 
 [db description]: ./tree/main/doc/database#readme
 [run sql line]: ./db/database/run-mysql-script.js#L14
-[log-in file]: #db-login.json
-[log-in example]: #db-login.json.example
+[log-in file]: #db-loginjson
+[log-in example]: ./db/database/db-login.json.example
+[start-db main]: https://github.com/Capstone-Projects-2022-Spring/project-lexicallearner/blob/database/db/database/start-db.js#L20
 
 [ColeFitz88]: https://github.com/ColeFitz88
 [lduran2]: https://github.com/lduran2
