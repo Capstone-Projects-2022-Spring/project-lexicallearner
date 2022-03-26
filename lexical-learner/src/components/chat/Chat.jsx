@@ -31,7 +31,7 @@ const Chat = (props) => {
   //current msgs in the chat msgs box
   const [currentMessages, setCurrentMessages] = useState([]);
 
-  //messages for demo, default
+  //messages that contain room and msgs, for demo, default
   const [messages, setMessages] = useState([
     {
       room: "demo1",
@@ -81,18 +81,17 @@ const Chat = (props) => {
       console.log("msg sent");
       console.log(data);
 
-      //socket -> send msg
+      //send msg to socket
       await socket.emit("send msg", data);
 
       //update current chat messages
       setCurrentMessages((msgs) => [...msgs, data]);
-      setCurrentMessage("");
+      await setCurrentMessage("");
 
       //update entire chat messages
       setMessages((messages) => {
         const messagesCopy = [...messages];
         const index = messagesCopy.findIndex((item) => item.room === room);
-        console.log("index" + index);
         if (index !== -1) {
           messagesCopy[index] = {
             ...messagesCopy[index],
@@ -121,7 +120,7 @@ const Chat = (props) => {
   useEffect(() => {
     socket.on("received msg", (data) => {
       console.log(data);
-      setCurrentMessages((msgs) => [...msgs, data]);
+      /* setCurrentMessages((msgs) => [...msgs, data]); */
 
       setMessages((messages) => {
         const messagesCopy = [...messages];
@@ -134,9 +133,6 @@ const Chat = (props) => {
       });
     });
   }, [socket]);
-
-  console.log("messages vvvv");
-  console.log(messages);
 
   return (
     <div className="chat">
@@ -171,6 +167,7 @@ const Chat = (props) => {
             <input
               type="text"
               placeholder="Search"
+              //TODO
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
@@ -184,47 +181,31 @@ const Chat = (props) => {
         </div>
         <div className="chat-friends">
           {/*for demo*/}
-          {
-            props.user.demo
-              ? messages.map((message, key) => (
-                  <div key={key}>
-                    <Friendbar
-                      logo={<BsIcons.BsRainbow />}
-                      name={message.room}
-                      lastmsg={
-                        message.messages[message.messages.length - 1].msg
-                      }
-                      lastdate={"Yesterday"}
-                      current={current}
-                      setCurrent={setCurrent}
-                      currentMessages={message.messages}
-                      setCurrentMessages={setCurrentMessages}
-                      currentRoom={message.room}
-                      setRoom={setRoom}
-                    />
-                  </div>
-                ))
-              : null //TODO database
+          {messages.map((message, key) => {
+              const lastmsg =
+                message.messages.length === 0? ""
+                  : message.messages[message.messages.length - 1].msg;
+
+              return (
+                <div key={key}>
+                  <Friendbar
+                    logo={<BsIcons.BsRainbow />}
+                    name={message.room}
+                    lastmsg={lastmsg}
+                    lastdate={"Yesterday"}
+                    current={current}
+                    setCurrent={setCurrent}
+                    currentMessages={message.messages}
+                    setCurrentMessages={setCurrentMessages}
+                    currentRoom={message.room}
+                    setRoom={setRoom}
+                  />
+                </div>
+              );
+            })
+
+            //TODO database
           }
-          {/*rooms*/}
-          {/* rooms.map((room, key) => {
-            return (
-              <div key={key}>
-                <Friendbar
-                  logo={<BsIcons.BsRainbow />}
-                  name={room.room}
-                  lastmsg={room.messages[room.messages.length - 1].msg}
-                  lastdate={"Yesterday"}
-                  current={current}
-                  setCurrent={setCurrent}
-                  currentMessages={room.messages}
-                  setCurrentMessages={setCurrentMessages}
-                  currentRoom={room.room}
-                  setRoom={setRoom}
-                />
-              </div>
-            );
-          }) */}
         </div>
       </div>
 

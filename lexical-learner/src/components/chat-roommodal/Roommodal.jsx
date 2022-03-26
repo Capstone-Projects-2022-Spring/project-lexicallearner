@@ -1,7 +1,5 @@
 import React from "react";
-import { BsAlarm } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
-import Friendbar from "../chat-friendbar/Friendbar";
 import "./roommodal.css";
 
 const Roommodal = (props) => {
@@ -54,14 +52,15 @@ const Roommodal = (props) => {
       ]); */
       props.setRooms([...props.rooms, room]);
       props.socket.emit("join room", room.room);
-      /*
+      
+      //add room to room list in messages
       props.setMessages((messages) => [
         ...messages,
         {
           room: room.room,
           messages: [],
         },
-      ]); */
+      ])
     } else {
       alert("already joined");
     }
@@ -89,9 +88,7 @@ const Roommodal = (props) => {
           <input type="radio" name="roomtype" id="public" value="public" />
           <label htmlFor="public">Public</label>
           <input type="radio" name="roomtype" id="public" value="private" />
-          <label htmlFor="public" value="private">
-            Private
-          </label>
+          <label htmlFor="public" value="private">Private</label>
           <br />
           <input type="submit" value="Create" />
         </form>
