@@ -14,7 +14,8 @@ const Chat = (props) => {
   const [current, setCurrent] = useState("");
 
   //username
-  const [username, setUsername] = useState(props.user.username || "demo");
+  const [username, setUsername] = useState(props.user.username || 
+    new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMilliseconds());
 
   //room
   const [room, setRoom] = useState("");
@@ -120,7 +121,7 @@ const Chat = (props) => {
   useEffect(() => {
     socket.on("received msg", (data) => {
       console.log(data);
-      /* setCurrentMessages((msgs) => [...msgs, data]); */
+      if(current === data.room) setCurrentMessages((msgs) => [...msgs, data]);
 
       setMessages((messages) => {
         const messagesCopy = [...messages];
@@ -139,8 +140,6 @@ const Chat = (props) => {
       {/*room moda*/}
       {roommodal && (
         <Roommodal
-          rooms={rooms}
-          setRooms={setRooms}
           roommodal={roommodal}
           setRoommodal={setRoommodal}
           socket={socket}
@@ -182,27 +181,27 @@ const Chat = (props) => {
         <div className="chat-friends">
           {/*for demo*/}
           {messages.map((message, key) => {
-              const lastmsg =
-                message.messages.length === 0? ""
-                  : message.messages[message.messages.length - 1].msg;
+            const lastmsg =
+              message.messages.length === 0 ? ""
+                : message.messages[message.messages.length - 1].msg;
 
-              return (
-                <div key={key}>
-                  <Friendbar
-                    logo={<BsIcons.BsRainbow />}
-                    name={message.room}
-                    lastmsg={lastmsg}
-                    lastdate={"Yesterday"}
-                    current={current}
-                    setCurrent={setCurrent}
-                    currentMessages={message.messages}
-                    setCurrentMessages={setCurrentMessages}
-                    currentRoom={message.room}
-                    setRoom={setRoom}
-                  />
-                </div>
-              );
-            })
+            return (
+              <div key={key}>
+                <Friendbar
+                  logo={<BsIcons.BsRainbow />}
+                  name={message.room}
+                  lastmsg={lastmsg}
+                  lastdate={"Yesterday"}
+                  current={current}
+                  setCurrent={setCurrent}
+                  currentMessages={message.messages}
+                  setCurrentMessages={setCurrentMessages}
+                  currentRoom={message.room}
+                  setRoom={setRoom}
+                />
+              </div>
+            );
+          })
 
             //TODO database
           }
