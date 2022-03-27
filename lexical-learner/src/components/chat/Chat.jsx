@@ -121,6 +121,7 @@ const Chat = (props) => {
   useEffect(() => {
     socket.on("received msg", (data) => {
       console.log(data);
+      console.log(current === data.room);
       if(current === data.room) setCurrentMessages((msgs) => [...msgs, data]);
 
       setMessages((messages) => {
@@ -133,7 +134,8 @@ const Chat = (props) => {
         return messagesCopy;
       });
     });
-  }, [socket]);
+  }, [socket, current]);
+
 
   return (
     <div className="chat">

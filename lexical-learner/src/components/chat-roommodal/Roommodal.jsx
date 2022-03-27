@@ -43,8 +43,8 @@ const Roommodal = (props) => {
         messages: [],
         type: document.querySelector('input[name="roomtype"]:checked')?.value,
       }
-      console.log(newRoom);
-      props.socket.emit("join room", newRoom.room);
+      console.log(document.getElementById("room").value);
+      props.socket.emit("join room", document.getElementById("room").value);
 
       //add room to room list in messages
       props.setMessages((messages) => [
@@ -53,8 +53,8 @@ const Roommodal = (props) => {
     }
   };
 
-  //join room. await?
-  const joinRoom = (room) => {
+  //join public room. await?
+  const joinPublicRoom = (room) => {
     //repeated room flag
     let repeated = false;
     //check for repeated room
@@ -79,6 +79,29 @@ const Roommodal = (props) => {
       alert("already joined");
     }
   };
+
+  //join custom room
+  const joinRoom = (e) => {
+    e.preventDefault()
+
+    const room = document.getElementById("joinRoomName").value;
+    if (room === "") {
+      alert("missing room name")
+    } else {
+      const newRoom = {
+        room: room,
+        messages: [],
+        type: null, //null for now, sprint6
+      }
+      console.log(room);
+      props.socket.emit("join room", room);
+
+      //add room to room list in messages
+      props.setMessages((messages) => [
+        ...messages, newRoom
+      ])
+    }
+  }
 
   return (
     <div className="roommodal">
@@ -110,9 +133,9 @@ const Roommodal = (props) => {
         <span className="roommodal-left-title">Join Chat Room</span>
         <br />
         <form onSubmit={joinRoom}>
-          <input type="text" id="room" placeholder="Room Name" />
+          <input type="text" id="joinRoomName" placeholder="Room Name" />
           <br />
-          <input type="submit" value="Join" />
+          <input type="submit" value="Join"/>
         </form>
       </div>
 
@@ -125,7 +148,7 @@ const Roommodal = (props) => {
               <li key={key}>
                 <button
                   onClick={() => {
-                    joinRoom(room);
+                    joinPublicRoom(room);
                   }}
                 >
                   Join

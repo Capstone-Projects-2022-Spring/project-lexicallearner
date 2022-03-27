@@ -106,12 +106,12 @@
 
 .chat-mymessage {
     display: flex;
+    align-items: center;
     margin-left: auto;
-    gap: 0.25rem;
 }
 
 .chat-theirmessage {
-    gap: 0.25rem;
+    gap: 0.5rem; 
 }
 
 .chat-messagebox {
@@ -119,6 +119,8 @@
     padding: 0.75rem;
     max-width: 400px;
     border-radius: 5.5%;
+    width: max-content;
+    margin-top: -0.5rem;
 }
 
 .chat-sendmessage {
