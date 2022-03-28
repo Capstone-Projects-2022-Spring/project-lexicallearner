@@ -5,10 +5,10 @@ import * as IoIcons from "react-icons/io";
 import Friendbar from "../chat-friendbar/Friendbar";
 import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
+//import { googleTranslate } from "./googleTranslate";
 
 //connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
-
 const Chat = (props) => {
   //current chat
   const [current, setCurrent] = useState("");
@@ -65,6 +65,58 @@ const Chat = (props) => {
       ],
     },
   ]);
+/*
+  async function detectAndTranslate(text, targetLang) {
+    let transObj = {
+      targetLang: targetLang,
+      oriText: text,
+      oriLang: "",
+      targetText: ""
+    };
+    // Translate the text to the target language
+    await googleTranslate.translate(text, targetLang, function (err, translation) {
+      transObj.oriLang = translation.detectedLanguageCode;
+      transObj.targetText = translation.translatedText;
+    });
+
+    return transObj;
+  }
+*/
+  async function detectAndTranslate(text, targetLang) {
+
+
+    let transObj = {
+      targetLang: targetLang,
+      oriText: text,
+      oriLang: "",
+      targetText: ""
+    };
+
+
+    const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
+    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+    url += '&q=' + encodeURI(text);
+    url += `&target=${targetLang}`;
+
+    await fetch(url, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    })
+        .then(res => res.json())
+        .then((response) => {
+          transObj.oriLang = response.data.translations[0].detectedSourceLanguage;
+          transObj.targetText = response.data.translations[0].translatedText;
+        })
+        .catch(error => {
+          console.log("There was an error with the translation request: ", error);
+        });
+    console.log(transObj);
+    return transObj;
+  }
+
 
   //send msg if not empty else alert error
   const sendMessage = async () => {
@@ -245,6 +297,7 @@ const Chat = (props) => {
                         {msg.from}
                       </div>
                       <div className="chat-messagebox">{msg.msg}</div>
+                      <div className="chat-messagebox"> Translation: {(detectAndTranslate(msg.msg, "la")).targetText}</div>
                     </div>
                   </div>
                 </div>

@@ -16,7 +16,6 @@ async function detectAndTranslate(text, targetLang) {
         targetText: translation
     };
 }
-
 /*
     IMPORTANT!!! Anything calling detectAndTranslate(...) must do so asynchronously
     otherwise it will likely return undefined, so use async and await
