@@ -88,6 +88,8 @@ const Roommodal = (props) => {
     if (room === "") {
       alert("missing room name")
     } else {
+      
+
       const newRoom = {
         room: room,
         messages: [],

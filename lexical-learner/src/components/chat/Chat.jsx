@@ -23,7 +23,7 @@ const Chat = (props) => {
   //room modal
   const [roommodal, setRoommodal] = useState(false);
 
-  //rooms
+  //rooms, not used
   const [rooms, setRooms] = useState([]);
 
   //current msg in the chat send box
@@ -258,14 +258,14 @@ const Chat = (props) => {
           {/*TOOLBAR IS HERE, if you are doing integration with google translate
           , then work on the last button that has a translate icon*/}
           <div className="chat-sendmessage-toolbar">
-            <div className="chat-sendmessage-toolbar-left">
+            {/* <div className="chat-sendmessage-toolbar-left">
               <button className="chat-sendmessage-toolbar-image">
                 <BsIcons.BsImages style={{ width: "25px", height: "25px" }} />
               </button>
               <button>
                 <BsIcons.BsFolder style={{ width: "25px", height: "25px" }} />
               </button>
-            </div>
+            </div> */}
 
             <button>
               <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
