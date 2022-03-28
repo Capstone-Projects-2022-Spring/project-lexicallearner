@@ -8,7 +8,7 @@ import io from "socket.io-client";
 //import { googleTranslate } from "./googleTranslate";
 
 //connect to chat server
-const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
+const socket = io(process.env.REACT_APP_CHATSERVER_URL || 'http://localhost:8000')
 const Chat = (props) => {
   //current chat
   const [current, setCurrent] = useState("");
