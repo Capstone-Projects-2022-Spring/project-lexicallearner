@@ -32,6 +32,30 @@ const Chat = (props) => {
   //current msgs in the chat msgs box
   const [currentMessages, setCurrentMessages] = useState([]);
 
+  class Alphabet extends React.Component {
+    constructor(props) {
+      super(props);
+      this.handleClick = this.handleClick.bind(this)
+      this.state = {
+        text: null
+      };
+    }
+    handleClick() {
+      let transO = detectAndTranslate(this.text, "la");
+
+      this.setState({ text: transO.targetText });
+    }
+    render() {
+
+
+      return (
+          <div onClick={this.handleClick}>
+            {this.props.text}
+          </div>
+      )
+    }
+  }
+
   //messages that contain room and msgs, for demo, default
   const [messages, setMessages] = useState([
     {
@@ -117,6 +141,10 @@ const Chat = (props) => {
     return transObj;
   }
 
+  function divTranslate(text, lang) {
+    let trans = detectAndTranslate(text, lang);
+    return(<div>{trans.targetText}</div>)
+  }
 
   //send msg if not empty else alert error
   const sendMessage = async () => {
@@ -297,7 +325,7 @@ const Chat = (props) => {
                         {msg.from}
                       </div>
                       <div className="chat-messagebox">{msg.msg}</div>
-                      <div className="chat-messagebox"> Translation: {(detectAndTranslate(msg.msg, "la")).targetText}</div>
+                      <Alphabet className="chat-messagebox" text = {msg.msg}/>
                     </div>
                   </div>
                 </div>
