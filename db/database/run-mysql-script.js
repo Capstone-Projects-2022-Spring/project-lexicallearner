@@ -11,7 +11,20 @@ const fs = require('fs');
 /* for starting the database */
 const startDb = require('./start-db');
 
-function runMySqlScript(file, callback) {
+/**
+ * Execute the MySQL script at the given file, which is filled in with
+ * the given template variables, performing given the callback on the
+ * error and response returned.
+ * @param file : string = name of a file containing a script to execute
+ * @param callback : (err, res) => undefined = callback function to
+ *    which to message the error and response of executing the script
+ * @param template_variables : [{string: string}] = objects, each of
+ *    which contain a 'key' key to replace and a 'value' key with which
+ *    to replace
+ */
+function runMySqlScript(file, callback, template_variables) {
+  /* default template variables */
+  template_variables = template_variables || [];
   /* test whether it works */
   startDb((connection, database) => {
     /* read the template file */
@@ -22,8 +35,17 @@ function runMySqlScript(file, callback) {
         throw err;
       } /* end if (err) */
 
+      /* the augmented template variables */
+      const AUG_TMP_VARS = [
+        {
+          "key": "@\{database\}",
+          "value": database
+        },
+        ...template_variables
+      ];
       /* fill in the template */
-      const SQL_SCRIPT = res.replace(/@\{database\}/g, database);
+      const SQL_SCRIPT = fillInTemplate(res, AUG_TMP_VARS);
+
       /* log the script */
       console.log(`===Executing ${file}===`);
       console.log(SQL_SCRIPT);
@@ -36,6 +58,25 @@ function runMySqlScript(file, callback) {
     }); /* end callback fs.readFile */
   }); /* end callback startDb */
 } /* end function runMySqlScript(file) */
+
+/**
+ * Fills in a template using the template variables given.
+ * @param template : string = to fill
+ * @param template_variables : [{string: string}] = objects, each of
+ *    which contain a 'key' key to replace and a 'value' key with which
+ *    to replace
+ */
+function fillInTemplate(template, template_variables) {
+  /* get the original template */
+  let result = template;
+  /* fill in the template for each template variable */
+  for (const TMP_VAR of template_variables) {
+    /* create a global replacement pattern */
+    const PATTERN = new RegExp(TMP_VAR.key, 'g');
+    result = result.replace(PATTERN, TMP_VAR.value);
+  } /* next TMP_VAR */
+  return result;
+} /* end function fillInTemplate(template, template_variables) */
 
 /* export the program */
 module.exports = runMySqlScript;

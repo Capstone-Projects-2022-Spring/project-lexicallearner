@@ -21,7 +21,6 @@ const enctype = bodyParser.urlencoded({ extended: IS_ENCTYPE_EXTENDED });
 APP.post('/create-account/', enctype, (req, res) => {
   console.log('Received request to create an account.');
   console.log(req.body['user-email']);
-  console.log(req.body['user-email']);
   console.log(req.body['user-name']);
   console.log(req.body['user-type']);
   console.log(req.body['user-image']);
