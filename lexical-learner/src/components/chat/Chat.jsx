@@ -17,6 +17,10 @@ const Chat = (props) => {
   const [username, setUsername] = useState(props.user.username || 
     new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMilliseconds());
 
+  let pref_lang = localStorage.getItem("preferred_language");
+  if (!pref_lang) pref_lang = "en";
+  const [preferredLanguage, setPreferredLanguage] = useState(pref_lang);
+
   //room
   const [room, setRoom] = useState("");
 
@@ -41,7 +45,7 @@ const Chat = (props) => {
       };
     }
     handleClick() {
-      let transO = detectAndTranslate(this.text, "la");
+      let transO = detectAndTranslate(this.text, preferredLanguage);
 
       this.setState({ text: transO.targetText });
     }
@@ -106,6 +110,7 @@ const Chat = (props) => {
     return transObj;
   }
 */
+
   async function detectAndTranslate(text, targetLang) {
 
 
@@ -215,7 +220,6 @@ const Chat = (props) => {
       });
     });
   }, [socket, current]);
-
 
   return (
     <div className="chat">
