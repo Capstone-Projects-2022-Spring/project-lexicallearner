@@ -3,12 +3,14 @@
  */
 
 /* imports */
+/* for reading files */
+const fs = require('fs');
 /* for accepting requests */
 const express = require('express');
 /* for parsing requests */
 const bodyParser = require('body-parser');
-/* for reading files */
-const fs = require('fs');
+/* for starting the database */
+const runMySqlScript = require('../run-mysql-script');
 
 /* file containing the request types */
 const REQUESTS_FILE = 'requests.json';
@@ -74,8 +76,18 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
         } /* next TMP_VAR */
 
         /* run the script on the ENTRIES */
-        runMySqlScript(REQUEST_TYPE.script, callback, ENTRIES)
-        /* send a response */
+        runMySqlScript(REQUEST_TYPE.script, ENTRIES, (err, res) => {
+          /* if any errors */
+          if (err) {
+            /* cascade the error */
+            throw err;
+          } /* end if (err) */
+
+          /* log the response */
+          console.log(res);
+        }); /* end callback runMySqlScript */
+
+        /* send a response to UA */
         res.send('OK!');
       }); /* end callback APP[METHOD] */
     } /* next REQUEST_TYPE */
