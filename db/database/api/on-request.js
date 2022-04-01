@@ -16,6 +16,14 @@ const runMySqlScript = require('../run-mysql-script');
 const REQUESTS_FILE = 'requests.json';
 /* request methods */
 const METHODS = 'post,get'.split(',');
+/* converts values to the proper type */
+const VALUE_TYPER = {
+  "String": (value) => `'${value}'`,
+  "Int": (value) => parseInt(value),
+  "Float": (value) => parseFloat(value),
+  "Boolean": (value) => ('true'===value),
+};
+
 /* whether the encoding type for the forms is extended */
 const IS_ENCTYPE_EXTENDED = false;
 /* port for the app to listen to */
@@ -39,11 +47,11 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
   /* for each valid method of request */
   for (const METHOD of METHODS) {
     /* if no request types of that method, skip to next method */
-    if (!REQUEST_TYPES[METHOD]) {
+    if (!REQUEST_TYPES.methods[METHOD]) {
       continue;
     } /* end if (!REQUEST_TYPES[METHOD]) */
-    /* add reply to all requests of that METHOD in REQUEST_TYPES */
-    for (const REQUEST_TYPE of REQUEST_TYPES[METHOD]) {
+    /* add reply to all requests of that METHOD in REQUEST_TYPES.methods */
+    for (const REQUEST_TYPE of REQUEST_TYPES.methods[METHOD]) {
       APP[METHOD](REQUEST_TYPE.action, enctype, (req, res) => {
         const ENTRIES = [];
 
@@ -64,7 +72,7 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
           /* otherwise validate VALUE */
           else {
             /* create the template variable's regular expression */
-            const PATTERN = new RegExp(TMP_VAR.regexp);
+            const PATTERN = new RegExp(REQUEST_TYPES.schemas[KEY].regexp);
             /* test VALUE against PATTERN */
             if (!PATTERN.test(VALUE)) {
               res.send(`Illegal value for '${KEY}': '${VALUE}'.`);
@@ -72,25 +80,13 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
             } /* end if (!PATTERN.test(VALUE)) */
 
             /* parse and set the value */
-            const TYPE = TMP_VAR.type;
-            switch (TYPE) {
-              case 'String':
-                ENTRY.value = `'${VALUE}'`;
-              break;
-              case 'Int':
-                ENTRY.value = praseInt(VALUE);
-              break;
-              case 'Float':
-                ENTRY.value = praseFloat(VALUE);
-              break;
-              case 'Boolean':
-                ENTRY.value = (true === VALUE);
-              break;
-              default:
-                res.send(`Unknown type for '${KEY}': '${TYPE}'.`);
-                return;
-              break;
-            } /* const TYPE = TMP_VAR.type; */
+            const TYPE = REQUEST_TYPES.schemas[KEY].type;
+            /* error if type does not exist */
+            if (!(TYPE in VALUE_TYPER)) {
+              res.send(`Unknown type for '${KEY}': '${TYPE}'.`);
+              return;
+            } /* end if (!(TYPE in VALUE_TYPER)) */
+            ENTRY.value = VALUE_TYPER[TYPE](VALUE);
           } /* end if ('value' in TMP_VAR) || */
 
           /* put in the ENTRY key */
@@ -99,6 +95,8 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
           ENTRIES.push(ENTRY);
         } /* next TMP_VAR */
 
+        /* print the entries */
+        console.log(ENTRIES);
         /* run the script on the ENTRIES */
         runMySqlScript(REQUEST_TYPE.script, ENTRIES, (err, res) => {
           /* if any errors */
