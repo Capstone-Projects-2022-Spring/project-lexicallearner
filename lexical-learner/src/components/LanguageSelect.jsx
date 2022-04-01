@@ -39,6 +39,7 @@ const LanguageSelect = () => {
           <option value="cs">Czech</option>
           <option value="da">Danish</option>
           <option value="nl">Dutch</option>
+          <option value="en">English</option>
           <option value="eo">Esperanto</option>
           <option value="et">Estonian</option>
           <option value="tl">Filipino</option>
