@@ -8,6 +8,9 @@ const { Server } = require('socket.io')
 
 app.use(cors())
 
+//store rooms
+const rooms = [];
+
 const io = new Server(http, {
   cors: {
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
@@ -15,16 +18,21 @@ const io = new Server(http, {
   }
 })
 
+//a list of rooms
+app.set('rooms', [])
+
 io.on('connection', (socket) => {
   console.log('user joined: '+socket.id);
 
   //join room
   socket.on('join room', (data) => {
     socket.join(data)
+
+    app.set("rooms", [...app.get("rooms"), data])
     console.log(`User ${socket.id} joined room ${data}`)
   })
 
-  //send mg
+  //send msg
   socket.on("send msg", (data) => {
     console.log(`msg '${data.msg}' received from ${data.from}, room ${data.room}`)
     
@@ -41,6 +49,19 @@ io.on('connection', (socket) => {
 
 app.get('/', (req, res) => {
   res.send('Server is up and running + cors origin = '+process.env.CORS_ORIGIN)
+})
+
+//return a list of unique room
+app.get('/chat/rooms', (req, res) => {
+  const rooms = JSON.parse(JSON.stringify([...new Set(app.get("rooms"))]))
+  res.json(rooms)
+})
+
+//reset rooms
+app.get('/chat/rooms/reset', (req, res) => {
+  app.set("rooms", [])
+  const rooms = JSON.parse(JSON.stringify([...new Set(app.get("rooms"))]))
+  res.json(rooms)
 })
 
 http.listen(PORT, () => {

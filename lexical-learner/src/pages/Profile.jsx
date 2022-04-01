@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import Navbar from "../components/navbar/NavbarLoggedIn";
+import LanguageSelect from "../components/LanguageSelect";
 import "./styles/Profile.css";
 import Button from "react-bootstrap/Button";
 
@@ -20,6 +21,7 @@ const Profile = () => {
             Edit
           </Button>
       </section>
+      Preferred Language: <LanguageSelect />
     </div>
   );
 };

@@ -5,15 +5,21 @@ import * as IoIcons from "react-icons/io";
 import Friendbar from "../chat-friendbar/Friendbar";
 import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
+//import { googleTranslate } from "./googleTranslate";
 
+//connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
-
 const Chat = (props) => {
   //current chat
   const [current, setCurrent] = useState("");
 
-  //considering useReducer
-  const [username, setUsername] = useState(props.user.username || "");
+  //username
+  const [username, setUsername] = useState(props.user.username || 
+    new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMilliseconds());
+
+  let pref_lang = localStorage.getItem("preferred_language");
+  if (!pref_lang) pref_lang = "en";
+  const [preferredLanguage, setPreferredLanguage] = useState(pref_lang);
 
   //room
   const [room, setRoom] = useState("");
@@ -21,7 +27,7 @@ const Chat = (props) => {
   //room modal
   const [roommodal, setRoommodal] = useState(false);
 
-  //rooms
+  //rooms, not used
   const [rooms, setRooms] = useState([]);
 
   //current msg in the chat send box
@@ -30,13 +36,37 @@ const Chat = (props) => {
   //current msgs in the chat msgs box
   const [currentMessages, setCurrentMessages] = useState([]);
 
-  //messages for demo
+  class Alphabet extends React.Component {
+    constructor(props) {
+      super(props);
+      this.handleClick = this.handleClick.bind(this)
+      this.state = {
+        text: null
+      };
+    }
+    handleClick() {
+      let transO = detectAndTranslate(this.text, preferredLanguage);
+
+      this.setState({ text: transO.targetText });
+    }
+    render() {
+
+
+      return (
+          <div onClick={this.handleClick}>
+            {this.props.text}
+          </div>
+      )
+    }
+  }
+
+  //messages that contain room and msgs, for demo, default
   const [messages, setMessages] = useState([
     {
       room: "demo1",
       messages: [
         {
-          from: "demo",
+          from: "Lexical Chat",
           msg: "Welcome to demo room",
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
         },
@@ -48,21 +78,78 @@ const Chat = (props) => {
       ],
     },
     {
-      room: "demo2 not working",
+      room: "demo2",
       messages: [
         {
-          from: "demo",
+          from: "Lexical Chat",
           msg: "Welcome to demo room",
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
         },
         {
           from: "ranni",
-          msg: "HELLO",
+          msg: "hello world",
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
         },
       ],
     },
   ]);
+/*
+  async function detectAndTranslate(text, targetLang) {
+    let transObj = {
+      targetLang: targetLang,
+      oriText: text,
+      oriLang: "",
+      targetText: ""
+    };
+    // Translate the text to the target language
+    await googleTranslate.translate(text, targetLang, function (err, translation) {
+      transObj.oriLang = translation.detectedLanguageCode;
+      transObj.targetText = translation.translatedText;
+    });
+
+    return transObj;
+  }
+*/
+
+  async function detectAndTranslate(text, targetLang) {
+
+
+    let transObj = {
+      targetLang: targetLang,
+      oriText: text,
+      oriLang: "",
+      targetText: ""
+    };
+
+
+    const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
+    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+    url += '&q=' + encodeURI(text);
+    url += `&target=${targetLang}`;
+
+    await fetch(url, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    })
+        .then(res => res.json())
+        .then((response) => {
+          transObj.oriLang = response.data.translations[0].detectedSourceLanguage;
+          transObj.targetText = response.data.translations[0].translatedText;
+        })
+        .catch(error => {
+          console.log("There was an error with the translation request: ", error);
+        });
+    console.log(transObj);
+    return transObj;
+  }
+
+  function divTranslate(text, lang) {
+    let trans = detectAndTranslate(text, lang);
+    return(<div>{trans.targetText}</div>)
+  }
 
   //send msg if not empty else alert error
   const sendMessage = async () => {
@@ -80,12 +167,26 @@ const Chat = (props) => {
       console.log("msg sent");
       console.log(data);
 
-      //socket -> send msg
+      //send msg to socket
       await socket.emit("send msg", data);
 
       //update current chat messages
       setCurrentMessages((msgs) => [...msgs, data]);
-      setCurrentMessage("");
+      await setCurrentMessage("");
+
+      //update entire chat messages
+      setMessages((messages) => {
+        const messagesCopy = [...messages];
+        const index = messagesCopy.findIndex((item) => item.room === room);
+        if (index !== -1) {
+          messagesCopy[index] = {
+            ...messagesCopy[index],
+            messages: [...messages[index].messages, data],
+          };
+        }
+
+        return messagesCopy;
+      });
     } else {
       //alert no room, message, or username
       alert("no room or no message or no username");
@@ -104,19 +205,35 @@ const Chat = (props) => {
   //socket -> received msg
   useEffect(() => {
     socket.on("received msg", (data) => {
-      console.log("receive msg: " + data.msg);
-      setCurrentMessages((msgs) => [...msgs, data]);
-      /* setCurrentMessages() */ //TODO
+      console.log(data);
+      console.log(current === data.room);
+      if(current === data.room) setCurrentMessages((msgs) => [...msgs, data]);
+
+      setMessages((messages) => {
+        const messagesCopy = [...messages];
+        const index = messagesCopy.findIndex((item) => item.room === data.room);
+        messagesCopy[index] = {
+          ...messagesCopy[index],
+          messages: [...messages[index].messages, data],
+        };
+        return messagesCopy;
+      });
     });
-  }, [socket]);
+  }, [socket, current]);
 
   return (
     <div className="chat">
-      {roommodal && <Roommodal
-        setRooms={setRooms}
-        roommodal={roommodal}
-        setRoommodal={setRoommodal}
-      />}
+      {/*room moda*/}
+      {roommodal && (
+        <Roommodal
+          roommodal={roommodal}
+          setRoommodal={setRoommodal}
+          socket={socket}
+          messages={messages}
+          setMessages={setMessages}
+        />
+      )}
+
       {/* left box */}
       <div className="chat-leftbox">
         <div className="chat-lefttitle">
@@ -135,35 +252,44 @@ const Chat = (props) => {
             <input
               type="text"
               placeholder="Search"
+              //TODO
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <button onClick={() => {
-            setRoommodal(!roommodal)
-          }}>
+          <button
+            onClick={() => {
+              setRoommodal(!roommodal);
+            }}
+          >
             <IoIcons.IoIosAdd />
           </button>
         </div>
         <div className="chat-friends">
-          {
-            props.user.demo
-              ? messages.map((message, key) => (
-                <div key={key}>
-                  <Friendbar
-                    logo={<BsIcons.BsRainbow />}
-                    name={message.room}
-                    lastmsg={"for demo"}
-                    lastdate={"Yesterday"}
-                    current={current}
-                    setCurrent={setCurrent}
-                    currentMessages={message.messages}
-                    setCurrentMessages={setCurrentMessages}
-                    currentRoom={message.room}
-                    setRoom={setRoom}
-                  />
-                </div>
-              ))
-              : null //TODO database
+          {/*for demo*/}
+          {messages.map((message, key) => {
+            const lastmsg =
+              message.messages.length === 0 ? ""
+                : message.messages[message.messages.length - 1].msg;
+
+            return (
+              <div key={key}>
+                <Friendbar
+                  logo={<BsIcons.BsRainbow />}
+                  name={message.room}
+                  lastmsg={lastmsg}
+                  lastdate={"Yesterday"}
+                  current={current}
+                  setCurrent={setCurrent}
+                  currentMessages={message.messages}
+                  setCurrentMessages={setCurrentMessages}
+                  currentRoom={message.room}
+                  setRoom={setRoom}
+                />
+              </div>
+            );
+          })
+
+            //TODO database
           }
         </div>
       </div>
@@ -203,6 +329,7 @@ const Chat = (props) => {
                         {msg.from}
                       </div>
                       <div className="chat-messagebox">{msg.msg}</div>
+                      <Alphabet className="chat-messagebox" text = {msg.msg}/>
                     </div>
                   </div>
                 </div>
@@ -213,6 +340,23 @@ const Chat = (props) => {
 
         {/* textbox */}
         <div className="chat-sendmessage">
+          {/*TOOLBAR IS HERE, if you are doing integration with google translate
+          , then work on the last button that has a translate icon*/}
+          <div className="chat-sendmessage-toolbar">
+            {/* <div className="chat-sendmessage-toolbar-left">
+              <button className="chat-sendmessage-toolbar-image">
+                <BsIcons.BsImages style={{ width: "25px", height: "25px" }} />
+              </button>
+              <button>
+                <BsIcons.BsFolder style={{ width: "25px", height: "25px" }} />
+              </button>
+            </div> */}
+
+            <button>
+              <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
+            </button>
+          </div>
+
           {/* textarea */}
           <textarea
             cols="30"
@@ -224,14 +368,6 @@ const Chat = (props) => {
               if (e.key === "Enter" && !e.shiftKey) sendMessage();
             }}
           />
-
-          {/*TOOLBAR IS HERE*/}
-          <div className="chat-sendmessage-toolbar">
-            <span>TOOLBAR GOES HERE, TRANSLANTION FEATURE GOES HERE ->>></span>
-            <button>
-              <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
-            </button>
-          </div>
 
           {/* send msg button */}
           <input
