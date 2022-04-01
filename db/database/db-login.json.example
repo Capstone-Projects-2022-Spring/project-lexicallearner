@@ -5,9 +5,12 @@
  */
 [
   {
-    "host": "hostname",
-    "user": "username",
-    "password": "password",
-    "database": "database_name"
+    "connection": {
+      "host": "hostname",
+      "user": "username",
+      "password": "password",
+      "port": "port number <int>"
+    },
+    "database": "database name"
   }
 ]
