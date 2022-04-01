@@ -16,15 +16,18 @@ const startDb = require('./start-db');
  * the given template variables, performing given the callback on the
  * error and response returned.
  * @param file : string = name of a file containing a script to execute
- * @param callback : (err, res) => undefined = callback function to
- *    which to message the error and response of executing the script
  * @param template_variables : [{string: string}] = objects, each of
  *    which contain a 'key' key to replace and a 'value' key with which
  *    to replace
+ * @param callback : (err, res) => undefined = callback function to
+ *    which to message the error and response of executing the script
  */
-function runMySqlScript(file, callback, template_variables) {
-  /* default template variables */
-  template_variables = template_variables || [];
+function runMySqlScript(file, template_variables, callback) {
+  /* default template variables if no callback */
+  if (!callback) {
+    callback = template_variables;
+    template_variables = [];
+  }
   /* test whether it works */
   startDb((connection, database) => {
     /* read the template file */

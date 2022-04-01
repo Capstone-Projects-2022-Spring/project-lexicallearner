@@ -72,7 +72,9 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
           /* add to entries */
           ENTRIES.push(ENTRY);
         } /* next TMP_VAR */
-        console.log(ENTRIES);
+
+        /* run the script on the ENTRIES */
+        runMySqlScript(REQUEST_TYPE.script, callback, ENTRIES)
         /* send a response */
         res.send('OK!');
       }); /* end callback APP[METHOD] */
