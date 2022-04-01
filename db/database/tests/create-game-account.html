@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Create an account</title>
+  </head>
+  <body>
+    <h1>Create an account</h1>
+    <form action='http://localhost:8081/create-account/' method='POST'>
+      <input type='hidden' name='user-email' />
+      <input type='hidden' name='user-name' />
+      <input type='hidden' name='user-type' value='educator' />
+      <input type='hidden' name='user-image' value='/images/default-user.png' />
+      <input type='hidden' name='preferred-language' />
+      <input type='hidden' name='style-sheet' value='lightmode' />
+      <ol>
+        <li>
+          <dl>
+            <dt><label for='user-email'>Email</label></dt>
+            <dd><input id='user-email' type='email' name='user-email' /></dd>
+            <dt><label for='user-name'>Username</label></dt>
+            <dd><input id='user-name' type='text' name='user-name' /></dd>
+            <dt><label for='user-type'>User type</label></dt>
+            <dd>
+              <select id='user-type' name='user-type'>
+              </select>
+            </dd>
+          </dl>
+        </li>
+        <li>
+          <button type='submit'>Create the account!</button>
+        </li>
+      </ol>
+    </form>
+  </body>
+</html>
