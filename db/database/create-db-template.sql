@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS Profile (
   UserName          VARCHAR(20)     NOT NULL,
   UserType          ENUM('educator', 'student')
                                     NOT NULL,
-  UserImage         VARCHAR(10000)  NOT NULL,
+  UserImage         VARCHAR(2048)   NOT NULL,
   StyleSheet        ENUM('lightmode', 'darkmode')
                                     NOT NULL,
-  PreferredLanguage VARCHAR(40)     NOT NULL,
+  PreferredLanguage VARCHAR(5)      NOT NULL,
   pfLevel           INT             NOT NULL,
   score             INT             NOT NULL,
 
