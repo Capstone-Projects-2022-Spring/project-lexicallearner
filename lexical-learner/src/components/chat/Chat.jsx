@@ -14,8 +14,12 @@ const Chat = (props) => {
   const [current, setCurrent] = useState("");
 
   //username
-  const [username, setUsername] = useState(props.user.username || 
-    new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMilliseconds());
+  const [username, setUsername] = useState(
+    props.user.username ||
+      new Date(Date.now()).getTime +
+        ":" +
+        new Date(Date.now()).getMilliseconds()
+  );
 
   let pref_lang = localStorage.getItem("preferred_language");
   if (!pref_lang) pref_lang = "en";
@@ -39,9 +43,9 @@ const Chat = (props) => {
   class Alphabet extends React.Component {
     constructor(props) {
       super(props);
-      this.handleClick = this.handleClick.bind(this)
+      this.handleClick = this.handleClick.bind(this);
       this.state = {
-        text: null
+        text: null,
       };
     }
     handleClick() {
@@ -50,13 +54,7 @@ const Chat = (props) => {
       this.setState({ text: transO.targetText });
     }
     render() {
-
-
-      return (
-          <div onClick={this.handleClick}>
-            {this.props.text}
-          </div>
-      )
+      return <div onClick={this.handleClick}>{this.props.text}</div>;
     }
   }
 
@@ -93,7 +91,7 @@ const Chat = (props) => {
       ],
     },
   ]);
-/*
+  /*
   async function detectAndTranslate(text, targetLang) {
     let transObj = {
       targetLang: targetLang,
@@ -112,43 +110,40 @@ const Chat = (props) => {
 */
 
   async function detectAndTranslate(text, targetLang) {
-
-
     let transObj = {
       targetLang: targetLang,
       oriText: text,
       oriLang: "",
-      targetText: ""
+      targetText: "",
     };
-
 
     const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
     let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
-    url += '&q=' + encodeURI(text);
+    url += "&q=" + encodeURI(text);
     url += `&target=${targetLang}`;
 
     await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
-      }
+        Accept: "application/json",
+      },
     })
-        .then(res => res.json())
-        .then((response) => {
-          transObj.oriLang = response.data.translations[0].detectedSourceLanguage;
-          transObj.targetText = response.data.translations[0].translatedText;
-        })
-        .catch(error => {
-          console.log("There was an error with the translation request: ", error);
-        });
+      .then((res) => res.json())
+      .then((response) => {
+        transObj.oriLang = response.data.translations[0].detectedSourceLanguage;
+        transObj.targetText = response.data.translations[0].translatedText;
+      })
+      .catch((error) => {
+        console.log("There was an error with the translation request: ", error);
+      });
     console.log(transObj);
     return transObj;
   }
 
   function divTranslate(text, lang) {
     let trans = detectAndTranslate(text, lang);
-    return(<div>{trans.targetText}</div>)
+    return <div>{trans.targetText}</div>;
   }
 
   //send msg if not empty else alert error
@@ -206,8 +201,6 @@ const Chat = (props) => {
   useEffect(() => {
     socket.on("received msg", (data) => {
       console.log(data);
-      console.log(current === data.room);
-      if(current === data.room) setCurrentMessages((msgs) => [...msgs, data]);
 
       setMessages((messages) => {
         const messagesCopy = [...messages];
@@ -219,7 +212,7 @@ const Chat = (props) => {
         return messagesCopy;
       });
     });
-  }, [socket, current]);
+  }, [socket]);
 
   return (
     <div className="chat">
@@ -266,28 +259,30 @@ const Chat = (props) => {
         </div>
         <div className="chat-friends">
           {/*for demo*/}
-          {messages.map((message, key) => {
-            const lastmsg =
-              message.messages.length === 0 ? ""
-                : message.messages[message.messages.length - 1].msg;
+          {
+            messages.map((message, key) => {
+              const lastmsg =
+                message.messages.length === 0
+                  ? ""
+                  : message.messages[message.messages.length - 1].msg;
 
-            return (
-              <div key={key}>
-                <Friendbar
-                  logo={<BsIcons.BsRainbow />}
-                  name={message.room}
-                  lastmsg={lastmsg}
-                  lastdate={"Yesterday"}
-                  current={current}
-                  setCurrent={setCurrent}
-                  currentMessages={message.messages}
-                  setCurrentMessages={setCurrentMessages}
-                  currentRoom={message.room}
-                  setRoom={setRoom}
-                />
-              </div>
-            );
-          })
+              return (
+                <div key={key}>
+                  <Friendbar
+                    logo={<BsIcons.BsRainbow />}
+                    name={message.room}
+                    lastmsg={lastmsg}
+                    lastdate={"Yesterday"}
+                    current={current}
+                    setCurrent={setCurrent}
+                    currentMessages={message.messages}
+                    setCurrentMessages={setCurrentMessages}
+                    currentRoom={message.room}
+                    setRoom={setRoom}
+                  />
+                </div>
+              );
+            })
 
             //TODO database
           }
@@ -304,38 +299,49 @@ const Chat = (props) => {
         </div>
         {/* spawns messages */}
         <div className="chat-messages">
-          {currentMessages.map((msg, key) => (
-            <div className="chat-message" key={key}>
-              {username === msg.from ? (
-                <div className="chat-mymessage">
-                  <span className="chat-messagebox">{msg.msg}</span> :
-                  <span className="chat-message-logo">{props.user.icon}</span>
-                </div>
-              ) : (
-                <div className="chat-theirmessage">
-                  <div style={{ display: "flex" }}>
-                    <span className="chat-message-logo">{props.user.icon}</span>{" "}
-                    :
-                    <div>
-                      <div
-                        style={{
-                          marginBottom: "0.75rem",
-                          marginLeft: "0.2rem",
-                          maxWidth: "400px",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {msg.from}
+          {messages.map((room) => {
+            return room.room === current
+              ? room.messages.map((msg, key) => (
+                  <div className="chat-message" key={key}>
+                    {username === msg.from ? (
+                      <div className="chat-mymessage">
+                        <span className="chat-messagebox">{msg.msg}</span> :
+                        <span className="chat-message-logo">
+                          {props.user.icon}
+                        </span>
                       </div>
-                      <div className="chat-messagebox">{msg.msg}</div>
-                      <Alphabet className="chat-messagebox" text = {msg.msg}/>
-                    </div>
+                    ) : (
+                      <div className="chat-theirmessage">
+                        <div style={{ display: "flex" }}>
+                          <span className="chat-message-logo">
+                            {props.user.icon}
+                          </span>{" "}
+                          :
+                          <div>
+                            <div
+                              style={{
+                                marginBottom: "0.75rem",
+                                marginLeft: "0.2rem",
+                                maxWidth: "400px",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {msg.from}
+                            </div>
+                            <div className="chat-messagebox">{msg.msg}</div>
+                            <Alphabet
+                              className="chat-messagebox"
+                              text={msg.msg}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                ))
+              : null;
+          })}
         </div>
 
         {/* textbox */}
@@ -343,14 +349,14 @@ const Chat = (props) => {
           {/*TOOLBAR IS HERE, if you are doing integration with google translate
           , then work on the last button that has a translate icon*/}
           <div className="chat-sendmessage-toolbar">
-            {/* <div className="chat-sendmessage-toolbar-left">
+            <div className="chat-sendmessage-toolbar-left">
               <button className="chat-sendmessage-toolbar-image">
                 <BsIcons.BsImages style={{ width: "25px", height: "25px" }} />
               </button>
               <button>
                 <BsIcons.BsFolder style={{ width: "25px", height: "25px" }} />
               </button>
-            </div> */}
+            </div>
 
             <button>
               <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
