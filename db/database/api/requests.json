@@ -1,0 +1,42 @@
+{
+  "post": [
+    {
+      "action": "/create-account/",
+      "script": "./create-account-template.sql",
+      "template variables": [
+        {
+          "name": "user-email",
+          "regexp": ".{0,40}"
+        },
+        {
+          "name": "user-name",
+          "regexp": ".{0,20}"
+        },
+        {
+          "name": "user-type",
+          "regexp": "(educator|student)"
+        },
+        {
+          "name": "user-image",
+          "regexp": ".{2048}"
+        },
+        {
+          "name": "style-sheet",
+          "regexp": "(lightmode|darkmode)"
+        },
+        {
+          "name": "preferred-language",
+          "regexp": ".{0,5}"
+        },
+        {
+          "name": "level",
+          "value": "0"
+        },
+        {
+          "name": "score",
+          "value": "0"
+        }
+      ]
+    }
+  ]
+}
