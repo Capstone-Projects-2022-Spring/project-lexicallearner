@@ -15,7 +15,7 @@ const runMySqlScript = require('../run-mysql-script');
 /* file containing the request types */
 const REQUESTS_FILE = 'requests.json';
 /* request methods */
-const METHODS = ['post'];
+const METHODS = 'post,get'.split(',');
 /* whether the encoding type for the forms is extended */
 const IS_ENCTYPE_EXTENDED = false;
 /* port for the app to listen to */
@@ -38,6 +38,10 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
 
   /* for each valid method of request */
   for (const METHOD of METHODS) {
+    /* if no request types of that method, skip to next method */
+    if (!REQUEST_TYPES[METHOD]) {
+      continue;
+    } /* end if (!REQUEST_TYPES[METHOD]) */
     /* add reply to all requests of that METHOD in REQUEST_TYPES */
     for (const REQUEST_TYPE of REQUEST_TYPES[METHOD]) {
       APP[METHOD](REQUEST_TYPE.action, enctype, (req, res) => {

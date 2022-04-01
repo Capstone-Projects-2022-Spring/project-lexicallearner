@@ -52,7 +52,7 @@ CALL update_Tables_here(database());
 -- Create the Canvas-linked Accounts entity table
 CREATE TABLE IF NOT EXISTS CanvasAccount (
   cacid             CHAR(12)        NOT NULL,
-  pfid              CHAR(12)        NOT NULL,
+  pfid              INT             NOT NULL,
   PAT               CHAR(12)        NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (cacid),
@@ -63,7 +63,7 @@ CALL update_Tables_here(database());
 -- Create the Game Accounts entity table
 CREATE TABLE IF NOT EXISTS GameAccount (
   gacid             CHAR(12)        NOT NULL,
-  pfid              CHAR(12)        NOT NULL,
+  pfid              INT             NOT NULL,
   password          VARCHAR(40)     NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (gacid),
@@ -83,7 +83,7 @@ CALL update_Tables_here(database());
 -- Create the "is in Group" relation table
 CREATE TABLE IF NOT EXISTS inGroup (
   inGrid            CHAR(24)        NOT NULL,
-  pfid              CHAR(12)        NOT NULL,
+  pfid              INT             NOT NULL,
   grid              CHAR(12)        NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (grid),
@@ -95,7 +95,7 @@ CALL update_Tables_here(database());
 -- Create the Lesson entity table
 CREATE TABLE IF NOT EXISTS Lesson (
   lsid              CHAR(18)        NOT NULL,
-  pfid              CHAR(12)        NOT NULL,
+  pfid              INT             NOT NULL,
   lsLevel           INT             NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (lsid),
