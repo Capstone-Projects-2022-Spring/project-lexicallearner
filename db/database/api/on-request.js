@@ -66,7 +66,27 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
               res.send(`Illegal value for '${KEY}': '${VALUE}'.`);
               return;
             } /* end if (!PATTERN.test(VALUE)) */
-            ENTRY.value = VALUE;
+
+            /* parse and set the value */
+            const TYPE = TMP_VAR.type;
+            switch (TYPE) {
+              case 'String':
+                ENTRY.value = `'${VALUE}'`;
+              break;
+              case 'Int':
+                ENTRY.value = praseInt(VALUE);
+              break;
+              case 'Float':
+                ENTRY.value = praseFloat(VALUE);
+              break;
+              case 'Boolean':
+                ENTRY.value = (true === VALUE);
+              break;
+              default:
+                res.send(`Unknown type for '${KEY}': '${TYPE}'.`);
+                return;
+              break;
+            } /* const TYPE = TMP_VAR.type; */
           } /* end if ('value' in TMP_VAR) || */
 
           /* put in the ENTRY key */

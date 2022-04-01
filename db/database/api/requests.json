@@ -6,35 +6,43 @@
       "template variables": [
         {
           "name": "user-email",
-          "regexp": "^.{0,40}$"
+          "regexp": "^.{0,40}$",
+          "type": "String"
         },
         {
           "name": "user-name",
-          "regexp": "^.{0,20}$"
+          "regexp": "^.{0,20}$",
+          "type": "String"
         },
         {
           "name": "user-type",
-          "regexp": "^(educator|student)$"
+          "regexp": "^(educator|student)$",
+          "type": "String"
         },
         {
           "name": "user-image",
-          "regexp": "^.{0,2048}$"
+          "regexp": "^.{0,2048}$",
+          "type": "String"
         },
         {
           "name": "style-sheet",
-          "regexp": "^(lightmode|darkmode)$"
+          "regexp": "^(lightmode|darkmode)$",
+          "type": "String"
         },
         {
           "name": "preferred-language",
-          "regexp": "^.{0,5}$"
+          "regexp": "^.{0,5}$",
+          "type": "String"
         },
         {
           "name": "level",
-          "value": "1"
+          "value": "1",
+          "type": "Int"
         },
         {
           "name": "score",
-          "value": "0"
+          "value": "0",
+          "type": "Int"
         }
       ]
     }
