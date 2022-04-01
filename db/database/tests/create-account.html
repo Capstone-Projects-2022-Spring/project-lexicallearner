@@ -7,6 +7,14 @@
   <body>
     <h1>Create an account</h1>
     <form action='http://localhost:8081/create-account/' method='POST'>
+      <input type='hidden' name='user-email' />
+      <input type='hidden' name='user-name' />
+      <input type='hidden' name='user-type' />
+      <input type='hidden' name='user-image' />
+      <input type='hidden' name='preferred-language' />
+      <input type='hidden' name='style-sheet' value='lightmode' />
+      <input type='hidden' name='level' value='1' />
+      <input type='hidden' name='score' value='0' />
       <ol>
         <li>
           <button type='submit'>Create the account!</button>
