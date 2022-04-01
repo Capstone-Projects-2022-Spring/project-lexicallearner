@@ -33,7 +33,7 @@ CALL update_Tables_here(database());
 
 -- Create the Profile entity table
 CREATE TABLE IF NOT EXISTS Profile (
-  pfid              CHAR(12)        NOT NULL,
+  pfid              INT             NOT NULL    AUTO_INCREMENT,
   UserEmail         VARCHAR(40)     NOT NULL,
   UserName          VARCHAR(20)     NOT NULL,
   UserType          ENUM('educator', 'student')
