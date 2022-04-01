@@ -40,24 +40,6 @@ const Chat = (props) => {
   //current msgs in the chat msgs box
   const [currentMessages, setCurrentMessages] = useState([]);
 
-  class Alphabet extends React.Component {
-    constructor(props) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this);
-      this.state = {
-        text: null,
-      };
-    }
-    handleClick() {
-      let transO = detectAndTranslate(this.text, preferredLanguage);
-
-      this.setState({ text: transO.targetText });
-    }
-    render() {
-      return <div onClick={this.handleClick}>{this.props.text}</div>;
-    }
-  }
-
   //messages that contain room and msgs, for demo, default
   const [messages, setMessages] = useState([
     {
@@ -91,63 +73,10 @@ const Chat = (props) => {
       ],
     },
   ]);
-  /*
-  async function detectAndTranslate(text, targetLang) {
-    let transObj = {
-      targetLang: targetLang,
-      oriText: text,
-      oriLang: "",
-      targetText: ""
-    };
-    // Translate the text to the target language
-    await googleTranslate.translate(text, targetLang, function (err, translation) {
-      transObj.oriLang = translation.detectedLanguageCode;
-      transObj.targetText = translation.translatedText;
-    });
-
-    return transObj;
-  }
-*/
-
-  async function detectAndTranslate(text, targetLang) {
-    let transObj = {
-      targetLang: targetLang,
-      oriText: text,
-      oriLang: "",
-      targetText: "",
-    };
-
-    const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
-    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
-    url += "&q=" + encodeURI(text);
-    url += `&target=${targetLang}`;
-
-    await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        transObj.oriLang = response.data.translations[0].detectedSourceLanguage;
-        transObj.targetText = response.data.translations[0].translatedText;
-      })
-      .catch((error) => {
-        console.log("There was an error with the translation request: ", error);
-      });
-    console.log(transObj);
-    return transObj;
-  }
-
-  function divTranslate(text, lang) {
-    let trans = detectAndTranslate(text, lang);
-    return <div>{trans.targetText}</div>;
-  }
 
   //send msg if not empty else alert error
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    e.preventDefault()
     if (currentMessage !== "" && room !== "" && username !== "") {
       //sending data to chatserver
       let data = {
@@ -214,6 +143,79 @@ const Chat = (props) => {
     });
   }, [socket]);
 
+  class Alphabet extends React.Component {
+    constructor(props) {
+      super(props);
+      this.handleClick = this.handleClick.bind(this);
+      this.state = {
+        text: null,
+      };
+    }
+    handleClick() {
+      let transO = detectAndTranslate(this.text, preferredLanguage);
+
+      this.setState({ text: transO.targetText });
+    }
+    render() {
+      return <div onClick={this.handleClick}>{this.props.text}</div>;
+    }
+  }
+
+  async function detectAndTranslate(text, targetLang) {
+    let transObj = {
+      targetLang: targetLang,
+      oriText: text,
+      oriLang: "",
+      targetText: "",
+    };
+
+    const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
+    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+    url += "&q=" + encodeURI(text);
+    url += `&target=${targetLang}`;
+
+    await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        transObj.oriLang = response.data.translations[0].detectedSourceLanguage;
+        transObj.targetText = response.data.translations[0].translatedText;
+      })
+      .catch((error) => {
+        console.log("There was an error with the translation request: ", error);
+      });
+    console.log(transObj);
+    return transObj;
+  }
+
+  function divTranslate(text, lang) {
+    let trans = detectAndTranslate(text, lang);
+    return <div>{trans.targetText}</div>;
+  }
+
+  /*
+  async function detectAndTranslate(text, targetLang) {
+    let transObj = {
+      targetLang: targetLang,
+      oriText: text,
+      oriLang: "",
+      targetText: ""
+    };
+    // Translate the text to the target language
+    await googleTranslate.translate(text, targetLang, function (err, translation) {
+      transObj.oriLang = translation.detectedLanguageCode;
+      transObj.targetText = translation.translatedText;
+    });
+
+    return transObj;
+  }
+*/
+
   return (
     <div className="chat">
       {/*room moda*/}
@@ -258,7 +260,6 @@ const Chat = (props) => {
           </button>
         </div>
         <div className="chat-friends">
-          {/*for demo*/}
           {
             messages.map((message, key) => {
               const lastmsg =
@@ -371,7 +372,7 @@ const Chat = (props) => {
             id="textarea"
             onChange={(e) => setCurrentMessage(e.target.value)}
             onKeyPress={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) sendMessage();
+              if (e.key === "Enter" && !e.shiftKey) sendMessage(e);
             }}
           />
 
