@@ -39,12 +39,29 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
     /* add reply to all requests of that METHOD in REQUEST_TYPES */
     for (const REQUEST_TYPE of REQUEST_TYPES[METHOD]) {
       APP[METHOD](REQUEST_TYPE.action, enctype, (req, res) => {
-        /* print the corresponding variable in the received request
-         * body */
+        /* for each template variable */
         for (const TMP_VAR of REQUEST_TYPE['template variables']) {
+          /* store the name of the template variable */
+          const KEY = TMP_VAR.name;
+          /* store the value from the request body */
+          const VALUE = req.body[KEY];
           /* build and print the entry */
           const ENTRY = {};
-          ENTRY[TMP_VAR.name] = req.body[TMP_VAR.name];
+          /* if the template variable has a value, use that value */
+          if ('value' in TMP_VAR) {
+            ENTRY[KEY] = TMP_VAR.value;
+          } /* if ('value' in TMP_VAR) */
+          /* otherwise validate VALUE */
+          else {
+            /* create the template variable's regular expression */
+            const PATTERN = new RegExp(TMP_VAR.regexp);
+            /* test VALUE against PATTERN */
+            if (!PATTERN.test(VALUE)) {
+              res.send(`Illegal value for '${KEY}': '${VALUE}'.`);
+              return;
+            } /* if (!PATTERN.test(VALUE)) */
+            ENTRY[KEY] = VALUE;
+          } /* if ('value' in TMP_VAR) || */
           console.log(ENTRY);
         } /* next TMP_VAR */
         /* send a response */
