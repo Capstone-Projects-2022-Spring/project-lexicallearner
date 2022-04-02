@@ -76,7 +76,7 @@ const Chat = (props) => {
 
   //send msg if not empty else alert error
   const sendMessage = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (currentMessage !== "" && room !== "" && username !== "") {
       //sending data to chatserver
       let data = {
@@ -161,7 +161,7 @@ const Chat = (props) => {
     }
   }
 
-  async function detectAndTranslate(text, targetLang) {
+  async function detectAndTranslate(text, targetLang, target) {
     let transObj = {
       targetLang: targetLang,
       oriText: text,
@@ -189,13 +189,21 @@ const Chat = (props) => {
       .catch((error) => {
         console.log("There was an error with the translation request: ", error);
       });
-    console.log(transObj);
     return transObj;
   }
 
-  function divTranslate(text, lang) {
+  function divTranslate(text, lang, key) {
     let trans = detectAndTranslate(text, lang);
-    return <div>{trans.targetText}</div>;
+    trans.then((obj) => {
+      if(document.querySelector(".chat-msgbox-"+key).children.length < 2){
+        let div = document.createElement("div");
+        div.innerHTML = obj.targetText;
+        document.querySelector(".chat-msgbox-"+key).append(div);
+        console.log(document.querySelector(".chat-msgbox-"+key));
+      }
+    });
+
+    /* return <div>{trans.targetText}</div>; */
   }
 
   /*
@@ -316,11 +324,10 @@ const Chat = (props) => {
                         <div style={{ display: "flex" }}>
                           <span className="chat-message-logo">
                             {props.user.icon}
-                          </span>{" "}
+                          </span>
                           :
                           <div>
-                            <div
-                              style={{
+                            <div style={{
                                 marginBottom: "0.75rem",
                                 marginLeft: "0.2rem",
                                 maxWidth: "400px",
@@ -331,10 +338,19 @@ const Chat = (props) => {
                               {msg.from}
                             </div>
                             <div className="chat-messagebox">{msg.msg}</div>
-                            <Alphabet
+                            <div className={`chat-messagebox chat-messagebox-translated ${"chat-msgbox-"+key}`}>
+                              <BsIcons.BsTranslate style={{
+                                  width: "0.9rem",
+                                  height: "0.9rem",
+                                  marginRight: "0.25rem"
+                              }}
+                                onClick={() => divTranslate(msg.msg, "es", key)}
+                              />
+                            </div>
+                            {/* <Alphabet
                               className="chat-messagebox"
                               text={msg.msg}
-                            />
+                            /> */}
                           </div>
                         </div>
                       </div>
