@@ -5,14 +5,18 @@ import * as IoIcons from "react-icons/io";
 import Friendbar from "../chat-friendbar/Friendbar";
 import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
+import LanguageModal from "../chat-languagemodal/LanguageModal";
 //import { googleTranslate } from "./googleTranslate";
 
 //connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
 const Chat = (props) => {
+  let pref_lang = localStorage.getItem("preferred_language");
+  if (!pref_lang) pref_lang = "es";
+  const [preferredLanguage, setPreferredLanguage] = useState(pref_lang);
+
   //current chat
   const [current, setCurrent] = useState("");
-
   //username
   const [username, setUsername] = useState(
     props.user.username ||
@@ -20,26 +24,18 @@ const Chat = (props) => {
         ":" +
         new Date(Date.now()).getMilliseconds()
   );
-
-  let pref_lang = localStorage.getItem("preferred_language");
-  if (!pref_lang) pref_lang = "en";
-  const [preferredLanguage, setPreferredLanguage] = useState(pref_lang);
-
   //room
   const [room, setRoom] = useState("");
-
   //room modal
   const [roommodal, setRoommodal] = useState(false);
-
+  //room modal
+  const [languagemodal, setLanguagemodal] = useState(false);
   //rooms, not used
   const [rooms, setRooms] = useState([]);
-
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
-
   //current msgs in the chat msgs box
   const [currentMessages, setCurrentMessages] = useState([]);
-
   //messages that contain room and msgs, for demo, default
   const [messages, setMessages] = useState([
     {
@@ -73,7 +69,6 @@ const Chat = (props) => {
       ],
     },
   ]);
-
   //send msg if not empty else alert error
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -125,7 +120,6 @@ const Chat = (props) => {
       return socket.emit("join room", msg.room);
     });
   }, []);
-
   //socket -> received msg
   useEffect(() => {
     socket.on("received msg", (data) => {
@@ -143,7 +137,7 @@ const Chat = (props) => {
     });
   }, [socket]);
 
-  class Alphabet extends React.Component {
+  /* class Alphabet extends React.Component {
     constructor(props) {
       super(props);
       this.handleClick = this.handleClick.bind(this);
@@ -159,8 +153,7 @@ const Chat = (props) => {
     render() {
       return <div onClick={this.handleClick}>{this.props.text}</div>;
     }
-  }
-
+  } */
   async function detectAndTranslate(text, targetLang, target) {
     let transObj = {
       targetLang: targetLang,
@@ -191,21 +184,14 @@ const Chat = (props) => {
       });
     return transObj;
   }
-
   function divTranslate(text, lang, key) {
     let trans = detectAndTranslate(text, lang);
     trans.then((obj) => {
-      if(document.querySelector(".chat-msgbox-"+key).children.length < 2){
-        let div = document.createElement("div");
-        div.innerHTML = obj.targetText;
-        document.querySelector(".chat-msgbox-"+key).append(div);
-        console.log(document.querySelector(".chat-msgbox-"+key));
-      }
+      document.querySelector(".chat-msgbox-" + key).childNodes[1].innerHTML = obj.targetText;
     });
 
     /* return <div>{trans.targetText}</div>; */
   }
-
   /*
   async function detectAndTranslate(text, targetLang) {
     let transObj = {
@@ -226,7 +212,7 @@ const Chat = (props) => {
 
   return (
     <div className="chat">
-      {/*room moda*/}
+      {/*room modal*/}
       {roommodal && (
         <Roommodal
           roommodal={roommodal}
@@ -236,7 +222,13 @@ const Chat = (props) => {
           setMessages={setMessages}
         />
       )}
-
+      {/*language modal*/}
+      {languagemodal && (
+        <LanguageModal
+          preferredLanguage={preferredLanguage}
+          setPreferredLanguage={setPreferredLanguage}
+        />
+      )}
       {/* left box */}
       <div className="chat-leftbox">
         <div className="chat-lefttitle">
@@ -297,7 +289,6 @@ const Chat = (props) => {
           }
         </div>
       </div>
-
       {/* right box */}
       <div className="chat-rightbox">
         <div className="chat-righttitle">
@@ -327,7 +318,8 @@ const Chat = (props) => {
                           </span>
                           :
                           <div>
-                            <div style={{
+                            <div
+                              style={{
                                 marginBottom: "0.75rem",
                                 marginLeft: "0.2rem",
                                 maxWidth: "400px",
@@ -338,14 +330,22 @@ const Chat = (props) => {
                               {msg.from}
                             </div>
                             <div className="chat-messagebox">{msg.msg}</div>
-                            <div className={`chat-messagebox chat-messagebox-translated ${"chat-msgbox-"+key}`}>
-                              <BsIcons.BsTranslate style={{
+                            <div
+                              className={`chat-messagebox chat-messagebox-translated ${
+                                "chat-msgbox-" + key
+                              }`}
+                            >
+                              <BsIcons.BsTranslate
+                                style={{
                                   width: "0.9rem",
                                   height: "0.9rem",
-                                  marginRight: "0.25rem"
-                              }}
-                                onClick={() => divTranslate(msg.msg, "es", key)}
+                                  marginRight: "0.25rem",
+                                }}
+                                onClick={() =>
+                                  divTranslate(msg.msg, preferredLanguage, key)
+                                }
                               />
+                              <div id="translateResponse"></div>
                             </div>
                             {/* <Alphabet
                               className="chat-messagebox"
@@ -360,11 +360,8 @@ const Chat = (props) => {
               : null;
           })}
         </div>
-
         {/* textbox */}
         <div className="chat-sendmessage">
-          {/*TOOLBAR IS HERE, if you are doing integration with google translate
-          , then work on the last button that has a translate icon*/}
           <div className="chat-sendmessage-toolbar">
             <div className="chat-sendmessage-toolbar-left">
               <button className="chat-sendmessage-toolbar-image">
@@ -375,7 +372,10 @@ const Chat = (props) => {
               </button>
             </div>
 
-            <button>
+            <button
+              style={{ position: "relative" }}
+              onClick={() => setLanguagemodal(!languagemodal)}
+            >
               <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
             </button>
           </div>
