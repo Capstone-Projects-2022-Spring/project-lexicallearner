@@ -365,10 +365,10 @@ const Chat = (props) => {
           <div className="chat-sendmessage-toolbar">
             <div className="chat-sendmessage-toolbar-left">
               <button className="chat-sendmessage-toolbar-image">
-                <BsIcons.BsImages style={{ width: "25px", height: "25px" }} />
+                <IoIcons.IoMdHappy style={{ width: "25px", height: "25px"}} />
               </button>
               <button>
-                <BsIcons.BsFolder style={{ width: "25px", height: "25px" }} />
+                <BsIcons.BsFolder2 style={{ width: "25px", height: "25px" }} />
               </button>
             </div>
 

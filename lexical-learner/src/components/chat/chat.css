@@ -157,6 +157,10 @@ textarea {
     border: 1px solid lightgray;
 }
 
+.chat-sendbtn:hover {
+    background-color: lightgrey;
+}
+
 .chat-sendmessage-toolbar {
     display: flex;
     justify-content: space-between;

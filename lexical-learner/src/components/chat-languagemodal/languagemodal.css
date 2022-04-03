@@ -15,7 +15,7 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-.languagemodal::after {
+/* .languagemodal::after {
     content: "";
     position: absolute;
     bottom: -17px;
@@ -23,7 +23,7 @@
     border-top: 20px solid white;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-}
+} */
 
 .languagemodal-title{
     font-weight: bolder;
