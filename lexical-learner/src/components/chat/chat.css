@@ -115,12 +115,19 @@
 }
 
 .chat-messagebox {
+    display: flex;
+    align-items: center;
     background-color: white;
-    padding: 0.75rem;
+    padding: 0.5rem;
     max-width: 400px;
-    border-radius: 5.5%;
+    border-radius: 2.5px;
     width: max-content;
     margin-top: -0.5rem;
+}
+
+.chat-messagebox-translated{
+    margin-top: 0.25rem;
+    border-left: 5px solid gray;
 }
 
 .chat-sendmessage {
@@ -150,9 +157,12 @@ textarea {
     border: 1px solid lightgray;
 }
 
+.chat-sendbtn:hover {
+    background-color: lightgrey;
+}
+
 .chat-sendmessage-toolbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     padding: 0.35rem 1rem 0.35rem 1rem;
 }

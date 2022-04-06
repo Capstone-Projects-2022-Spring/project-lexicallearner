@@ -5,14 +5,18 @@ import * as IoIcons from "react-icons/io";
 import Friendbar from "../chat-friendbar/Friendbar";
 import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
+import LanguageModal from "../chat-languagemodal/LanguageModal";
 //import { googleTranslate } from "./googleTranslate";
 
 //connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
 const Chat = (props) => {
+  let pref_lang = localStorage.getItem("preferred_language");
+  if (!pref_lang) pref_lang = "es";
+  const [preferredLanguage, setPreferredLanguage] = useState(pref_lang);
+
   //current chat
   const [current, setCurrent] = useState("");
-
   //username
   const [username, setUsername] = useState(
     props.user.username ||
@@ -20,44 +24,18 @@ const Chat = (props) => {
         ":" +
         new Date(Date.now()).getMilliseconds()
   );
-
-  let pref_lang = localStorage.getItem("preferred_language");
-  if (!pref_lang) pref_lang = "en";
-  const [preferredLanguage, setPreferredLanguage] = useState(pref_lang);
-
   //room
   const [room, setRoom] = useState("");
-
   //room modal
   const [roommodal, setRoommodal] = useState(false);
-
+  //room modal
+  const [languagemodal, setLanguagemodal] = useState(false);
   //rooms, not used
   const [rooms, setRooms] = useState([]);
-
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
-
   //current msgs in the chat msgs box
   const [currentMessages, setCurrentMessages] = useState([]);
-
-  class Alphabet extends React.Component {
-    constructor(props) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this);
-      this.state = {
-        text: null,
-      };
-    }
-    handleClick() {
-      let transO = detectAndTranslate(this.text, preferredLanguage);
-
-      this.setState({ text: transO.targetText });
-    }
-    render() {
-      return <div onClick={this.handleClick}>{this.props.text}</div>;
-    }
-  }
-
   //messages that contain room and msgs, for demo, default
   const [messages, setMessages] = useState([
     {
@@ -91,63 +69,9 @@ const Chat = (props) => {
       ],
     },
   ]);
-  /*
-  async function detectAndTranslate(text, targetLang) {
-    let transObj = {
-      targetLang: targetLang,
-      oriText: text,
-      oriLang: "",
-      targetText: ""
-    };
-    // Translate the text to the target language
-    await googleTranslate.translate(text, targetLang, function (err, translation) {
-      transObj.oriLang = translation.detectedLanguageCode;
-      transObj.targetText = translation.translatedText;
-    });
-
-    return transObj;
-  }
-*/
-
-  async function detectAndTranslate(text, targetLang) {
-    let transObj = {
-      targetLang: targetLang,
-      oriText: text,
-      oriLang: "",
-      targetText: "",
-    };
-
-    const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
-    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
-    url += "&q=" + encodeURI(text);
-    url += `&target=${targetLang}`;
-
-    await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        transObj.oriLang = response.data.translations[0].detectedSourceLanguage;
-        transObj.targetText = response.data.translations[0].translatedText;
-      })
-      .catch((error) => {
-        console.log("There was an error with the translation request: ", error);
-      });
-    console.log(transObj);
-    return transObj;
-  }
-
-  function divTranslate(text, lang) {
-    let trans = detectAndTranslate(text, lang);
-    return <div>{trans.targetText}</div>;
-  }
-
   //send msg if not empty else alert error
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    e.preventDefault();
     if (currentMessage !== "" && room !== "" && username !== "") {
       //sending data to chatserver
       let data = {
@@ -196,7 +120,6 @@ const Chat = (props) => {
       return socket.emit("join room", msg.room);
     });
   }, []);
-
   //socket -> received msg
   useEffect(() => {
     socket.on("received msg", (data) => {
@@ -214,9 +137,82 @@ const Chat = (props) => {
     });
   }, [socket]);
 
+  /* class Alphabet extends React.Component {
+    constructor(props) {
+      super(props);
+      this.handleClick = this.handleClick.bind(this);
+      this.state = {
+        text: null,
+      };
+    }
+    handleClick() {
+      let transO = detectAndTranslate(this.text, preferredLanguage);
+
+      this.setState({ text: transO.targetText });
+    }
+    render() {
+      return <div onClick={this.handleClick}>{this.props.text}</div>;
+    }
+  } */
+  async function detectAndTranslate(text, targetLang, target) {
+    let transObj = {
+      targetLang: targetLang,
+      oriText: text,
+      oriLang: "",
+      targetText: "",
+    };
+
+    const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
+    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+    url += "&q=" + encodeURI(text);
+    url += `&target=${targetLang}`;
+
+    await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        transObj.oriLang = response.data.translations[0].detectedSourceLanguage;
+        transObj.targetText = response.data.translations[0].translatedText;
+      })
+      .catch((error) => {
+        console.log("There was an error with the translation request: ", error);
+      });
+    return transObj;
+  }
+  function divTranslate(text, lang, key) {
+    let trans = detectAndTranslate(text, lang);
+    trans.then((obj) => {
+      document.querySelector(".chat-msgbox-" + key).childNodes[1].innerHTML = obj.targetText;
+    });
+
+    /* return <div>{trans.targetText}</div>; */
+  }
+  /*
+  async function detectAndTranslate(text, targetLang) {
+    let transObj = {
+      targetLang: targetLang,
+      oriText: text,
+      oriLang: "",
+      targetText: ""
+    };
+    // Translate the text to the target language
+    await googleTranslate.translate(text, targetLang, function (err, translation) {
+      transObj.oriLang = translation.detectedLanguageCode;
+      transObj.targetText = translation.translatedText;
+    });
+
+    return transObj;
+  }
+*/
+
   return (
     <div className="chat">
-      {/*room moda*/}
+      {/*room modal*/}
       {roommodal && (
         <Roommodal
           roommodal={roommodal}
@@ -226,7 +222,13 @@ const Chat = (props) => {
           setMessages={setMessages}
         />
       )}
-
+      {/*language modal*/}
+      {languagemodal && (
+        <LanguageModal
+          preferredLanguage={preferredLanguage}
+          setPreferredLanguage={setPreferredLanguage}
+        />
+      )}
       {/* left box */}
       <div className="chat-leftbox">
         <div className="chat-lefttitle">
@@ -258,7 +260,6 @@ const Chat = (props) => {
           </button>
         </div>
         <div className="chat-friends">
-          {/*for demo*/}
           {
             messages.map((message, key) => {
               const lastmsg =
@@ -288,7 +289,6 @@ const Chat = (props) => {
           }
         </div>
       </div>
-
       {/* right box */}
       <div className="chat-rightbox">
         <div className="chat-righttitle">
@@ -315,7 +315,7 @@ const Chat = (props) => {
                         <div style={{ display: "flex" }}>
                           <span className="chat-message-logo">
                             {props.user.icon}
-                          </span>{" "}
+                          </span>
                           :
                           <div>
                             <div
@@ -330,10 +330,27 @@ const Chat = (props) => {
                               {msg.from}
                             </div>
                             <div className="chat-messagebox">{msg.msg}</div>
-                            <Alphabet
+                            <div
+                              className={`chat-messagebox chat-messagebox-translated ${
+                                "chat-msgbox-" + key
+                              }`}
+                            >
+                              <BsIcons.BsTranslate
+                                style={{
+                                  width: "0.9rem",
+                                  height: "0.9rem",
+                                  marginRight: "0.25rem",
+                                }}
+                                onClick={() =>
+                                  divTranslate(msg.msg, preferredLanguage, key)
+                                }
+                              />
+                              <div id="translateResponse"></div>
+                            </div>
+                            {/* <Alphabet
                               className="chat-messagebox"
                               text={msg.msg}
-                            />
+                            /> */}
                           </div>
                         </div>
                       </div>
@@ -343,22 +360,22 @@ const Chat = (props) => {
               : null;
           })}
         </div>
-
         {/* textbox */}
         <div className="chat-sendmessage">
-          {/*TOOLBAR IS HERE, if you are doing integration with google translate
-          , then work on the last button that has a translate icon*/}
           <div className="chat-sendmessage-toolbar">
             <div className="chat-sendmessage-toolbar-left">
               <button className="chat-sendmessage-toolbar-image">
-                <BsIcons.BsImages style={{ width: "25px", height: "25px" }} />
+                <IoIcons.IoMdHappy style={{ width: "25px", height: "25px"}} />
               </button>
               <button>
-                <BsIcons.BsFolder style={{ width: "25px", height: "25px" }} />
+                <BsIcons.BsFolder2 style={{ width: "25px", height: "25px" }} />
               </button>
             </div>
 
-            <button>
+            <button
+              style={{ position: "relative" }}
+              onClick={() => setLanguagemodal(!languagemodal)}
+            >
               <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
             </button>
           </div>
@@ -371,7 +388,7 @@ const Chat = (props) => {
             id="textarea"
             onChange={(e) => setCurrentMessage(e.target.value)}
             onKeyPress={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) sendMessage();
+              if (e.key === "Enter" && !e.shiftKey) sendMessage(e);
             }}
           />
 

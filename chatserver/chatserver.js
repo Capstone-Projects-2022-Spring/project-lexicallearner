@@ -5,11 +5,9 @@ const dotenv = require('dotenv')
 dotenv.config();
 const PORT = process.env.PORT || 8000
 const { Server } = require('socket.io')
+const chatController = require('./controllers/chatController')
 
 app.use(cors())
-
-//store rooms
-const rooms = [];
 
 const io = new Server(http, {
   cors: {
@@ -18,34 +16,14 @@ const io = new Server(http, {
   }
 })
 
+//hook chat with io
+chatController(io, app)
+
+//storage
 //a list of rooms
 app.set('rooms', [])
 
-io.on('connection', (socket) => {
-  console.log('user joined: '+socket.id);
-
-  //join room
-  socket.on('join room', (data) => {
-    socket.join(data)
-
-    app.set("rooms", [...app.get("rooms"), data])
-    console.log(`User ${socket.id} joined room ${data}`)
-  })
-
-  //send msg
-  socket.on("send msg", (data) => {
-    console.log(`msg '${data.msg}' received from ${data.from}, room ${data.room}`)
-    
-    //received msg
-    socket.to(data.room).emit("received msg", data)
-    console.log(`sent msg '${data.msg}' from ${data.from} to room ${data.room}`);
-  })
-
-  //disconnect
-  socket.on('disconnect', () => {
-    console.log('user left '+socket.id)
-  })
-})
+//app.use("/", chatRoute)
 
 app.get('/', (req, res) => {
   res.send('Server is up and running + cors origin = '+process.env.CORS_ORIGIN)
@@ -53,17 +31,19 @@ app.get('/', (req, res) => {
 
 //return a list of unique room
 app.get('/chat/rooms', (req, res) => {
-  const rooms = JSON.parse(JSON.stringify([...new Set(app.get("rooms"))]))
+  let rooms = JSON.parse(JSON.stringify([...new Set(app.get("rooms"))]))
+  res.setHeader('Content-Type', 'application/json');
   res.json(rooms)
 })
 
 //reset rooms
 app.get('/chat/rooms/reset', (req, res) => {
   app.set("rooms", [])
-  const rooms = JSON.parse(JSON.stringify([...new Set(app.get("rooms"))]))
+  let rooms = JSON.parse(JSON.stringify([...new Set(app.get("rooms"))]))
   res.json(rooms)
 })
 
 http.listen(PORT, () => {
   console.log(`Listening to ${PORT}`)
 })
+
