@@ -30,8 +30,6 @@ const Chat = (props) => {
   const [roommodal, setRoommodal] = useState(false);
   //room modal
   const [languagemodal, setLanguagemodal] = useState(false);
-  //rooms, not used
-  const [rooms, setRooms] = useState([]);
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
   //current msgs in the chat msgs box
@@ -187,7 +185,8 @@ const Chat = (props) => {
   function divTranslate(text, lang, key) {
     let trans = detectAndTranslate(text, lang);
     trans.then((obj) => {
-      document.querySelector(".chat-msgbox-" + key).childNodes[1].innerHTML = obj.targetText;
+      document.querySelector(".chat-msgbox-" + key).childNodes[1].innerHTML =
+        obj.targetText;
     });
 
     /* return <div>{trans.targetText}</div>; */
@@ -365,17 +364,14 @@ const Chat = (props) => {
           <div className="chat-sendmessage-toolbar">
             <div className="chat-sendmessage-toolbar-left">
               <button className="chat-sendmessage-toolbar-image">
-                <IoIcons.IoMdHappy style={{ width: "25px", height: "25px"}} />
+                <IoIcons.IoMdHappy style={{ width: "25px", height: "25px" }} />
               </button>
               <button>
                 <BsIcons.BsFolder2 style={{ width: "25px", height: "25px" }} />
               </button>
             </div>
 
-            <button
-              style={{ position: "relative" }}
-              onClick={() => setLanguagemodal(!languagemodal)}
-            >
+            <button onClick={() => setLanguagemodal(!languagemodal)}>
               <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
             </button>
           </div>
