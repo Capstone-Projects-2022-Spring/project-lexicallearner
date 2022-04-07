@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
 })
 
 app.get('/', (req, res) => {
-  res.send('Server is up and running + cors origin = '+process.env.CORS_ORIGIN)
+  res.send('Server is up and running + cors origin = '+process.env.CORS_ORIGIN + ' cors origin2 = '+process.env.CORS_ORIGIN)
 })
 
 //return a list of unique room
