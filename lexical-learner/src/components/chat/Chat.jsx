@@ -6,7 +6,6 @@ import Friendbar from "../chat-friendbar/Friendbar";
 import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
 import LanguageModal from "../chat-languagemodal/LanguageModal";
-//import { googleTranslate } from "./googleTranslate";
 
 //connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
@@ -30,6 +29,8 @@ const Chat = (props) => {
   const [roommodal, setRoommodal] = useState(false);
   //room modal
   const [languagemodal, setLanguagemodal] = useState(false);
+  //searchbar
+  const [searchbar, setSeearchBar] = useState("");
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
   //current msgs in the chat msgs box
@@ -135,23 +136,6 @@ const Chat = (props) => {
     });
   }, [socket]);
 
-  /* class Alphabet extends React.Component {
-    constructor(props) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this);
-      this.state = {
-        text: null,
-      };
-    }
-    handleClick() {
-      let transO = detectAndTranslate(this.text, preferredLanguage);
-
-      this.setState({ text: transO.targetText });
-    }
-    render() {
-      return <div onClick={this.handleClick}>{this.props.text}</div>;
-    }
-  } */
   async function detectAndTranslate(text, targetLang, target) {
     let transObj = {
       targetLang: targetLang,
@@ -188,26 +172,7 @@ const Chat = (props) => {
       document.querySelector(".chat-msgbox-" + key).childNodes[1].innerHTML =
         obj.targetText;
     });
-
-    /* return <div>{trans.targetText}</div>; */
   }
-  /*
-  async function detectAndTranslate(text, targetLang) {
-    let transObj = {
-      targetLang: targetLang,
-      oriText: text,
-      oriLang: "",
-      targetText: ""
-    };
-    // Translate the text to the target language
-    await googleTranslate.translate(text, targetLang, function (err, translation) {
-      transObj.oriLang = translation.detectedLanguageCode;
-      transObj.targetText = translation.translatedText;
-    });
-
-    return transObj;
-  }
-*/
 
   return (
     <div className="chat">
@@ -247,7 +212,7 @@ const Chat = (props) => {
               type="text"
               placeholder="Search"
               //TODO
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setSeearchBar(e.target.value)}
             />
           </div>
           <button
@@ -261,27 +226,52 @@ const Chat = (props) => {
         <div className="chat-friends">
           {
             messages.map((message, key) => {
-              const lastmsg =
-                message.messages.length === 0
-                  ? ""
-                  : message.messages[message.messages.length - 1].msg;
-
-              return (
-                <div key={key}>
-                  <Friendbar
-                    logo={<BsIcons.BsRainbow />}
-                    name={message.room}
-                    lastmsg={lastmsg}
-                    lastdate={"Yesterday"}
-                    current={current}
-                    setCurrent={setCurrent}
-                    currentMessages={message.messages}
-                    setCurrentMessages={setCurrentMessages}
-                    currentRoom={message.room}
-                    setRoom={setRoom}
-                  />
-                </div>
-              );
+              if (searchbar === "") {
+                const lastmsg =
+                  message.messages.length === 0
+                    ? ""
+                    : message.messages[message.messages.length - 1].msg;
+                return (
+                  <div key={key}>
+                    <Friendbar
+                      logo={<BsIcons.BsRainbow />}
+                      name={message.room}
+                      lastmsg={lastmsg}
+                      lastdate={"Yesterday"}
+                      current={current}
+                      setCurrent={setCurrent}
+                      currentMessages={message.messages}
+                      setCurrentMessages={setCurrentMessages}
+                      currentRoom={message.room}
+                      setRoom={setRoom}
+                    />
+                  </div>
+                );
+              } else {
+                if (message.room.includes(searchbar)) {
+                  const lastmsg =
+                    message.messages.length === 0
+                      ? ""
+                      : message.messages[message.messages.length - 1].msg;
+                  return (
+                    <div key={key}>
+                      <Friendbar
+                        logo={<BsIcons.BsRainbow />}
+                        name={message.room}
+                        lastmsg={lastmsg}
+                        lastdate={"Yesterday"}
+                        current={current}
+                        setCurrent={setCurrent}
+                        currentMessages={message.messages}
+                        setCurrentMessages={setCurrentMessages}
+                        currentRoom={message.room}
+                        setRoom={setRoom}
+                      />
+                    </div>
+                  );
+                }
+              }
+              return null;
             })
 
             //TODO database
