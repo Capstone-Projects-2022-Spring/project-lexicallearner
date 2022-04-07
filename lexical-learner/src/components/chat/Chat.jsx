@@ -144,7 +144,7 @@ const Chat = (props) => {
       targetText: "",
     };
 
-    const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
+    const API_KEY = process.env.GOOGLE_TRANSLATE_API_KEY || process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
     let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
     url += "&q=" + encodeURI(text);
     url += `&target=${targetLang}`;
