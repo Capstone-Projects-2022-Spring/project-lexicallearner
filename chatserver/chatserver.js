@@ -13,7 +13,7 @@ const rooms = [];
 
 const io = new Server(http, {
   cors: {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN2 || 'http://localhost:3000',
     mthods: ['GET','POST'],
   }
 })
