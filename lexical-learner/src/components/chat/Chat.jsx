@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./chat.css";
 import * as BsIcons from "react-icons/bs";
 import * as IoIcons from "react-icons/io";
@@ -6,6 +6,7 @@ import Friendbar from "../chat-friendbar/Friendbar";
 import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
 import LanguageModal from "../chat-languagemodal/LanguageModal";
+import ImageModal from "../chat-imgmodal/ImageModal";
 
 //connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
@@ -29,8 +30,10 @@ const Chat = (props) => {
   const [roommodal, setRoommodal] = useState(false);
   //room modal
   const [languagemodal, setLanguagemodal] = useState(false);
-  //searchbar
+  //search bar
   const [searchbar, setSeearchBar] = useState("");
+  //emoji picker
+  const [emojiPicker, setEmojiPicker] = useState(false);
   //autoscroll height
   const [scrollHeight, setScrollHeight] = useState(
     document.querySelector(".chat-messages")?.scrollHeight
@@ -73,14 +76,14 @@ const Chat = (props) => {
     },
   ]);
   //send msg if not empty else alert error
-  const sendMessage = async (e) => {
+  const sendMessage = async (e, msg) => {
     e.preventDefault();
-    if (currentMessage !== "" && room !== "" && username !== "") {
+    if ((currentMessage !== "" && room !== "" && username !== "") || msg) {
       //sending data to chatserver
       let data = {
         room: room,
         from: username,
-        msg: currentMessage,
+        msg: currentMessage || msg,
         time:
           new Date(Date.now()).getHours() +
           ":" +
@@ -181,7 +184,7 @@ const Chat = (props) => {
     let osh = document.querySelector(".chat-messages")?.offsetHeight;
     let sh = document.querySelector(".chat-messages")?.scrollHeight;
     //scrolling?
-    if ((sh-(st+osh))<110) {
+    if (sh - (st + osh) < 110) {
       document.querySelector(".chat-messages").scrollTop = sh;
     }
   }, [scrollHeight]);
@@ -196,13 +199,6 @@ const Chat = (props) => {
           socket={socket}
           messages={messages}
           setMessages={setMessages}
-        />
-      )}
-      {/*language modal*/}
-      {languagemodal && (
-        <LanguageModal
-          preferredLanguage={preferredLanguage}
-          setPreferredLanguage={setPreferredLanguage}
         />
       )}
       {/* left box */}
@@ -365,19 +361,34 @@ const Chat = (props) => {
         <div className="chat-sendmessage">
           <div className="chat-sendmessage-toolbar">
             <div className="chat-sendmessage-toolbar-left">
-              <button className="chat-sendmessage-toolbar-image">
+              <button className="chat-sendmessage-toolbar-image"
+              onClick={()=> setEmojiPicker(!emojiPicker)}>
                 <IoIcons.IoMdHappy style={{ width: "25px", height: "25px" }} />
               </button>
               <button>
                 <BsIcons.BsFolder2 style={{ width: "25px", height: "25px" }} />
               </button>
             </div>
-
+            {/*language modal*/}
+            {languagemodal && (
+              <LanguageModal
+                preferredLanguage={preferredLanguage}
+                setPreferredLanguage={setPreferredLanguage}
+              />
+            )}
             <button onClick={() => setLanguagemodal(!languagemodal)}>
               <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
             </button>
           </div>
-
+          {emojiPicker && (
+            <div className="chat-sendmessage-imojipicker">
+              <ImageModal
+                send={sendMessage}
+                emojiPicker={emojiPicker}
+                setEmojiPicker={setEmojiPicker}
+              />
+            </div>
+          )}
           {/* textarea */}
           <textarea
             cols="30"
