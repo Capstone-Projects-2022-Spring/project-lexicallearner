@@ -14,8 +14,8 @@ const Upload = () => {
       </span>
       <div className="Upload-filecontainer"></div>
 
-      <form action="">
-        <input type="file" id="myFile" name="filename" />
+      <form action="/image_upload" method="post" enctype="multipart/form-data">
+        <input type="file" accept="image/*" id="myFile" name="filename" />
         <input type="submit" />
       </form>
 
