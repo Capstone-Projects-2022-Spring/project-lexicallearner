@@ -31,6 +31,10 @@ const Chat = (props) => {
   const [languagemodal, setLanguagemodal] = useState(false);
   //searchbar
   const [searchbar, setSeearchBar] = useState("");
+  //autoscroll height
+  const [scrollHeight, setScrollHeight] = useState(
+    document.querySelector(".chat-messages")?.scrollHeight
+  );
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
   //current msgs in the chat msgs box
@@ -82,16 +86,11 @@ const Chat = (props) => {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-      console.log("msg sent");
-      console.log(data);
-
       //send msg to socket
       await socket.emit("send msg", data);
-
       //update current chat messages
       setCurrentMessages((msgs) => [...msgs, data]);
       await setCurrentMessage("");
-
       //update entire chat messages
       setMessages((messages) => {
         const messagesCopy = [...messages];
@@ -102,9 +101,10 @@ const Chat = (props) => {
             messages: [...messages[index].messages, data],
           };
         }
-
         return messagesCopy;
       });
+      //set scroll height
+      setScrollHeight(document.querySelector(".chat-messages")?.scrollHeight);
     } else {
       //alert no room, message, or username
       alert("no room or no message or no username");
@@ -122,8 +122,6 @@ const Chat = (props) => {
   //socket -> received msg
   useEffect(() => {
     socket.on("received msg", (data) => {
-      console.log(data);
-
       setMessages((messages) => {
         const messagesCopy = [...messages];
         const index = messagesCopy.findIndex((item) => item.room === data.room);
@@ -133,6 +131,7 @@ const Chat = (props) => {
         };
         return messagesCopy;
       });
+      setScrollHeight(document.querySelector(".chat-messages")?.scrollHeight);
     });
   }, [socket]);
 
@@ -144,7 +143,9 @@ const Chat = (props) => {
       targetText: "",
     };
 
-    const API_KEY = process.env.GOOGLE_TRANSLATE_API_KEY || process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
+    const API_KEY =
+      process.env.GOOGLE_TRANSLATE_API_KEY ||
+      process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
     let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
     url += "&q=" + encodeURI(text);
     url += `&target=${targetLang}`;
@@ -173,6 +174,17 @@ const Chat = (props) => {
         obj.targetText;
     });
   }
+
+  //autoScroll
+  useEffect(() => {
+    let st = document.querySelector(".chat-messages")?.scrollTop;
+    let osh = document.querySelector(".chat-messages")?.offsetHeight;
+    let sh = document.querySelector(".chat-messages")?.scrollHeight;
+    //scrolling?
+    if ((sh-(st+osh))<110) {
+      document.querySelector(".chat-messages").scrollTop = sh;
+    }
+  }, [scrollHeight]);
 
   return (
     <div className="chat">
