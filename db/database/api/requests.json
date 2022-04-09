@@ -29,7 +29,14 @@
     "post": [
       {
         "action": "/create-account/",
-        "script": "./create-game-account-template.sql",
+        "scripts": [
+          {
+            "switch": true,
+            "paths": [
+              "./create-profile-template.sql"
+            ]
+          }
+        ],
         "template variables": [
           {
             "name": "user-email"
@@ -48,14 +55,6 @@
           },
           {
             "name": "preferred-language"
-          },
-          {
-            "name": "level",
-            "value": 1
-          },
-          {
-            "name": "score",
-            "value": 0
           }
         ]
       }

@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>Create an account</h1>
-    <form action="http://localhost:8081/create-game-account/" method="POST">
+    <form action="http://localhost:8081/create-account/" method="POST">
       <input type="hidden" name="user-image" value="/images/default-user.png" />
       <input type="hidden" name="style-sheet" value="lightmode" />
       <ol>
@@ -21,12 +21,12 @@
               <dd>
                 <input id="educator-user-type" type="radio" name="user-type"
                   value="educator" checked
-                /><label>Educator</label>
+                /><label for="educator-user-type">Educator</label>
               </dd>
               <dd>
                 <input id="student-user-type" type="radio" name="user-type"
                   value="student"
-                /><label>Student</label>
+                /><label for="student-user-type">Student</label>
               </dd>
             </div>
             <dt><label for="language-list">Preferred language</label></dt>

@@ -97,17 +97,30 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
 
         /* print the entries */
         console.log(ENTRIES);
-        /* run the script on the ENTRIES */
-        runMySqlScript(REQUEST_TYPE.script, ENTRIES, (err, res) => {
-          /* if any errors */
-          if (err) {
-            /* cascade the error */
-            throw err;
-          } /* end if (err) */
+        /* run each script on the ENTRIES */
+        for (const SCRIPT of REQUEST_TYPE.scripts) {
+          /* if switch is true, always run */
+          let shouldRun = (true===SCRIPT['switch']);
+          /* otherwise, check whether the switch gives this case */
+          shouldRun = (shouldRun
+            || (req.body[SCRIPT['switch']]===SCRIPT['case']));
+          /* if either case */
+          if (shouldRun) {
+            /* run the script at each path */
+            for (const PATH of SCRIPT.paths) {
+              runMySqlScript(PATH, ENTRIES, (err, res) => {
+                /* if any errors */
+                if (err) {
+                  /* cascade the error */
+                  throw err;
+                } /* end if (err) */
 
-          /* log the response */
-          console.log(res);
-        }); /* end callback runMySqlScript */
+                /* log the response */
+                console.log(res);
+              }); /* end callback runMySqlScript */
+            } /* next PATH */
+          } /* end if (shouldRun) */
+        } /* next SCRIPT */
 
         /* send a response to UA */
         res.send('OK!');

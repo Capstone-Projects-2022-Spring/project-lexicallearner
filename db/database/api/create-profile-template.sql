@@ -6,4 +6,4 @@ USE @{database};
 INSERT INTO Profile(UserEmail, UserName, UserType, UserImage,
     StyleSheet, PreferredLanguage, pfLevel, score)
   VALUES(@{user-email}, @{user-name}, @{user-type}, @{user-image},
-    @{style-sheet}, @{preferred-language}, @{level}, @{score});
+    @{style-sheet}, @{preferred-language}, 1, 0);
