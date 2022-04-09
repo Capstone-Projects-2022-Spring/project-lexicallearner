@@ -24,8 +24,39 @@ const runMySqlScript = require('../run-mysql-script');
 const REQUESTS_FILE = 'requests.json';
 /* request methods */
 const METHODS = 'post,get'.split(',');
-/* functions for processing template values */
-const VALUE_PROCESSES = 'salt,hash'.split(',');
+
+/**
+ * Functions for processing template values.
+ *
+ * 'salt' calculates a random string for prepending the given value and
+ * applies it.
+ *
+ * 'hash' applies a 64-bit SHA2 hash on the given value.
+ *
+ * @param value : string = the password-like value being processed
+ * @param acc : [] = entry accumulator array for important intermediate
+ *   values (such as the hash) to push to database
+ * @return result of processing
+ */
+const VALUE_PROCESSORS = {
+  'salt': (value, acc) => {
+    /* use at least 8 words of 64-bit length as SHA512 does */
+    const RANDBYTES = csprng(8*64, 16);
+    /* split into digit pair bytes */
+    const SPLIT = RANDBYTES.match(/.{2}/g);
+    /* convert each digit pair into an integers */
+    const INTS = SPLIT.map((s) => parseInt(s, 16));
+    /* convert each integer into an ASCII character */
+    const CHARS = INTS.map((b) => String.fromCharCode(b));
+    /* join into a salt */
+    const SALT = CHARS.join('');
+    acc.push(SALT);
+    /* apply salt to the value */
+    const SALTED_VALUE = [ SALT, value ].join('');
+    return SALTED_VALUE;
+  } /* end function VALUE_PROCESSORS.salt(value, acc) */,
+  'hash': (value, acc) => sha2.sha512(value)
+} /* end const VALUE_PROCESSORS */;
 
 /* whether the encoding type for the forms is extended */
 const IS_ENCTYPE_EXTENDED = false;
@@ -70,7 +101,6 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
             || SCRIPT['switch']
               && (req.body[SCRIPT['switch']]===SCRIPT['case']));
           /* in either case, if the script has template variables */
-          console.log((true===SCRIPT['switch']), SCRIPT['switch'], (req.body[SCRIPT['switch']]===SCRIPT['case']), 'template variables' in SCRIPT);
           if (shouldRun && ('template variables' in SCRIPT)) {
             /* push each onto TMP_VARS */
             Array.prototype.push.apply(TMP_VARS, SCRIPT['template variables']);
@@ -105,26 +135,26 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
             ENTRY.value = VALUE;
           } /* end if ('value' in TMP_VAR) || */
 
-          /* process the value */
+          /* process the value for each value processor */
           if ('processes' in REQUEST_TYPES.schema[KEY]) {
-            for (const PROCESS of REQUEST_TYPES.schema[KEY].processes) {
-              console.log(PROCESS);
-              /* check if the template variable includes this process */
-              if ('salt'===PROCESS) {
-                /* salt the value */
-                const SALT_AND_VALUE = saltValue(ENTRY.value);
-                //SALT_AND_VALUE[0] = 'SALT';
-                /* entry for the salt */
-                const SALT_ENTRY = {};
-                /* save the salt and salted value */
-                SALT_ENTRY.key = `@\{${KEY}Salt\}`;
-                SALT_ENTRY.value = sqlstring.escape(SALT_AND_VALUE[0]);
-                ENTRIES.push(SALT_ENTRY);
-                ENTRY.value = SALT_AND_VALUE[1];
-              } /* end if ('salt'===PROCESS) */
-              else if ('hash'===PROCESS) {
-                ENTRY.value = sha2.sha512(ENTRY.value);
-              } /* end if ('salt'===PROCESS) || ('hash'===PROCESS) */
+            for (const PROCESS of Object.keys(VALUE_PROCESSORS)) {
+              /* if process is not on this variable, skip this process */
+              if (REQUEST_TYPES.schema[KEY].processes.indexOf(PROCESS) < 0)
+              {
+                continue;
+              } /* end if (REQUEST_TYPES.schema[KEY].processes.indexOf(PROCESS) < 0) */
+              const PROCESS_ACC = [];
+              /* apply the processor */
+              ENTRY.value=VALUE_PROCESSORS[PROCESS](ENTRY.value,PROCESS_ACC);
+              /* loop through the accumulated intermediate values */
+              for (const INTER of PROCESS_ACC) {
+                /* entry for intermediate value */
+                const INTER_ENTRY = {};
+                /* push the intermediate value into the entries */
+                INTER_ENTRY.key = `@\{${KEY}-${PROCESS}\}`;
+                INTER_ENTRY.value = sqlstring.escape(INTER);
+                ENTRIES.push(INTER_ENTRY);
+              } /* next INTER */
             } /* next PROCESS */
           } /* end if ('processes' in REQUEST_TYPES.schema[KEY]) */
 
@@ -178,23 +208,3 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
     console.log(`listening to https://${HOST}:${PORT}`);
   }); /* end callback APP.listen */
 }); /* end callback fs.readFile */
-
-/**
- * Calculates a random string for prepending values and applies it to
- * the given value.
- */
-function saltValue(value) {
-  /* use at least 8 words of 64-bit length as SHA512 does */
-  const RANDBYTES = csprng(8*64, 16);
-  /* split into digit pair bytes */
-  const SPLIT = RANDBYTES.match(/.{2}/g);
-  /* convert each digit pair into an integers */
-  const INTS = SPLIT.map((s) => parseInt(s, 16));
-  /* convert each integer into an ASCII character */
-  const CHARS = INTS.map((b) => String.fromCharCode(b));
-  /* join into a salt */
-  const SALT = CHARS.join('');
-  /* apply salt to the value */
-  const SALTED_VALUE = [ SALT, value ].join('');
-  return [ SALT, SALTED_VALUE ];
-} /* end function randSalt(acc, value) */

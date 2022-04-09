@@ -14,7 +14,7 @@
             "switch": "account-type",
             "case": "game",
             "paths": [
-              "./create-game-account-template.sql"
+              "./update-game-account-template.sql"
             ],
             "template variables": [
               {
@@ -26,7 +26,7 @@
             "switch": "account-type",
             "case": "canvas",
             "paths": [
-              "./create-canvas-account-template.sql"
+              "./update-canvas-account-template.sql"
             ],
             "template variables": [
               {
