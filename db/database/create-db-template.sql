@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS Profile (
                                     NOT NULL,
   -- dash separated ISO language (3), country (3), script (4) codes
   PreferredLanguage VARCHAR(12)     NOT NULL,
-  pfLevel           INT             NOT NULL,
-  score             INT             NOT NULL,
+  pfLevel           INT             NOT NULL    DEFAULT 1,
+  score             INT             NOT NULL    DEFAULT 0,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (pfid)
 );

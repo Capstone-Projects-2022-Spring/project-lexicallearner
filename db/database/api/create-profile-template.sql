@@ -5,6 +5,6 @@ USE @{database};
 
 -- Create the profile
 INSERT INTO Profile(UserEmail, UserName, UserType, UserImage,
-    StyleSheet, PreferredLanguage, pfLevel, score)
+    StyleSheet, PreferredLanguage)
   VALUES(@{user-email}, @{user-name}, @{user-type}, @{user-image},
-    @{style-sheet}, @{preferred-language}, 1, 0);
+    @{style-sheet}, @{preferred-language});
