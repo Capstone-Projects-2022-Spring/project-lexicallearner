@@ -144,6 +144,45 @@
               </select>
             </dd>
           </dl>
+          <div role="radiogroup" aria-labelledby="account-type">
+            <dt id="account-type">Account type</dt>
+            <dd>
+              <input id="game-account-type" type="radio" name="account-type"
+                value="game" checked
+              /><label for="game-account-type">Game</label>
+            </dd>
+            <dd>
+              <input id="canvas-account-type" type="radio" name="account-type"
+                value="canvas"
+              /><label for="canvas-account-type">Canvas</label>
+            </dd>
+          </div>
+          <dd>
+          </dd>
+          <dd>
+          </dd>
+        </li>
+        <li>
+          <ul>
+            <li>
+              <fieldset>
+                <legend>Game account</legend>
+                <dl>
+                  <dt><label for="password">Password</label></dt>
+                  <dd><input id="password" type="password" name="password" /></dd>
+                </dl>
+              </fieldset>
+            </li>
+            <li>
+              <fieldset>
+                <legend>Canvas account</legend>
+                <dl>
+                  <dt><label for="pat">Personal Access Token</label></dt>
+                  <dd><input id="pat" type="text" name="pat" /></dd>
+                </dl>
+              </fieldset>
+            </li>
+          </ul>
         </li>
         <li>
           <button type="submit">Create the account!</button>

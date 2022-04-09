@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 /**
+ * Creates a server that accepts all requests in the REQUESTS_FILE and
+ * responds accordingly.
  */
 
 /* imports */
@@ -53,10 +55,29 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
     /* add reply to all requests of that METHOD in REQUEST_TYPES.methods */
     for (const REQUEST_TYPE of REQUEST_TYPES.methods[METHOD]) {
       APP[METHOD](REQUEST_TYPE.action, enctype, (req, res) => {
+        /* template variable entries */
         const ENTRIES = [];
+        /* template variables */
+        const TMP_VARS = REQUEST_TYPE['template variables']
+
+        /* add all case-specific script variables */
+        for (const SCRIPT of REQUEST_TYPE.scripts) {
+          /* if switch is true, always run */
+          let shouldRun = (true===SCRIPT['switch']);
+          /* otherwise, check whether the switch gives this case */
+          shouldRun = (shouldRun
+            || SCRIPT['switch']
+              && (req.body[SCRIPT['switch']]===SCRIPT['case']));
+          /* in either case, if the script has template variables */
+          console.log((true===SCRIPT['switch']), SCRIPT['switch'], (req.body[SCRIPT['switch']]===SCRIPT['case']), 'template variables' in SCRIPT);
+          if (shouldRun && ('template variables' in SCRIPT)) {
+            /* push each onto TMP_VARS */
+            Array.prototype.push.apply(TMP_VARS, SCRIPT['template variables']);
+          } /* end if (shouldRun) */
+        } /* next SCRIPT */
 
         /* for each template variable */
-        for (const TMP_VAR of REQUEST_TYPE['template variables']) {
+        for (const TMP_VAR of TMP_VARS) {
           /* store the name of the template variable */
           const KEY = TMP_VAR.name;
           /* store the value from the request body */
@@ -72,7 +93,7 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
           /* otherwise validate VALUE */
           else {
             /* create the template variable's regular expression */
-            const PATTERN = new RegExp(REQUEST_TYPES.schemas[KEY].regexp);
+            const PATTERN = new RegExp(REQUEST_TYPES.schema[KEY].regexp);
             /* test VALUE against PATTERN */
             if (!PATTERN.test(VALUE)) {
               res.send(`Illegal value for '${KEY}': '${VALUE}'.`);
@@ -80,7 +101,7 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
             } /* end if (!PATTERN.test(VALUE)) */
 
             /* parse and set the value */
-            const TYPE = REQUEST_TYPES.schemas[KEY].type;
+            const TYPE = REQUEST_TYPES.schema[KEY].type;
             /* error if type does not exist */
             if (!(TYPE in VALUE_TYPER)) {
               res.send(`Unknown type for '${KEY}': '${TYPE}'.`);
@@ -103,7 +124,8 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
           let shouldRun = (true===SCRIPT['switch']);
           /* otherwise, check whether the switch gives this case */
           shouldRun = (shouldRun
-            || (req.body[SCRIPT['switch']]===SCRIPT['case']));
+            || SCRIPT['switch']
+              && (req.body[SCRIPT['switch']]===SCRIPT['case']));
           /* if either case */
           if (shouldRun) {
             /* run the script at each path */

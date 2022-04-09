@@ -1,5 +1,5 @@
 {
-  "schemas": {
+  "schema": {
     "user-email": {
       "regexp": "^.{0,40}$",
       "type": "String"
@@ -23,6 +23,14 @@
     "preferred-language": {
       "regexp": "^.{0,5}$",
       "type": "String"
+    },
+    "password": {
+      "regexp": "^.{0,40}$",
+      "type": "String"
+    },
+    "pat": {
+      "regexp": "^.{12}$",
+      "type": "String"
     }
   },
   "methods": {
@@ -34,6 +42,30 @@
             "switch": true,
             "paths": [
               "./create-profile-template.sql"
+            ]
+          },
+          {
+            "switch": "account-type",
+            "case": "game",
+            "paths": [
+              "./create-game-account-template.sql"
+            ],
+            "template variables": [
+              {
+                "name": "password"
+              }
+            ]
+          },
+          {
+            "switch": "account-type",
+            "case": "canvas",
+            "paths": [
+              "./create-canvas-account-template.sql"
+            ],
+            "template variables": [
+              {
+                "name": "pat"
+              }
             ]
           }
         ],

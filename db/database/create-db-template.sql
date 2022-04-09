@@ -62,9 +62,9 @@ CALL update_Tables_here(database());
 
 -- Create the Game Accounts entity table
 CREATE TABLE IF NOT EXISTS GameAccount (
-  gacid             CHAR(12)        NOT NULL,
+  gacid             INT             NOT NULL    AUTO_INCREMENT,
   pfid              INT             NOT NULL,
-  password          VARCHAR(40)     NOT NULL,
+  password          CHAR(128)       NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (gacid),
   CONSTRAINT gac_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
