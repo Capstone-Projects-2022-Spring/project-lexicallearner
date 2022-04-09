@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS Profile (
   UserImage         VARCHAR(2048)   NOT NULL,
   StyleSheet        ENUM('lightmode', 'darkmode')
                                     NOT NULL,
-  PreferredLanguage VARCHAR(5)      NOT NULL,
+  -- dash separated ISO language (3), country (3), script (4) codes
+  PreferredLanguage VARCHAR(12)     NOT NULL,
   pfLevel           INT             NOT NULL,
   score             INT             NOT NULL,
 
@@ -53,7 +54,9 @@ CALL update_Tables_here(database());
 CREATE TABLE IF NOT EXISTS CanvasAccount (
   cacid             CHAR(12)        NOT NULL,
   pfid              INT             NOT NULL,
-  PAT               CHAR(12)        NOT NULL,
+  pat               BINARY(128)     NOT NULL,
+  -- allow VARCHAR(4x) for salt, in case of escaped characters
+  patSalt           VARCHAR(512)    NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (cacid),
   CONSTRAINT cac_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
@@ -62,11 +65,12 @@ CALL update_Tables_here(database());
 
 -- Create the Game Accounts entity table
 CREATE TABLE IF NOT EXISTS GameAccount (
-  gacid             INT             NOT NULL    AUTO_INCREMENT,
   pfid              INT             NOT NULL,
-  password          CHAR(128)       NOT NULL,
+  password          BINARY(128)     NOT NULL,
+  -- allow VARCHAR(4x) for salt, in case of escaped characters
+  passwordSalt      VARCHAR(512)    NOT NULL,
 
-  CONSTRAINT id_is_primary_key PRIMARY KEY (gacid),
+  CONSTRAINT pfid_is_primary_key PRIMARY KEY (pfid),
   CONSTRAINT gac_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
 );
 CALL update_Tables_here(database());

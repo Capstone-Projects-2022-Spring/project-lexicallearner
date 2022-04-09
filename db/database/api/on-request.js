@@ -11,6 +11,12 @@ const fs = require('fs');
 const express = require('express');
 /* for parsing requests */
 const bodyParser = require('body-parser');
+/* for escaping all template values */
+const sqlstring = require('sqlstring');
+/* random string generator used for salting */
+const csprng = require('csprng');
+/* for hashing password-like values */
+const sha2 = require('sha2');
 /* for starting the database */
 const runMySqlScript = require('../run-mysql-script');
 
@@ -18,13 +24,8 @@ const runMySqlScript = require('../run-mysql-script');
 const REQUESTS_FILE = 'requests.json';
 /* request methods */
 const METHODS = 'post,get'.split(',');
-/* converts values to the proper type */
-const VALUE_TYPER = {
-  "String": (value) => `'${value}'`,
-  "Int": (value) => parseInt(value),
-  "Float": (value) => parseFloat(value),
-  "Boolean": (value) => ('true'===value),
-};
+/* functions for processing template values */
+const VALUE_PROCESSES = 'salt,hash'.split(',');
 
 /* whether the encoding type for the forms is extended */
 const IS_ENCTYPE_EXTENDED = false;
@@ -101,17 +102,36 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
             } /* end if (!PATTERN.test(VALUE)) */
 
             /* parse and set the value */
-            const TYPE = REQUEST_TYPES.schema[KEY].type;
-            /* error if type does not exist */
-            if (!(TYPE in VALUE_TYPER)) {
-              res.send(`Unknown type for '${KEY}': '${TYPE}'.`);
-              return;
-            } /* end if (!(TYPE in VALUE_TYPER)) */
-            ENTRY.value = VALUE_TYPER[TYPE](VALUE);
+            ENTRY.value = VALUE;
           } /* end if ('value' in TMP_VAR) || */
+
+          /* process the value */
+          if ('processes' in REQUEST_TYPES.schema[KEY]) {
+            for (const PROCESS of REQUEST_TYPES.schema[KEY].processes) {
+              console.log(PROCESS);
+              /* check if the template variable includes this process */
+              if ('salt'===PROCESS) {
+                /* salt the value */
+                const SALT_AND_VALUE = saltValue(ENTRY.value);
+                //SALT_AND_VALUE[0] = 'SALT';
+                /* entry for the salt */
+                const SALT_ENTRY = {};
+                /* save the salt and salted value */
+                SALT_ENTRY.key = `@\{${KEY}Salt\}`;
+                SALT_ENTRY.value = sqlstring.escape(SALT_AND_VALUE[0]);
+                ENTRIES.push(SALT_ENTRY);
+                ENTRY.value = SALT_AND_VALUE[1];
+              } /* end if ('salt'===PROCESS) */
+              else if ('hash'===PROCESS) {
+                ENTRY.value = sha2.sha512(ENTRY.value);
+              } /* end if ('salt'===PROCESS) || ('hash'===PROCESS) */
+            } /* next PROCESS */
+          } /* end if ('processes' in REQUEST_TYPES.schema[KEY]) */
 
           /* put in the ENTRY key */
           ENTRY.key = `@\{${KEY}\}`;
+          /* escape the ENTRY value */
+          ENTRY.value = sqlstring.escape(ENTRY.value);
           /* add to entries */
           ENTRIES.push(ENTRY);
         } /* next TMP_VAR */
@@ -158,3 +178,23 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
     console.log(`listening to https://${HOST}:${PORT}`);
   }); /* end callback APP.listen */
 }); /* end callback fs.readFile */
+
+/**
+ * Calculates a random string for prepending values and applies it to
+ * the given value.
+ */
+function saltValue(value) {
+  /* use at least 8 words of 64-bit length as SHA512 does */
+  const RANDBYTES = csprng(8*64, 16);
+  /* split into digit pair bytes */
+  const SPLIT = RANDBYTES.match(/.{2}/g);
+  /* convert each digit pair into an integers */
+  const INTS = SPLIT.map((s) => parseInt(s, 16));
+  /* convert each integer into an ASCII character */
+  const CHARS = INTS.map((b) => String.fromCharCode(b));
+  /* join into a salt */
+  const SALT = CHARS.join('');
+  /* apply salt to the value */
+  const SALTED_VALUE = [ SALT, value ].join('');
+  return [ SALT, SALTED_VALUE ];
+} /* end function randSalt(acc, value) */

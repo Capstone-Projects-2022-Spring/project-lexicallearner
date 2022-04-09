@@ -3,11 +3,12 @@
 -- Enter the database
 USE @{database};
 
--- Find the profile to which to relate
-INSERT INTO GameAccount(pfid, password)
+REPLACE INTO GameAccount(pfid, password, passwordSalt)
   (
-    SELECT pfid,
-        -- Encode password using SHA2 for 64-bit words
-        SHA2(@{password}, 512)
+    -- Find the profile matching username @{user-name} to relate
+    --    to through pfid
+    -- password given by: @{password}
+    -- passwordSalt given by: @{passwordSalt}
+    SELECT pfid, @{password}, @{passwordSalt}
       FROM Profile WHERE UserName=@{user-name}
   );

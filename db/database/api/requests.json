@@ -1,38 +1,4 @@
 {
-  "schema": {
-    "user-email": {
-      "regexp": "^.{0,40}$",
-      "type": "String"
-    },
-    "user-name": {
-      "regexp": "^.{0,20}$",
-      "type": "String"
-    },
-    "user-type": {
-      "regexp": "^(educator|student)$",
-      "type": "String"
-    },
-    "user-image": {
-      "regexp": "^.{0,2048}$",
-      "type": "String"
-    },
-    "style-sheet": {
-      "regexp": "^(lightmode|darkmode)$",
-      "type": "String"
-    },
-    "preferred-language": {
-      "regexp": "^.{0,5}$",
-      "type": "String"
-    },
-    "password": {
-      "regexp": "^.{0,40}$",
-      "type": "String"
-    },
-    "pat": {
-      "regexp": "^.{12}$",
-      "type": "String"
-    }
-  },
   "methods": {
     "post": [
       {
@@ -91,5 +57,47 @@
         ]
       }
     ]
+  },
+  "schema": {
+    "user-email": {
+      "regexp": "^.{0,40}$",
+      "type": "String"
+    },
+    "user-name": {
+      "regexp": "^.{0,20}$",
+      "type": "String"
+    },
+    "user-type": {
+      "regexp": "^(educator|student)$",
+      "type": "String"
+    },
+    "user-image": {
+      "regexp": "^.{0,2048}$",
+      "type": "String"
+    },
+    "style-sheet": {
+      "regexp": "^(lightmode|darkmode)$",
+      "type": "String"
+    },
+    "preferred-language": {
+      "regexp": "^.{0,5}$",
+      "type": "String"
+    },
+    "password": {
+      "regexp": "^.{0,40}$",
+      "type": "String",
+      "processes": [
+        "salt",
+        "hash"
+      ]
+    },
+    "pat": {
+      "regexp": "^.{12}$",
+      "type": "String",
+      "processes": [
+        "salt",
+        "hash"
+      ]
+    }
   }
 }
