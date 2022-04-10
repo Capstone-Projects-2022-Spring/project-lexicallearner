@@ -34,8 +34,8 @@ CALL update_Tables_here(database());
 -- Create the Profile entity table
 CREATE TABLE IF NOT EXISTS Profile (
   pfid              INT             NOT NULL    AUTO_INCREMENT,
-  UserEmail         VARCHAR(40)     NOT NULL,
   UserName          VARCHAR(20)     NOT NULL,
+  UserEmail         VARCHAR(40)     NOT NULL,
   UserType          ENUM('educator', 'student')
                                     NOT NULL,
   UserImage         VARCHAR(2048)   NOT NULL,
@@ -46,13 +46,14 @@ CREATE TABLE IF NOT EXISTS Profile (
   pfLevel           INT             NOT NULL    DEFAULT 1,
   score             INT             NOT NULL    DEFAULT 0,
 
-  CONSTRAINT id_is_primary_key PRIMARY KEY (pfid)
+  KEY pfid (pfid),
+  CONSTRAINT name_is_primary_key PRIMARY KEY (UserName)
 );
 CALL update_Tables_here(database());
 
 -- Create the Canvas-linked Accounts entity table
 CREATE TABLE IF NOT EXISTS CanvasAccount (
-  cacid             CHAR(12)        NOT NULL,
+  cacid             INT             NOT NULL    AUTO_INCREMENT,
   pfid              INT             NOT NULL,
   pat               BINARY(128)     NOT NULL,
   -- allow VARCHAR(4x) for salt, in case of escaped characters

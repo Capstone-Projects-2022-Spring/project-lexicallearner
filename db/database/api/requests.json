@@ -55,6 +55,25 @@
             "name": "preferred-language"
           }
         ]
+      },
+      {
+        "action": "/update-password/",
+        "scripts": [
+          {
+            "switch": true,
+            "paths": [
+              "./update-game-account-template.sql"
+            ]
+          }
+        ],
+        "template variables": [
+          {
+            "name": "user-name"
+          },
+          {
+            "name": "password"
+          }
+        ]
       }
     ]
   },
