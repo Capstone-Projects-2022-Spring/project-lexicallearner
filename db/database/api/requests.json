@@ -74,6 +74,25 @@
             "name": "password"
           }
         ]
+      },
+      {
+        "action": "/update-canvas-pat/",
+        "scripts": [
+          {
+            "switch": true,
+            "paths": [
+              "./update-canvas-account-template.sql"
+            ]
+          }
+        ],
+        "template variables": [
+          {
+            "name": "user-name"
+          },
+          {
+            "name": "pat"
+          }
+        ]
       }
     ]
   },
