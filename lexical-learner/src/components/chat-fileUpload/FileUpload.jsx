@@ -28,7 +28,10 @@ const FileUpload = (props) => {
         name="file"
         accept="image/png, image/jpeg"
         style={{ display: "none" }}
-        onChange={(e) => uploadingFile(e, e.target.files)}
+        onChange={(e) => {
+          uploadingFile(e, e.target.files);
+          e.target.value = "";
+        }}
       />
     </div>
   );

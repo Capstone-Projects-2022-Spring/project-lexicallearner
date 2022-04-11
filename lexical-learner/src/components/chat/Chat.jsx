@@ -68,14 +68,14 @@ const Chat = (props) => {
         },
         {
           from: "ranni",
-          msg: "hello world",
+          msg: "helloworldhelloworldhelloworldhelloworldhelloworld ",
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
         },
       ],
     },
   ]);
   //send msg if not empty else alert error
-  const send = (e, msg, type) => {
+  const send = async (e, msg, type) => {
     e.preventDefault();
     if ((currentMessage !== "" && room !== "" && username !== "") || msg) {
       //sending data to chatserver
@@ -91,7 +91,7 @@ const Chat = (props) => {
       };
       console.log(data);
       //send msg to socket
-      socket.emit("send msg", data);
+      await socket.emit("send msg", data);
       setCurrentMessage("");
       //update entire chat messages
       setMessages((messages) => {
@@ -237,7 +237,7 @@ const Chat = (props) => {
                 const lastmsg =
                   message.messages.length === 0
                     ? ""
-                    : message.messages[message.messages.length - 1].msg;
+                    : message.messages[message.messages.length - 1];
                 return (
                   <div key={key}>
                     <Friendbar
