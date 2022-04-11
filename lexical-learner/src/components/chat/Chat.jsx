@@ -10,7 +10,7 @@ import ImageModal from "../chat-imgmodal/ImageModal";
 import FileUpload from "../chat-fileUpload/FileUpload";
 
 //connect to chat server
-const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
+const socket = io(process.env.CHATSERVER_URL || "http://localhost:8000");
 const Chat = (props) => {
   let pref_lang = localStorage.getItem("preferred_language");
   if (!pref_lang) pref_lang = "es";
