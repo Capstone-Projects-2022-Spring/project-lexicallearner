@@ -23,9 +23,19 @@
 
 .Upload-filecontainer {
     position: relative;
-    width: 350px;
+    min-width: 350px;
+    width: fit-content;
     min-height: 10px;
     border: 2px dashed black;
+    text-align: center;
+}
+
+.Upload-filecontainer img {
+    position: relative;
+    max-width: 800px;
+    height: auto;
+    display: inline-block;
+
 }
 
 .Upload button {
