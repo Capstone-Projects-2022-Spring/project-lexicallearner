@@ -26,7 +26,7 @@ app.set('rooms', [])
 //app.use("/", chatRoute)
 
 app.get('/', (req, res) => {
-  res.send('Server is up and running + cors origin = '+process.env.CORS_ORIGIN)
+  res.send('Demo3 :Server is up and running + cors origin = '+process.env.CORS_ORIGIN)
 })
 
 //return a list of unique room
