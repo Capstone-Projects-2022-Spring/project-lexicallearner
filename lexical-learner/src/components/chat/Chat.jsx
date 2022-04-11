@@ -7,6 +7,7 @@ import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
 import LanguageModal from "../chat-languagemodal/LanguageModal";
 import ImageModal from "../chat-imgmodal/ImageModal";
+import FileUpload from "../chat-fileUpload/FileUpload";
 
 //connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
@@ -17,7 +18,7 @@ const Chat = (props) => {
 
   //current chat
   const [current, setCurrent] = useState("");
-  //username
+  //username TODO:
   const [username, setUsername] = useState(
     props.user.username ||
       new Date(Date.now()).getTime +
@@ -40,8 +41,6 @@ const Chat = (props) => {
   );
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
-  //current msgs in the chat msgs box
-  const [currentMessages, setCurrentMessages] = useState([]);
   //messages that contain room and msgs, for demo, default
   const [messages, setMessages] = useState([
     {
@@ -76,7 +75,7 @@ const Chat = (props) => {
     },
   ]);
   //send msg if not empty else alert error
-  const sendMessage = async (e, msg) => {
+  const send = (e, msg, type) => {
     e.preventDefault();
     if ((currentMessage !== "" && room !== "" && username !== "") || msg) {
       //sending data to chatserver
@@ -84,16 +83,16 @@ const Chat = (props) => {
         room: room,
         from: username,
         msg: currentMessage || msg,
+        type: type,
         time:
           new Date(Date.now()).getHours() +
           ":" +
           new Date(Date.now()).getMinutes(),
       };
+      console.log(data);
       //send msg to socket
-      await socket.emit("send msg", data);
-      //update current chat messages
-      setCurrentMessages((msgs) => [...msgs, data]);
-      await setCurrentMessage("");
+      socket.emit("send msg", data);
+      setCurrentMessage("");
       //update entire chat messages
       setMessages((messages) => {
         const messagesCopy = [...messages];
@@ -248,8 +247,6 @@ const Chat = (props) => {
                       lastdate={"Yesterday"}
                       current={current}
                       setCurrent={setCurrent}
-                      currentMessages={message.messages}
-                      setCurrentMessages={setCurrentMessages}
                       currentRoom={message.room}
                       setRoom={setRoom}
                     />
@@ -270,8 +267,6 @@ const Chat = (props) => {
                         lastdate={"Yesterday"}
                         current={current}
                         setCurrent={setCurrent}
-                        currentMessages={message.messages}
-                        setCurrentMessages={setCurrentMessages}
                         currentRoom={message.room}
                         setRoom={setRoom}
                       />
@@ -302,52 +297,55 @@ const Chat = (props) => {
                   <div className="chat-message" key={key}>
                     {username === msg.from ? (
                       <div className="chat-mymessage">
-                        <span className="chat-messagebox">{msg.msg}</span> :
+                        {msg.type ? (
+                          <img src={msg.msg} alt={msg.from} />
+                        ) : (
+                          <span className="chat-messagebox">{msg.msg}</span>
+                        )}{" "}
+                        :
                         <span className="chat-message-logo">
                           {props.user.icon}
                         </span>
                       </div>
                     ) : (
                       <div className="chat-theirmessage">
-                        <div style={{ display: "flex" }}>
-                          <span className="chat-message-logo">
-                            {props.user.icon}
-                          </span>
-                          :
-                          <div>
-                            <div
-                              style={{
-                                marginBottom: "0.75rem",
-                                marginLeft: "0.2rem",
-                                maxWidth: "400px",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              {msg.from}
-                            </div>
+                        <span className="chat-message-logo">
+                          {props.user.icon}
+                        </span>
+                        :
+                        <div>
+                          <div
+                            style={{
+                              marginBottom: "0.75rem",
+                              marginLeft: "0.2rem",
+                              maxWidth: "400px",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {msg.from}
+                          </div>
+                          {msg.type ? (
+                            <img src={msg.msg} alt={msg.from} />
+                          ) : (
                             <div className="chat-messagebox">{msg.msg}</div>
-                            <div
-                              className={`chat-messagebox chat-messagebox-translated ${
-                                "chat-msgbox-" + key
-                              }`}
-                            >
-                              <BsIcons.BsTranslate
-                                style={{
-                                  width: "0.9rem",
-                                  height: "0.9rem",
-                                  marginRight: "0.25rem",
-                                }}
-                                onClick={() =>
-                                  divTranslate(msg.msg, preferredLanguage, key)
-                                }
-                              />
-                              <div id="translateResponse"></div>
-                            </div>
-                            {/* <Alphabet
-                              className="chat-messagebox"
-                              text={msg.msg}
-                            /> */}
+                          )}
+                          <div
+                            className={`chat-messagebox chat-messagebox-translated ${
+                              "chat-msgbox-" + key
+                            }`}
+                          >
+                            <BsIcons.BsTranslate
+                              style={{
+                                width: "0.9rem",
+                                height: "0.9rem",
+                                marginRight: "0.25rem",
+                              }}
+                              onClick={() =>
+                                divTranslate(msg.msg, preferredLanguage, key)
+                              }
+                            />
+                            <div id="translateResponse"></div>
                           </div>
                         </div>
                       </div>
@@ -361,13 +359,13 @@ const Chat = (props) => {
         <div className="chat-sendmessage">
           <div className="chat-sendmessage-toolbar">
             <div className="chat-sendmessage-toolbar-left">
-              <button className="chat-sendmessage-toolbar-image"
-              onClick={()=> setEmojiPicker(!emojiPicker)}>
+              <button
+                className="chat-sendmessage-toolbar-image"
+                onClick={() => setEmojiPicker(!emojiPicker)}
+              >
                 <IoIcons.IoMdHappy style={{ width: "25px", height: "25px" }} />
               </button>
-              <button>
-                <BsIcons.BsFolder2 style={{ width: "25px", height: "25px" }} />
-              </button>
+              <FileUpload send={send} />
             </div>
             {/*language modal*/}
             {languagemodal && (
@@ -383,7 +381,7 @@ const Chat = (props) => {
           {emojiPicker && (
             <div className="chat-sendmessage-imojipicker">
               <ImageModal
-                send={sendMessage}
+                send={send}
                 emojiPicker={emojiPicker}
                 setEmojiPicker={setEmojiPicker}
               />
@@ -397,7 +395,7 @@ const Chat = (props) => {
             id="textarea"
             onChange={(e) => setCurrentMessage(e.target.value)}
             onKeyPress={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) sendMessage(e);
+              if (e.key === "Enter" && !e.shiftKey) send(e);
             }}
           />
 
@@ -406,7 +404,7 @@ const Chat = (props) => {
             type="submit"
             value="Send"
             className="chat-sendbtn"
-            onClick={sendMessage}
+            onClick={send}
           />
         </div>
       </div>

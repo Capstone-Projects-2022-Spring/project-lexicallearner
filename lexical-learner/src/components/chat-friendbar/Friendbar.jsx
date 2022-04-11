@@ -9,7 +9,6 @@ const Friendbar = (props) => {
         <div className={`friendbar ${isactive} ${!isactive? 'friendbar-mouseover': ''}`}
             onClick={() => {
                 props.setCurrent(props.name)
-                props.setCurrentMessages(props.currentMessages)
                 props.setRoom(props.currentRoom)
             }}
             >

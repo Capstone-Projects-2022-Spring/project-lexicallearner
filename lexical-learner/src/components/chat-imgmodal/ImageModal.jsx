@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./imageModal.css";
 import Picker from "emoji-picker-react";
 
