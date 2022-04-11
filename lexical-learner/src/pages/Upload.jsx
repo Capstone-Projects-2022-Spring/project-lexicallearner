@@ -13,31 +13,31 @@ const Upload = () => {
 
     const onImageChange = (e) => {
         const [file] = e.target.files;
-        setOriImg(file.toString());
+        console.log(e.target.files[0].name);
+        //setOriImg(file.toString());
+        setOriImg(e.target.files[0].name);
         setImg(URL.createObjectURL(file));
     };
 
-    async function onImageSubmit(filename) {
-        let url = `http://localhost:5000/api/detectText/?file=./uploaded_images/`;
-        url += oriImg.toString();
+    async function onImageSubmit() {
+        let url = `/api/detectText/?file=./uploaded_images/`;
+        url += oriImg;
         console.log(url);
-
-            await fetch(url, {
-                method: "GET",
-                headers: {
-                    Accept: 'application/json',
-                    "Content-Type": 'application/json'
-                }
-            })
-                .then((res) => res.json())
-                .then((response) => {
-                    setText(response);
-                })
-                .catch((error) => {
-                    console.log("There was an error with the OCR request: ", error);
-                });
-        return text;
-    };
+        await fetch(url, {
+            method: "GET",
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": 'application/json'
+            }
+        })
+        .then((res) => res.json())
+        .then((response) => {
+            setText(response);
+        })
+        .catch((error) => {
+            console.log("There was an error with the OCR request: ", error);
+        });
+    }; 
 
   return (
     <div className="Upload">
@@ -52,13 +52,20 @@ const Upload = () => {
           <img src={img}/>
       </div>
 
-      <form action="api/image_upload" method="post" encType="multipart/form-data" onChange={onImageChange} onSubmit={onImageSubmit}>
+      <form action="api/image_upload" method="post" encType="multipart/form-data" onChange={onImageChange}>
         <input type="file" accept="image/*" id="myFile" name="filename"/>
         <input type="submit"/>
       </form>
+
+      <button onClick={onImageSubmit}>
+        Translate
+      </button>
+
         <div>
-            {text}
+            Text: {text}
         </div>
+
+      
 
       <footer>
         <span>Lexical</span>
