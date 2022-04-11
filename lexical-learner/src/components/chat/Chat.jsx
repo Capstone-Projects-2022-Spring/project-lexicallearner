@@ -89,7 +89,7 @@ const Chat = (props) => {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-      console.log(data);
+      //console.log(data);
       //send msg to socket
       await socket.emit("send msg", data);
       setCurrentMessage("");
@@ -182,8 +182,10 @@ const Chat = (props) => {
     let st = document.querySelector(".chat-messages")?.scrollTop;
     let osh = document.querySelector(".chat-messages")?.offsetHeight;
     let sh = document.querySelector(".chat-messages")?.scrollHeight;
+    let msgs = document.querySelector(".chat-messages").children;
+    let lastmgsheight = msgs[msgs.length-1]?.offsetHeight;
     //scrolling?
-    if (sh - (st + osh) < 110) {
+    if (sh - (st + osh) < lastmgsheight) {
       document.querySelector(".chat-messages").scrollTop = sh;
     }
   }, [scrollHeight]);
