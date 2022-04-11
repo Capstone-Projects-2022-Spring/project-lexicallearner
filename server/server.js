@@ -26,7 +26,8 @@ app.post('/api/image_upload', (req, res) => {
             } else {
                 console.log("File is not an image");
             }
-            res.redirect("/upload");
+            res.status(204).send();
+            //res.redirect("/upload");
         });
     } catch (e) {
         console.log(e.toString());

@@ -13,13 +13,13 @@ const Upload = () => {
 
     const onImageChange = (e) => {
         const [file] = e.target.files;
-        setOriImg(file.toString());
+        setOriImg(e.target.files[0].name);
         setImg(URL.createObjectURL(file));
     };
 
     async function onImageSubmit(filename) {
         let url = `http://localhost:5000/api/detectText/?file=./uploaded_images/`;
-        url += oriImg.toString();
+        url += oriImg;
         console.log(url);
 
             await fetch(url, {
@@ -29,13 +29,16 @@ const Upload = () => {
                     "Content-Type": 'application/json'
                 }
             })
-                .then((res) => res.json())
+                .then((res) => {
+                    console.log(res);
+                    res.json();})
                 .then((response) => {
                     setText(response);
                 })
                 .catch((error) => {
                     console.log("There was an error with the OCR request: ", error);
                 });
+            console.log(text);
         return text;
     };
 
@@ -57,7 +60,6 @@ const Upload = () => {
         <input type="submit"/>
       </form>
         <div>
-            {text}
         </div>
 
       <footer>
