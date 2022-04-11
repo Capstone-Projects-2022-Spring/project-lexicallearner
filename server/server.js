@@ -10,13 +10,12 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.post('/api/image_upload', (req, res) => {
     try {
-        let filename = "";
         const form = new formidable.IncomingForm();
 
         form.parse(req, function (err, fields, files) {
             console.log(files);
             if (files.filename.mimetype.startsWith('image/')) {
-                console.log('File uploaded, path: ' + files.filename.filepath);
+                //console.log('File uploaded, path: ' + files.filename.filepath);
                 let oldpath = files.filename.filepath;
 
                 let newpath = './uploaded_images/' + files.filename.originalFilename;
@@ -26,7 +25,9 @@ app.post('/api/image_upload', (req, res) => {
             } else {
                 console.log("File is not an image");
             }
-            res.redirect("/upload");
+
+            res.status(204).send();
+            //res.redirect("/upload");
         });
     } catch (e) {
         console.log(e.toString());
@@ -40,6 +41,7 @@ app.post('/api/image_upload', (req, res) => {
 app.get('/api/detectText', async (req, res) => {
     const fileName = req.query.file;
     const text = await detectTextAndLangImg(fileName);
+    console.log(text);
     res.send(text);
 });
 
