@@ -13,7 +13,7 @@ The provided format for the practice quiz will be provided in such a way that ei
 
 The application will also have the ability to translate images with text (in an assumed foreign language). The user just has to upload the image to Lexical Learner where either the translated message will be returned or an error message that states the image is too blurry to translate.All information required, such as profiles, assignments, module details will be accessed by a database interface. Any profile changed such as general information, or a password change will be accessible.
 
-## Testing Document(./Blank_Sample_Acceptance_QA_Testing_doc_Lexical_Learner.xlsx) /
+## [Testing Document](./Blank_Sample_Acceptance_QA_Testing_doc_Lexical_Learner.xlsx) /
 
 ## Design
 
