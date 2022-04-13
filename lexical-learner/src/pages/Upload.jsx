@@ -32,7 +32,7 @@ const Upload = () => {
         })
         .then((res) => res.json())
         .then((response) => {
-            setText(response);
+            setText(response[1].description);
         })
         .catch((error) => {
             console.log("There was an error with the OCR request: ", error);
