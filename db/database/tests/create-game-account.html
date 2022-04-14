@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create an account</title>
+  </head>
+  <body>
+    <h1>Create an account</h1>
+    <form action="http://localhost:8081/create-account/" method="POST">
+      <input type="hidden" name="user-image" value="/images/default-user.png" />
+      <input type="hidden" name="style-sheet" value="lightmode" />
+      <ol>
+        <li>
+          <dl>
+            <dt><label for="user-email">Email</label></dt>
+            <dd><input id="user-email" type="email" name="user-email" /></dd>
+            <dt><label for="user-name">Username</label></dt>
+            <dd><input id="user-name" type="text" name="user-name" /></dd>
+            <div role="radiogroup" aria-labelledby="user-type">
+              <dt id="user-type">User type</dt>
+              <dd>
+                <input id="educator-user-type" type="radio" name="user-type"
+                  value="educator" checked
+                /><label for="educator-user-type">Educator</label>
+              </dd>
+              <dd>
+                <input id="student-user-type" type="radio" name="user-type"
+                  value="student"
+                /><label for="student-user-type">Student</label>
+              </dd>
+            </div>
+            <dt><label for="language-list">Preferred language</label></dt>
+            <dd>
+              <select id="language-list" name="preferred-language">
+                <option value="af">Afrikaans</option>
+                <option value="sq">Albanian</option>
+                <option value="am">Amharic</option>
+                <option value="ar">Arabic</option>
+                <option value="hy">Armenian</option>
+                <option value="az">Azerbaijani</option>
+                <option value="eu">Basque</option>
+                <option value="be">Belarusian</option>
+                <option value="bn">Bengali</option>
+                <option value="bs">Bosnian</option>
+                <option value="bg">Bulgarian</option>
+                <option value="ca">Catalan</option>
+                <option value="ceb">Cebuano</option>
+                <option value="ny">Chichewa</option>
+                <option value="zh-CN">Chinese (Simplified)</option>
+                <option value="zh-TW">Chinese (Traditional)</option>
+                <option value="co">Corsican</option>
+                <option value="hr">Croatian</option>
+                <option value="cs">Czech</option>
+                <option value="da">Danish</option>
+                <option value="nl">Dutch</option>
+                <option value="en" selected>English</option>
+                <option value="eo">Esperanto</option>
+                <option value="et">Estonian</option>
+                <option value="tl">Filipino</option>
+                <option value="fi">Finnish</option>
+                <option value="fr">French</option>
+                <option value="fy">Frisian</option>
+                <option value="gl">Galician</option>
+                <option value="ka">Georgian</option>
+                <option value="de">German</option>
+                <option value="el">Greek</option>
+                <option value="gu">Gujarati</option>
+                <option value="ht">Haitian Creole</option>
+                <option value="ha">Hausa</option>
+                <option value="haw">Hawaiian</option>
+                <option value="iw">Hebrew</option>
+                <option value="hi">Hindi</option>
+                <option value="hmn">Hmong</option>
+                <option value="hu">Hungarian</option>
+                <option value="is">Icelandic</option>
+                <option value="ig">Igbo</option>
+                <option value="id">Indonesian</option>
+                <option value="ga">Irish</option>
+                <option value="it">Italian</option>
+                <option value="ja">Japanese</option>
+                <option value="jw">Javanese</option>
+                <option value="kn">Kannada</option>
+                <option value="kk">Kazakh</option>
+                <option value="km">Khmer</option>
+                <option value="rw">Kinyarwanda</option>
+                <option value="ko">Korean</option>
+                <option value="ku">Kurdish (Kurmanji)</option>
+                <option value="ky">Kyrgyz</option>
+                <option value="lo">Lao</option>
+                <option value="la">Latin</option>
+                <option value="lv">Latvian</option>
+                <option value="lt">Lithuanian</option>
+                <option value="lb">Luxembourgish</option>
+                <option value="mk">Macedonian</option>
+                <option value="mg">Malagasy</option>
+                <option value="ms">Malay</option>
+                <option value="ml">Malayalam</option>
+                <option value="mt">Maltese</option>
+                <option value="mi">Maori</option>
+                <option value="mr">Marathi</option>
+                <option value="mn">Mongolian</option>
+                <option value="my">Myanmar (Burmese)</option>
+                <option value="ne">Nepali</option>
+                <option value="no">Norwegian</option>
+                <option value="or">Odia (Oriya)</option>
+                <option value="ps">Pashto</option>
+                <option value="fa">Persian</option>
+                <option value="pl">Polish</option>
+                <option value="pt">Portuguese</option>
+                <option value="pa">Punjabi</option>
+                <option value="ro">Romanian</option>
+                <option value="ru">Russian</option>
+                <option value="sm">Samoan</option>
+                <option value="gd">Scots Gaelic</option>
+                <option value="sr">Serbian</option>
+                <option value="st">Sesotho</option>
+                <option value="sn">Shona</option>
+                <option value="sd">Sindhi</option>
+                <option value="si">Sinhala</option>
+                <option value="sk">Slovak</option>
+                <option value="sl">Slovenian</option>
+                <option value="so">Somali</option>
+                <option value="es">Spanish</option>
+                <option value="su">Sundanese</option>
+                <option value="sw">Swahili</option>
+                <option value="sv">Swedish</option>
+                <option value="tg">Tajik</option>
+                <option value="ta">Tamil</option>
+                <option value="tt">Tatar</option>
+                <option value="te">Telugu</option>
+                <option value="th">Thai</option>
+                <option value="tr">Turkish</option>
+                <option value="tk">Turkmen</option>
+                <option value="uk">Ukrainian</option>
+                <option value="ur">Urdu</option>
+                <option value="ug">Uyghur</option>
+                <option value="uz">Uzbek</option>
+                <option value="vi">Vietnamese</option>
+                <option value="cy">Welsh</option>
+                <option value="xh">Xhosa</option>
+                <option value="yi">Yiddish</option>
+                <option value="yo">Yoruba</option>
+                <option value="zu">Zulu</option>
+              </select>
+            </dd>
+          </dl>
+          <div role="radiogroup" aria-labelledby="account-type">
+            <dt id="account-type">Account type</dt>
+            <dd>
+              <input id="game-account-type" type="radio" name="account-type"
+                value="game" checked
+              /><label for="game-account-type">Game</label>
+            </dd>
+            <dd>
+              <input id="canvas-account-type" type="radio" name="account-type"
+                value="canvas"
+              /><label for="canvas-account-type">Canvas</label>
+            </dd>
+          </div>
+          <dd>
+          </dd>
+          <dd>
+          </dd>
+        </li>
+        <li>
+          <ul>
+            <li>
+              <fieldset>
+                <legend>Game account</legend>
+                <dl>
+                  <dt><label for="password">Password</label></dt>
+                  <dd><input id="password" type="password" name="password" /></dd>
+                </dl>
+              </fieldset>
+            </li>
+            <li>
+              <fieldset>
+                <legend>Canvas account</legend>
+                <dl>
+                  <dt><label for="pat">Personal Access Token</label></dt>
+                  <dd><input id="pat" type="text" name="pat" value="PATPATPATPAT" /></dd>
+                </dl>
+              </fieldset>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <button type="submit">Create the account!</button>
+        </li>
+      </ol>
+    </form>
+  </body>
+</html>

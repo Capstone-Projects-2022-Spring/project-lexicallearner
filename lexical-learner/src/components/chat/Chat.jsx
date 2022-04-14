@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./chat.css";
 import * as BsIcons from "react-icons/bs";
 import * as IoIcons from "react-icons/io";
@@ -6,7 +6,8 @@ import Friendbar from "../chat-friendbar/Friendbar";
 import Roommodal from "../chat-roommodal/Roommodal";
 import io from "socket.io-client";
 import LanguageModal from "../chat-languagemodal/LanguageModal";
-//import { googleTranslate } from "./googleTranslate";
+import ImageModal from "../chat-imgmodal/ImageModal";
+import FileUpload from "../chat-fileUpload/FileUpload";
 
 //connect to chat server
 const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
@@ -17,7 +18,7 @@ const Chat = (props) => {
 
   //current chat
   const [current, setCurrent] = useState("");
-  //username
+  //username TODO:
   const [username, setUsername] = useState(
     props.user.username ||
       new Date(Date.now()).getTime +
@@ -30,12 +31,16 @@ const Chat = (props) => {
   const [roommodal, setRoommodal] = useState(false);
   //room modal
   const [languagemodal, setLanguagemodal] = useState(false);
-  //rooms, not used
-  const [rooms, setRooms] = useState([]);
+  //search bar
+  const [searchbar, setSeearchBar] = useState("");
+  //emoji picker
+  const [emojiPicker, setEmojiPicker] = useState(false);
+  //autoscroll height
+  const [scrollHeight, setScrollHeight] = useState(
+    document.querySelector(".chat-messages")?.scrollHeight
+  );
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
-  //current msgs in the chat msgs box
-  const [currentMessages, setCurrentMessages] = useState([]);
   //messages that contain room and msgs, for demo, default
   const [messages, setMessages] = useState([
     {
@@ -63,36 +68,31 @@ const Chat = (props) => {
         },
         {
           from: "ranni",
-          msg: "hello world",
+          msg: "helloworldhelloworldhelloworldhelloworldhelloworld ",
           time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
         },
       ],
     },
   ]);
   //send msg if not empty else alert error
-  const sendMessage = async (e) => {
+  const send = async (e, msg, type) => {
     e.preventDefault();
-    if (currentMessage !== "" && room !== "" && username !== "") {
+    if ((currentMessage !== "" && room !== "" && username !== "") || msg) {
       //sending data to chatserver
       let data = {
         room: room,
         from: username,
-        msg: currentMessage,
+        msg: currentMessage || msg,
+        type: type,
         time:
           new Date(Date.now()).getHours() +
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-      console.log("msg sent");
-      console.log(data);
-
+      //console.log(data);
       //send msg to socket
       await socket.emit("send msg", data);
-
-      //update current chat messages
-      setCurrentMessages((msgs) => [...msgs, data]);
-      await setCurrentMessage("");
-
+      setCurrentMessage("");
       //update entire chat messages
       setMessages((messages) => {
         const messagesCopy = [...messages];
@@ -103,9 +103,10 @@ const Chat = (props) => {
             messages: [...messages[index].messages, data],
           };
         }
-
         return messagesCopy;
       });
+      //set scroll height
+      setScrollHeight(document.querySelector(".chat-messages")?.scrollHeight);
     } else {
       //alert no room, message, or username
       alert("no room or no message or no username");
@@ -123,8 +124,6 @@ const Chat = (props) => {
   //socket -> received msg
   useEffect(() => {
     socket.on("received msg", (data) => {
-      console.log(data);
-
       setMessages((messages) => {
         const messagesCopy = [...messages];
         const index = messagesCopy.findIndex((item) => item.room === data.room);
@@ -134,26 +133,10 @@ const Chat = (props) => {
         };
         return messagesCopy;
       });
+      setScrollHeight(document.querySelector(".chat-messages")?.scrollHeight);
     });
   }, [socket]);
 
-  /* class Alphabet extends React.Component {
-    constructor(props) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this);
-      this.state = {
-        text: null,
-      };
-    }
-    handleClick() {
-      let transO = detectAndTranslate(this.text, preferredLanguage);
-
-      this.setState({ text: transO.targetText });
-    }
-    render() {
-      return <div onClick={this.handleClick}>{this.props.text}</div>;
-    }
-  } */
   async function detectAndTranslate(text, targetLang, target) {
     let transObj = {
       targetLang: targetLang,
@@ -162,7 +145,9 @@ const Chat = (props) => {
       targetText: "",
     };
 
-    const API_KEY = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
+    const API_KEY =
+      process.env.GOOGLE_TRANSLATE_API_KEY ||
+      process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY;
     let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
     url += "&q=" + encodeURI(text);
     url += `&target=${targetLang}`;
@@ -187,28 +172,23 @@ const Chat = (props) => {
   function divTranslate(text, lang, key) {
     let trans = detectAndTranslate(text, lang);
     trans.then((obj) => {
-      document.querySelector(".chat-msgbox-" + key).childNodes[1].innerHTML = obj.targetText;
+      document.querySelector(".chat-msgbox-" + key).childNodes[1].innerHTML =
+        obj.targetText;
     });
-
-    /* return <div>{trans.targetText}</div>; */
   }
-  /*
-  async function detectAndTranslate(text, targetLang) {
-    let transObj = {
-      targetLang: targetLang,
-      oriText: text,
-      oriLang: "",
-      targetText: ""
-    };
-    // Translate the text to the target language
-    await googleTranslate.translate(text, targetLang, function (err, translation) {
-      transObj.oriLang = translation.detectedLanguageCode;
-      transObj.targetText = translation.translatedText;
-    });
 
-    return transObj;
-  }
-*/
+  //autoScroll
+  useEffect(() => {
+    let st = document.querySelector(".chat-messages")?.scrollTop;
+    let osh = document.querySelector(".chat-messages")?.offsetHeight;
+    let sh = document.querySelector(".chat-messages")?.scrollHeight;
+    let msgs = document.querySelector(".chat-messages").children;
+    let lastmgsheight = msgs[msgs.length-1]?.offsetHeight;
+    //scrolling?
+    if (sh - (st + osh) < lastmgsheight) {
+      document.querySelector(".chat-messages").scrollTop = sh;
+    }
+  }, [scrollHeight]);
 
   return (
     <div className="chat">
@@ -220,13 +200,6 @@ const Chat = (props) => {
           socket={socket}
           messages={messages}
           setMessages={setMessages}
-        />
-      )}
-      {/*language modal*/}
-      {languagemodal && (
-        <LanguageModal
-          preferredLanguage={preferredLanguage}
-          setPreferredLanguage={setPreferredLanguage}
         />
       )}
       {/* left box */}
@@ -248,7 +221,7 @@ const Chat = (props) => {
               type="text"
               placeholder="Search"
               //TODO
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setSeearchBar(e.target.value)}
             />
           </div>
           <button
@@ -262,27 +235,48 @@ const Chat = (props) => {
         <div className="chat-friends">
           {
             messages.map((message, key) => {
-              const lastmsg =
-                message.messages.length === 0
-                  ? ""
-                  : message.messages[message.messages.length - 1].msg;
-
-              return (
-                <div key={key}>
-                  <Friendbar
-                    logo={<BsIcons.BsRainbow />}
-                    name={message.room}
-                    lastmsg={lastmsg}
-                    lastdate={"Yesterday"}
-                    current={current}
-                    setCurrent={setCurrent}
-                    currentMessages={message.messages}
-                    setCurrentMessages={setCurrentMessages}
-                    currentRoom={message.room}
-                    setRoom={setRoom}
-                  />
-                </div>
-              );
+              if (searchbar === "") {
+                const lastmsg =
+                  message.messages.length === 0
+                    ? ""
+                    : message.messages[message.messages.length - 1];
+                return (
+                  <div key={key}>
+                    <Friendbar
+                      logo={<BsIcons.BsRainbow />}
+                      name={message.room}
+                      lastmsg={lastmsg}
+                      lastdate={"Yesterday"}
+                      current={current}
+                      setCurrent={setCurrent}
+                      currentRoom={message.room}
+                      setRoom={setRoom}
+                    />
+                  </div>
+                );
+              } else {
+                if (message.room.includes(searchbar)) {
+                  const lastmsg =
+                    message.messages.length === 0
+                      ? ""
+                      : message.messages[message.messages.length - 1].msg;
+                  return (
+                    <div key={key}>
+                      <Friendbar
+                        logo={<BsIcons.BsRainbow />}
+                        name={message.room}
+                        lastmsg={lastmsg}
+                        lastdate={"Yesterday"}
+                        current={current}
+                        setCurrent={setCurrent}
+                        currentRoom={message.room}
+                        setRoom={setRoom}
+                      />
+                    </div>
+                  );
+                }
+              }
+              return null;
             })
 
             //TODO database
@@ -305,52 +299,55 @@ const Chat = (props) => {
                   <div className="chat-message" key={key}>
                     {username === msg.from ? (
                       <div className="chat-mymessage">
-                        <span className="chat-messagebox">{msg.msg}</span> :
+                        {msg.type ? (
+                          <img src={msg.msg} alt={msg.from} />
+                        ) : (
+                          <span className="chat-messagebox">{msg.msg}</span>
+                        )}{" "}
+                        :
                         <span className="chat-message-logo">
                           {props.user.icon}
                         </span>
                       </div>
                     ) : (
                       <div className="chat-theirmessage">
-                        <div style={{ display: "flex" }}>
-                          <span className="chat-message-logo">
-                            {props.user.icon}
-                          </span>
-                          :
-                          <div>
-                            <div
-                              style={{
-                                marginBottom: "0.75rem",
-                                marginLeft: "0.2rem",
-                                maxWidth: "400px",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              {msg.from}
-                            </div>
+                        <span className="chat-message-logo">
+                          {props.user.icon}
+                        </span>
+                        :
+                        <div>
+                          <div
+                            style={{
+                              marginBottom: "0.75rem",
+                              marginLeft: "0.2rem",
+                              maxWidth: "400px",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {msg.from}
+                          </div>
+                          {msg.type ? (
+                            <img src={msg.msg} alt={msg.from} />
+                          ) : (
                             <div className="chat-messagebox">{msg.msg}</div>
-                            <div
-                              className={`chat-messagebox chat-messagebox-translated ${
-                                "chat-msgbox-" + key
-                              }`}
-                            >
-                              <BsIcons.BsTranslate
-                                style={{
-                                  width: "0.9rem",
-                                  height: "0.9rem",
-                                  marginRight: "0.25rem",
-                                }}
-                                onClick={() =>
-                                  divTranslate(msg.msg, preferredLanguage, key)
-                                }
-                              />
-                              <div id="translateResponse"></div>
-                            </div>
-                            {/* <Alphabet
-                              className="chat-messagebox"
-                              text={msg.msg}
-                            /> */}
+                          )}
+                          <div
+                            className={`chat-messagebox chat-messagebox-translated ${
+                              "chat-msgbox-" + key
+                            }`}
+                          >
+                            <BsIcons.BsTranslate
+                              style={{
+                                width: "0.9rem",
+                                height: "0.9rem",
+                                marginRight: "0.25rem",
+                              }}
+                              onClick={() =>
+                                divTranslate(msg.msg, preferredLanguage, key)
+                              }
+                            />
+                            <div id="translateResponse"></div>
                           </div>
                         </div>
                       </div>
@@ -364,22 +361,34 @@ const Chat = (props) => {
         <div className="chat-sendmessage">
           <div className="chat-sendmessage-toolbar">
             <div className="chat-sendmessage-toolbar-left">
-              <button className="chat-sendmessage-toolbar-image">
-                <IoIcons.IoMdHappy style={{ width: "25px", height: "25px"}} />
+              <button
+                className="chat-sendmessage-toolbar-image"
+                onClick={() => setEmojiPicker(!emojiPicker)}
+              >
+                <IoIcons.IoMdHappy style={{ width: "25px", height: "25px" }} />
               </button>
-              <button>
-                <BsIcons.BsFolder2 style={{ width: "25px", height: "25px" }} />
-              </button>
+              <FileUpload send={send} />
             </div>
-
-            <button
-              style={{ position: "relative" }}
-              onClick={() => setLanguagemodal(!languagemodal)}
-            >
+            {/*language modal*/}
+            {languagemodal && (
+              <LanguageModal
+                preferredLanguage={preferredLanguage}
+                setPreferredLanguage={setPreferredLanguage}
+              />
+            )}
+            <button onClick={() => setLanguagemodal(!languagemodal)}>
               <BsIcons.BsTranslate style={{ width: "25px", height: "25px" }} />
             </button>
           </div>
-
+          {emojiPicker && (
+            <div className="chat-sendmessage-imojipicker">
+              <ImageModal
+                send={send}
+                emojiPicker={emojiPicker}
+                setEmojiPicker={setEmojiPicker}
+              />
+            </div>
+          )}
           {/* textarea */}
           <textarea
             cols="30"
@@ -388,7 +397,7 @@ const Chat = (props) => {
             id="textarea"
             onChange={(e) => setCurrentMessage(e.target.value)}
             onKeyPress={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) sendMessage(e);
+              if (e.key === "Enter" && !e.shiftKey) send(e);
             }}
           />
 
@@ -397,7 +406,7 @@ const Chat = (props) => {
             type="submit"
             value="Send"
             className="chat-sendbtn"
-            onClick={sendMessage}
+            onClick={send}
           />
         </div>
       </div>

@@ -1,1 +1,3 @@
 chatserver/.env
+server/.env
+server/lexical-learner-*.json
