@@ -19,7 +19,7 @@ const Friendbar = (props) => {
         <div className="friendbar-friend-name">{props.name}</div>
         <div className="friendbar-friend-lastmsg">
           <span>
-            {props.lastmsg.from + ": "}
+            {(props.lastmsg.from? props.lastmsg.from+": " : "")}
             {props.lastmsg.type ? "[img]" : props.lastmsg.msg}
           </span>
         </div>

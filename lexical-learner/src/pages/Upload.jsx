@@ -2,9 +2,6 @@ import React, {useState} from "react";
 import "./styles/Upload.css";
 import Navbar from "../components/navbar/NavbarLoggedIn";
 
-
-
-
 const Upload = () => {
 
     const [oriImg, setOriImg] = useState();

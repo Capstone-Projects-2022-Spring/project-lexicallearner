@@ -3,7 +3,6 @@ import Navbar from "../components/navbar/Navbar";
 import * as BsIcons from "react-icons/bs";
 import "./styles/Home.css";
 import Chat from "../components/chat/Chat"
-
 import webchatimg from "./../images/webchatdemo.jpg"
 
 const Home = () => {
