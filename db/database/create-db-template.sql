@@ -33,27 +33,31 @@ CALL update_Tables_here(database());
 
 -- Create the Profile entity table
 CREATE TABLE IF NOT EXISTS Profile (
-  pfid              CHAR(12)        NOT NULL,
-  UserEmail         VARCHAR(40)     NOT NULL,
+  pfid              INT             NOT NULL    AUTO_INCREMENT,
   UserName          VARCHAR(20)     NOT NULL,
+  UserEmail         VARCHAR(40)     NOT NULL,
   UserType          ENUM('educator', 'student')
                                     NOT NULL,
-  UserImage         VARCHAR(10000)  NOT NULL,
+  UserImage         VARCHAR(2048)   NOT NULL,
   StyleSheet        ENUM('lightmode', 'darkmode')
                                     NOT NULL,
-  PreferredLanguage VARCHAR(40)     NOT NULL,
-  pfLevel           INT             NOT NULL,
-  score             INT             NOT NULL,
+  -- dash separated ISO language (3), country (3), script (4) codes
+  PreferredLanguage VARCHAR(12)     NOT NULL,
+  pfLevel           INT             NOT NULL    DEFAULT 1,
+  score             INT             NOT NULL    DEFAULT 0,
 
-  CONSTRAINT id_is_primary_key PRIMARY KEY (pfid)
+  KEY pfid (pfid),
+  CONSTRAINT name_is_primary_key PRIMARY KEY (UserName)
 );
 CALL update_Tables_here(database());
 
 -- Create the Canvas-linked Accounts entity table
 CREATE TABLE IF NOT EXISTS CanvasAccount (
-  cacid             CHAR(12)        NOT NULL,
-  pfid              CHAR(12)        NOT NULL,
-  PAT               CHAR(12)        NOT NULL,
+  cacid             INT             NOT NULL    AUTO_INCREMENT,
+  pfid              INT             NOT NULL,
+  pat               BINARY(128)     NOT NULL,
+  -- allow VARCHAR(4x) for salt, in case of escaped characters
+  patSalt           VARCHAR(512)    NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (cacid),
   CONSTRAINT cac_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
@@ -62,11 +66,12 @@ CALL update_Tables_here(database());
 
 -- Create the Game Accounts entity table
 CREATE TABLE IF NOT EXISTS GameAccount (
-  gacid             CHAR(12)        NOT NULL,
-  pfid              CHAR(12)        NOT NULL,
-  password          VARCHAR(40)     NOT NULL,
+  pfid              INT             NOT NULL,
+  password          BINARY(128)     NOT NULL,
+  -- allow VARCHAR(4x) for salt, in case of escaped characters
+  passwordSalt      VARCHAR(512)    NOT NULL,
 
-  CONSTRAINT id_is_primary_key PRIMARY KEY (gacid),
+  CONSTRAINT pfid_is_primary_key PRIMARY KEY (pfid),
   CONSTRAINT gac_Profile_id_references FOREIGN KEY (pfid) REFERENCES Profile(pfid)
 );
 CALL update_Tables_here(database());
@@ -83,7 +88,7 @@ CALL update_Tables_here(database());
 -- Create the "is in Group" relation table
 CREATE TABLE IF NOT EXISTS inGroup (
   inGrid            CHAR(24)        NOT NULL,
-  pfid              CHAR(12)        NOT NULL,
+  pfid              INT             NOT NULL,
   grid              CHAR(12)        NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (grid),
@@ -95,7 +100,7 @@ CALL update_Tables_here(database());
 -- Create the Lesson entity table
 CREATE TABLE IF NOT EXISTS Lesson (
   lsid              CHAR(18)        NOT NULL,
-  pfid              CHAR(12)        NOT NULL,
+  pfid              INT             NOT NULL,
   lsLevel           INT             NOT NULL,
 
   CONSTRAINT id_is_primary_key PRIMARY KEY (lsid),

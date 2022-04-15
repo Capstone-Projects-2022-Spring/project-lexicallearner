@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Create an account</title>
+  </head>
+  <body>
+    <h1>Create an account</h1>
+    <form action='http://localhost:8081/create-account/' method='POST'>
+      <input type='hidden' name='user-email' />
+      <input type='hidden' name='user-name' />
+      <input type='hidden' name='user-type' value='educator' />
+      <input type='hidden' name='user-image' />
+      <input type='hidden' name='preferred-language' />
+      <input type='hidden' name='style-sheet' value='lightmode' />
+      <ol>
+        <li>
+          <button type='submit'>Create the account!</button>
+        </li>
+      </ol>
+    </form>
+  </body>
+</html>

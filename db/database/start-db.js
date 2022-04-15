@@ -14,8 +14,10 @@ const fs = require('fs');
 const mysqld = require('mysql2');
 
 /* constants */
-const PASSWORD_FILE = 'db-login.json';  /* contains the login information */
-const NOOP = (() => {});                /* no-op stub method */
+/* contains the login information */
+const PASSWORD_FILE = `${__dirname}/db-login.json`;
+/* no-op stub method */
+const NOOP = (() => {});
 
 function main(callback) {
   /* default to no-op */
