@@ -186,12 +186,13 @@ const Roommodal = (props) => {
       </div>
 
       <div className="roommodal-right">
-        <span className="roommodal-right-title">Public Room /WIP/</span>
-        <br />
+        <span className="roommodal-right-title">Public Room</span>
+        <hr />
         <ul className="roommodal-right-invited">
           {publicrooms.map((room, key) => {
             return (
               <li key={key}>
+                {room.room}
                 <button
                   onClick={() => {
                     joinPublicRoom(room);
@@ -199,7 +200,6 @@ const Roommodal = (props) => {
                 >
                   Join
                 </button>
-                {room.room} <br />
                 {/* <span>{room.description}</span> */}
               </li>
             );

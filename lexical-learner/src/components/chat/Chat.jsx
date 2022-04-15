@@ -40,7 +40,7 @@ const Chat = (props) => {
     document.querySelector(".chat-messages")?.scrollHeight
   );
   //rooms
-  const [rooms, setRooms] = useState(["demo1","demo2"]);
+  const [rooms, setRooms] = useState(["demo1", "demo2"]);
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
   //messages that contain room and msgs, for demo, default
@@ -298,7 +298,7 @@ const Chat = (props) => {
             <BsIcons.BsPerson />
           </button>
         </div>
-        <ProfileModal profilemodal={profilemodal} username={username}/>
+        <ProfileModal profilemodal={profilemodal} username={username} />
         {/* spawns messages */}
         <div className="chat-messages">
           {messages.map((room) => {
