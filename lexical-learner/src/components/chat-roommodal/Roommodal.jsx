@@ -135,7 +135,7 @@ const Roommodal = (props) => {
       axios
         .get(API || "http://localhost:8000/chat/rooms")
         .then((res) => {
-          console.log(res.data);
+          //console.log(res.data);
           if (!res.data.includes(room, 0)) {
             console.log("Not Found");
             const newRoom = {
@@ -213,7 +213,7 @@ const Roommodal = (props) => {
         axios
           .get(API || "http://localhost:8000/chat/rooms")
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             if (res.data.includes(room, 0)) {
               console.log("found");
               const newRoom = {
