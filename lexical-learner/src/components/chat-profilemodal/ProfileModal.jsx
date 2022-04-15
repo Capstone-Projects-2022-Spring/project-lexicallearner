@@ -11,6 +11,9 @@ const ProfileModal = (props) => {
       <span className="profileModal-title">Profile</span> <br />
       <hr />
       <span>Username: {props.username}</span>
+      <br /><br /><br /><br /><br /><br />
+      <hr />
+      <span>More Updates Soon...</span>
     </div>
   );
 };

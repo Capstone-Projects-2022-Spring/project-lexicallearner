@@ -136,6 +136,7 @@ const Chat = (props) => {
         return messagesCopy;
       });
       setScrollHeight(document.querySelector(".chat-messages")?.scrollHeight);
+      console.log("new scroll height: " + document.querySelector(".chat-messages")?.scrollHeight);
     });
   }, [socket]);
 
@@ -186,10 +187,17 @@ const Chat = (props) => {
     let sh = document.querySelector(".chat-messages")?.scrollHeight;
     let msgs = document.querySelector(".chat-messages").children;
     let lastmgsheight = msgs[msgs.length - 1]?.offsetHeight;
-    //scrolling?
-    if (sh - (st + osh) < lastmgsheight) {
+    /* console.log(msgs[msgs.length - 1]);
+    console.log("last msg height = "+lastmgsheight);
+    console.log("diff : "+ (sh - (st + osh))); */
+    //scrolling??
+    if (sh - (st + osh) <= lastmgsheight + 1) {
       document.querySelector(".chat-messages").scrollTop = sh;
+      console.log("YES");
+    }else{
+      console.log("NO");
     }
+    
   }, [scrollHeight]);
 
   return (
