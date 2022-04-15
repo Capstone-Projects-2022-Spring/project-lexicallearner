@@ -30,6 +30,96 @@ const Roommodal = (props) => {
         },
       ],
     },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
+    {
+      room: "PR1",
+      messages: [
+        {
+          from: "Lexical Chat",
+          msg: "Welcome to PR1 room",
+          time: 'new Date(Date.now()).getTime + ":" + new Date(Date.now()).getMinutes(),',
+        },
+      ],
+    },
   ];
 
   const createRoom = (e) => {
