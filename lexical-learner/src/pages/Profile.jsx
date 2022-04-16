@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import Navbar from "../components/navbar/NavbarLoggedIn";
 import LanguageSelect from "../components/LanguageSelect";
 import "./styles/Profile.css";
-import Button from "react-bootstrap/Button";
 
 const Profile = () => {
   const [show, setShow] = useState(false);
@@ -17,9 +16,9 @@ const Profile = () => {
       <section className="Portrait">
           <img id="profilepic" src=""  width="170" height="170" alt="profilepic"/>
 
-          <Button>
+          <button>
             Edit
-          </Button>
+          </button>
       </section>
       Preferred Language: <LanguageSelect />
     </div>

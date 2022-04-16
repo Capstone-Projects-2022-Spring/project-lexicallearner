@@ -17,7 +17,6 @@
     "google-translate": "^3.0.0",
     "process": "^0.11.10",
     "react": "^17.0.2",
-    "react-bootstrap": "^2.2.0",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router": "^6.2.1",
