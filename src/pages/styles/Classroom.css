@@ -1,0 +1,41 @@
+.Classroom {
+    background-color: white;
+}
+.Classroom .chat {
+   width: 70%;
+   position: absolute;
+   top:5rem;
+   right: 3px;
+   height: 80%;
+   margin-bottom: 1rem;
+   margin-bottom: 1rem;
+
+}
+
+h2{
+   position: absolute;
+   top: 0rem;
+}
+
+ .Classroom .Options{
+   width: 40%;
+   position: absolute;
+   top: 12rem;
+   left: 5rem;
+   height: 50%;
+ }
+
+ .Classroom .Options li{
+ color:black;
+ }
+
+
+  .Classroom footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: black;
+   color: white;
+   text-align: center;
+}

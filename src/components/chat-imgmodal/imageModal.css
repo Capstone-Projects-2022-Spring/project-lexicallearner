@@ -1,0 +1,7 @@
+.imageModal{
+    position: absolute;
+    left: -100px;
+    bottom: 210px;
+    border-radius: 2.5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}

@@ -1,0 +1,48 @@
+.friendbar {
+    display: flex;
+    width: 100%;
+    padding: 0.5rem;
+    /* overflow-x: hidden; */
+}
+
+.friendbar-mouseover:hover {
+    background-color: rgb(223, 223, 223);
+}
+
+.friendbar-active {
+    background-color: rgb(187, 187, 187);
+}
+
+.friendbar-logo {
+    flex: 0 0 50px;
+    height: 50px;
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 5%;
+    margin-right: 0.5rem;
+}
+
+.friendbar-friend {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.friendbar-friend-name {
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+.friendbar-friend-lastmsg {
+    color: grey;
+    width: 170px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.friendbar-lastdate {
+    top: 1.25rem;
+    right: 0.8rem;
+    color: grey;
+}

@@ -1,0 +1,41 @@
+.languagemodal{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: max-content;
+    height: max-content;
+    border-radius: 2.5px;
+    background-color: white;
+    bottom: 250px;
+    right: 20px;
+    z-index: 100;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+/* .languagemodal::after {
+    content: "";
+    position: absolute;
+    bottom: -17px;
+    right: 0;
+    border-top: 20px solid white;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+} */
+
+.languagemodal-title{
+    font-weight: bolder;
+}
+
+.languagemodal input[type=submit]{
+    padding: 0.3rem;
+    border-radius: 5%;
+    padding: 0.35rem;
+    border: 1px solid lightgrey;
+}
+
+.languagemodal input[type=submit]:hover {
+    background-color: lightgrey;
+}
