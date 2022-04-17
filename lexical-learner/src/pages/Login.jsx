@@ -42,11 +42,11 @@ const Login = () => {
                             {renderErrorMessage("pass")}
                         </div>
                         <div className="button-container">
-                            <input type="submit" value="Submit" />
+                            <input className="login-submit" type="submit" value="Submit" />
                         </div>
                     </form>
                 </div>
-                <div className="register">
+                <div className="register-link">
                     <Link to='/register'>Not Registered Yet? Sign up Here</Link>
                 </div>
             </div>

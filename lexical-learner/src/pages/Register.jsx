@@ -39,7 +39,7 @@ const Register = () => {
                             {renderErrorMessage("pass")}
                         </div>
                         <div className="button-container">
-                            <input type="submit" value="Register" />
+                            <input className="register-submit" type="submit" value="Register" />
                         </div>
                     </form>
                 </div>

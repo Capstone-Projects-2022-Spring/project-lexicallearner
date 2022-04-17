@@ -51,7 +51,7 @@ const Upload = () => {
 
       <form action="api/image_upload" method="post" encType="multipart/form-data" onChange={onImageChange}>
         <input type="file" accept="image/*" id="myFile" name="filename"/>
-        <input type="submit"/>
+        <input type="submit" value="Submit"/>
       </form>
 
       <button onClick={onImageSubmit}>

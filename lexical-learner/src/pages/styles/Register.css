@@ -1,4 +1,4 @@
-.register footer {
+.Register footer {
     background-color: rgb(179, 179, 179);
     background-color: black;
     color: white;
@@ -7,13 +7,13 @@
     font-weight: 500Z;
 }
 
-input[type="text"],
-input[type="password"] {
+.Register input[type="text"],
+.Register input[type="password"] {
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-input[type="submit"] {
+.register-submit {
   margin-top: 10px;
   cursor: pointer;
   font-size: 15px;
@@ -23,11 +23,11 @@ input[type="submit"] {
   padding: 10px 20px;
 }
 
-input[type="submit"]:hover {
+.register-submit:hover {
   background: #6cf0c2;
 }
 
-.button-container {
+.Register .button-container {
   display: flex;
   justify-content: center;
 }
@@ -41,21 +41,17 @@ input[type="submit"]:hover {
   margin-right: auto;
 }
 
-.list-container {
-  display: flex;
-}
-
-.error {
+.Register .error {
   color: red;
   font-size: 12px;
 }
 
-.title {
+.register-form .title {
   font-size: 25px;
   margin-bottom: 20px;
 }
 
-.input-container {
+.register-form .input-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
