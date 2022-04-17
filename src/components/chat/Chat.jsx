@@ -13,6 +13,7 @@ import ProfileModal from "../chat-profilemodal/ProfileModal";
 //connect to chat server
 const socket = io(process.env.CHAT_SERVER_URL || "http://localhost:8000");
 const Chat = (props) => {
+  console.log(process.env.CHAT_SERVER_URL);
   let pref_lang = localStorage.getItem("preferred_language");
   if (!pref_lang) pref_lang = "es";
   const [preferredLanguage, setPreferredLanguage] = useState(pref_lang);
