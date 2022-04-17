@@ -11,7 +11,7 @@ import FileUpload from "../chat-fileUpload/FileUpload";
 import ProfileModal from "../chat-profilemodal/ProfileModal";
 
 //connect to chat server
-const socket = io(process.env.CHAT_SERVER_URL || "http://localhost:8000");
+const socket = io(process.env.REACT_APP_CHAT_SERVER_URL || process.env.CHAT_SERVER_URL);
 const Chat = (props) => {
   console.log(process.env.CHAT_SERVER_URL);
   let pref_lang = localStorage.getItem("preferred_language");
