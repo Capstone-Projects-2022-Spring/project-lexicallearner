@@ -30,7 +30,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "docs": "jsdoc -c jsdoc.conf.json"
   },
   "eslintConfig": {
     "extends": [
@@ -51,7 +52,7 @@
     ]
   },
   "devDependencies": {
-    "axios": "^0.26.1"
-  },
-  "proxy": "http://localhost:5000/"
+    "axios": "^0.26.1",
+    "better-docs": "^2.7.2"
+  }
 }

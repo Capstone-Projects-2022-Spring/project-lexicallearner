@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Component } from "react";
 import "./chat.css";
 import * as BsIcons from "react-icons/bs";
 import * as IoIcons from "react-icons/io";
@@ -11,7 +11,11 @@ import FileUpload from "../chat-fileUpload/FileUpload";
 import ProfileModal from "../chat-profilemodal/ProfileModal";
 
 //connect to chat server
-const socket = io(process.env.CHAT_SERVER_URL || "http://localhost:8000");
+/**
+ * @component
+ */
+
+const socket = io(process.env.REACT_APP_CHAT_SERVER_URL || "http://localhost:8000");
 const Chat = (props) => {
   let pref_lang = localStorage.getItem("preferred_language");
   if (!pref_lang) pref_lang = "es";
