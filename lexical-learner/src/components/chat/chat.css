@@ -1,11 +1,12 @@
 .chat {
     position: relative;
     display: flex;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     max-width: 100%;
     /* fixes width 100vw */
     border-top: 1px solid lightgrey;
+    overflow: hidden;
 }
 
 .chat-leftbox {
@@ -55,6 +56,7 @@
 
 .chat-righttitle {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     width: inherit;
     padding: 1rem;
@@ -65,10 +67,12 @@
 
 .chat-righttitle-userprofile {
     display: flex;
+    margin-top: auto;
     margin-left: auto;
-    border: 2px solid red;
-    width: 25px;
-    height: 25px;
+    border: none;
+    background-color: transparent;
+    border-radius: none;
+    font-size: 1.25rem;
 }
 
 .chat-rightbox {
@@ -141,7 +145,7 @@
     height: 205px;
     border-top: 1px solid rgb(231, 231, 231);
     border-bottom: 1px solid lightgrey;
-    background-color: white;
+    background-color: rgb(244, 244, 244);
 }
 
 textarea {
@@ -151,6 +155,7 @@ textarea {
     outline: none;
     padding: 0.5rem 1rem 0.5rem 1rem;
     resize: none;
+    background-color: rgb(244, 244, 244);
 }
 
 .chat-sendbtn {

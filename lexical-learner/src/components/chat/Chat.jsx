@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Component } from "react";
 import "./chat.css";
 import * as BsIcons from "react-icons/bs";
 import * as IoIcons from "react-icons/io";
@@ -8,9 +8,14 @@ import io from "socket.io-client";
 import LanguageModal from "../chat-languagemodal/LanguageModal";
 import ImageModal from "../chat-imgmodal/ImageModal";
 import FileUpload from "../chat-fileUpload/FileUpload";
+import ProfileModal from "../chat-profilemodal/ProfileModal";
 
 //connect to chat server
-const socket = io(process.env.REACT_APP_LOCALHOST || "http://localhost:8000");
+/**
+ * @component
+ */
+
+const socket = io(process.env.REACT_APP_CHAT_SERVER_URL || "http://localhost:8000");
 const Chat = (props) => {
   let pref_lang = localStorage.getItem("preferred_language");
   if (!pref_lang) pref_lang = "es";
@@ -20,10 +25,7 @@ const Chat = (props) => {
   const [current, setCurrent] = useState("");
   //username TODO:
   const [username, setUsername] = useState(
-    props.user.username ||
-      new Date(Date.now()).getTime +
-        ":" +
-        new Date(Date.now()).getMilliseconds()
+    props.user.username || "User" + new Date(Date.now()).getMilliseconds()
   );
   //room
   const [room, setRoom] = useState("");
@@ -31,6 +33,8 @@ const Chat = (props) => {
   const [roommodal, setRoommodal] = useState(false);
   //room modal
   const [languagemodal, setLanguagemodal] = useState(false);
+  //room profile modal
+  const [profilemodal, setProfileModal] = useState(false);
   //search bar
   const [searchbar, setSeearchBar] = useState("");
   //emoji picker
@@ -39,6 +43,8 @@ const Chat = (props) => {
   const [scrollHeight, setScrollHeight] = useState(
     document.querySelector(".chat-messages")?.scrollHeight
   );
+  //rooms
+  const [rooms, setRooms] = useState(["demo1", "demo2"]);
   //current msg in the chat send box
   const [currentMessage, setCurrentMessage] = useState("");
   //messages that contain room and msgs, for demo, default
@@ -134,6 +140,7 @@ const Chat = (props) => {
         return messagesCopy;
       });
       setScrollHeight(document.querySelector(".chat-messages")?.scrollHeight);
+      console.log("new scroll height: " + document.querySelector(".chat-messages")?.scrollHeight);
     });
   }, [socket]);
 
@@ -183,9 +190,9 @@ const Chat = (props) => {
     let osh = document.querySelector(".chat-messages")?.offsetHeight;
     let sh = document.querySelector(".chat-messages")?.scrollHeight;
     let msgs = document.querySelector(".chat-messages").children;
-    let lastmgsheight = msgs[msgs.length-1]?.offsetHeight;
-    //scrolling?
-    if (sh - (st + osh) < lastmgsheight) {
+    let lastmgsheight = msgs[msgs.length - 1]?.offsetHeight;
+    //scrolling??
+    if (sh - (st + osh) <= lastmgsheight + 1) {
       document.querySelector(".chat-messages").scrollTop = sh;
     }
   }, [scrollHeight]);
@@ -200,6 +207,8 @@ const Chat = (props) => {
           socket={socket}
           messages={messages}
           setMessages={setMessages}
+          rooms={rooms}
+          setRooms={setRooms}
         />
       )}
       {/* left box */}
@@ -287,10 +296,14 @@ const Chat = (props) => {
       <div className="chat-rightbox">
         <div className="chat-righttitle">
           {current}
-          <button className="chat-righttitle-userprofile">
+          <button
+            className="chat-righttitle-userprofile"
+            onClick={() => setProfileModal(!profilemodal)}
+          >
             <BsIcons.BsPerson />
           </button>
         </div>
+        <ProfileModal profilemodal={profilemodal} username={username} />
         {/* spawns messages */}
         <div className="chat-messages">
           {messages.map((room) => {

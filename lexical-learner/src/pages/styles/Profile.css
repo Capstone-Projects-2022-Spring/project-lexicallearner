@@ -1,8 +1,25 @@
-.profile footer {
+.Profile footer {
     background-color: rgb(179, 179, 179);
     background-color: black;
     color: white;
     text-align: center;
     font-size: 1.25rem;
     font-weight: 500Z;
+}
+
+.Profile .edit-button {
+    cursor: pointer;
+    font-size: 15px;
+    background: #3030ff;
+    border: 1px solid #3030ff;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.Profile .edit-button:hover {
+    background: #5f5fff;
+}
+
+.Profile .profilepic {
+    margin: 5px;
 }

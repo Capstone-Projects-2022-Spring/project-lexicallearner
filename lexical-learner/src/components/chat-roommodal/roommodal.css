@@ -34,6 +34,7 @@
     width: 45%;
     padding: 1rem;
     padding-top: 2rem;
+    overflow: hidden;
 }
 
 .roommodal-left-title {
@@ -74,6 +75,7 @@
 
 .roommodal-right-invited {
     list-style: none;
+    height: 100%;
     padding: 0;
     margin: 0;
     margin-top: 0.25rem;
@@ -83,15 +85,17 @@
 .roommodal-right-invited li {
     /*     position: relative;
  */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding-bottom: 1rem;
+    padding-right: 20px;
 }
 
 .roommodal-right-invited button {
     /*    position: absolute;
     top: 0;
     right: 0; */
-
-    float: right;
     border-radius: 5%;
     padding: 0.35rem;
     border: 1px solid lightgrey;

@@ -1,0 +1,20 @@
+.profileModal{
+    position: absolute;
+    background-color: white;
+    z-index: 50;
+    width: 250px;
+    height: 845px;
+    right: -250px;
+    top: 55px;
+    transition: all 0.25s ease-out;
+    padding: 1rem;
+    border: 1px solid lightgrey;
+}
+
+.profileModal-active {
+    right: 0px;
+}
+
+.profileModal-title {
+    font-size: 20px;
+}

@@ -6,3 +6,59 @@
     font-size: 1.25rem;
     font-weight: 500Z;
 }
+
+.Login input[type="text"],
+.Login input[type="password"] {
+  height: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.login-submit {
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  background: #01d28e;
+  border: 1px solid #01d28e;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.login-submit:hover {
+  background: #6cf0c2;
+}
+
+.Login .button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.login-form {
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-form .register-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.Login .error {
+  color: red;
+  font-size: 12px;
+}
+
+.login-form .title {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.login-form .input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px;
+}

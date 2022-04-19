@@ -2,9 +2,6 @@ import React, {useState} from "react";
 import "./styles/Upload.css";
 import Navbar from "../components/navbar/NavbarLoggedIn";
 
-
-
-
 const Upload = () => {
 
     const [oriImg, setOriImg] = useState();
@@ -54,7 +51,7 @@ const Upload = () => {
 
       <form action="api/image_upload" method="post" encType="multipart/form-data" onChange={onImageChange}>
         <input type="file" accept="image/*" id="myFile" name="filename"/>
-        <input type="submit"/>
+        <input type="submit" value="Submit"/>
       </form>
 
       <button onClick={onImageSubmit}>
