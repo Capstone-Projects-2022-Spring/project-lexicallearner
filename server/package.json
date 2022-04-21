@@ -12,6 +12,7 @@
   "dependencies": {
     "@google-cloud/translate": "^6.3.1",
     "@google-cloud/vision": "^2.4.2",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "formidable": "^2.0.1",
     "nodemon": "^2.0.15"
