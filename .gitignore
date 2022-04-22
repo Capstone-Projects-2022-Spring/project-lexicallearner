@@ -1,3 +1,4 @@
 chatserver/.env
 server/.env
 server/lexical-learner-*.json
+chatserver/node_modules
