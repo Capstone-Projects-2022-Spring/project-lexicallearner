@@ -20,6 +20,14 @@ const sha2 = require('sha2');
 /* for starting the database */
 const runMySqlScript = require('../run-mysql-script');
 
+/* host for the app to listen from */
+const HOSTNAME = 'localhost';
+/* port for the app to listen to */
+const LISTEN_PORT = 8081;
+
+/* whether the encoding type for the forms is extended */
+const IS_ENCTYPE_EXTENDED = false;
+
 /* file containing the request types */
 const REQUESTS_FILE = 'requests.json';
 /* request methods */
@@ -57,11 +65,6 @@ const VALUE_PROCESSORS = {
   } /* end function VALUE_PROCESSORS.salt(value, acc) */,
   'hash': (value, acc) => sha2.sha512(value)
 } /* end const VALUE_PROCESSORS */;
-
-/* whether the encoding type for the forms is extended */
-const IS_ENCTYPE_EXTENDED = false;
-/* port for the app to listen to */
-const LISTEN_PORT = 8081;
 
 fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
   /* if any errors */
@@ -108,63 +111,65 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
         } /* next SCRIPT */
 
         /* for each template variable */
-        for (const TMP_VAR of TMP_VARS) {
-          /* store the name of the template variable */
-          const KEY = TMP_VAR.name;
-          /* store the value from the request body */
-          const VALUE = req.body[KEY];
-          /* build and print the entry */
-          const ENTRY = {};
+        if (TMP_VARS) {
+          for (const TMP_VAR of TMP_VARS) {
+            /* store the name of the template variable */
+            const KEY = TMP_VAR.name;
+            /* store the value from the request body */
+            const VALUE = req.body[KEY];
+            /* build and print the entry */
+            const ENTRY = {};
 
-          /* if the template variable has a value, use that value */
-          if ('value' in TMP_VAR) {
-            ENTRY.value = TMP_VAR.value;
-          } /* if ('value' in TMP_VAR) */
+            /* if the template variable has a value, use that value */
+            if ('value' in TMP_VAR) {
+              ENTRY.value = TMP_VAR.value;
+            } /* if ('value' in TMP_VAR) */
 
-          /* otherwise validate VALUE */
-          else {
-            /* create the template variable's regular expression */
-            const PATTERN = new RegExp(REQUEST_TYPES.schema[KEY].regexp);
-            /* test VALUE against PATTERN */
-            if (!PATTERN.test(VALUE)) {
-              res.send(`Illegal value for '${KEY}': '${VALUE}'.`);
-              return;
-            } /* end if (!PATTERN.test(VALUE)) */
+            /* otherwise validate VALUE */
+            else {
+              /* create the template variable's regular expression */
+              const PATTERN = new RegExp(REQUEST_TYPES.schema[KEY].regexp);
+              /* test VALUE against PATTERN */
+              if (!PATTERN.test(VALUE)) {
+                res.send(`Illegal value for '${KEY}': '${VALUE}'.`);
+                return;
+              } /* end if (!PATTERN.test(VALUE)) */
 
-            /* parse and set the value */
-            ENTRY.value = VALUE;
-          } /* end if ('value' in TMP_VAR) || */
+              /* parse and set the value */
+              ENTRY.value = VALUE;
+            } /* end if ('value' in TMP_VAR) || */
 
-          /* process the value for each value processor */
-          if ('processes' in REQUEST_TYPES.schema[KEY]) {
-            for (const PROCESS of Object.keys(VALUE_PROCESSORS)) {
-              /* if process is not on this variable, skip this process */
-              if (REQUEST_TYPES.schema[KEY].processes.indexOf(PROCESS) < 0)
-              {
-                continue;
-              } /* end if (REQUEST_TYPES.schema[KEY].processes.indexOf(PROCESS) < 0) */
-              const PROCESS_ACC = [];
-              /* apply the processor */
-              ENTRY.value=VALUE_PROCESSORS[PROCESS](ENTRY.value,PROCESS_ACC);
-              /* loop through the accumulated intermediate values */
-              for (const INTER of PROCESS_ACC) {
-                /* entry for intermediate value */
-                const INTER_ENTRY = {};
-                /* push the intermediate value into the entries */
-                INTER_ENTRY.key = `@\{${KEY}-${PROCESS}\}`;
-                INTER_ENTRY.value = sqlstring.escape(INTER);
-                ENTRIES.push(INTER_ENTRY);
-              } /* next INTER */
-            } /* next PROCESS */
-          } /* end if ('processes' in REQUEST_TYPES.schema[KEY]) */
+            /* process the value for each value processor */
+            if ('processes' in REQUEST_TYPES.schema[KEY]) {
+              for (const PROCESS of Object.keys(VALUE_PROCESSORS)) {
+                /* if process is not on this variable, skip this process */
+                if (REQUEST_TYPES.schema[KEY].processes.indexOf(PROCESS) < 0)
+                {
+                  continue;
+                } /* end if (REQUEST_TYPES.schema[KEY].processes.indexOf(PROCESS) < 0) */
+                const PROCESS_ACC = [];
+                /* apply the processor */
+                ENTRY.value=VALUE_PROCESSORS[PROCESS](ENTRY.value,PROCESS_ACC);
+                /* loop through the accumulated intermediate values */
+                for (const INTER of PROCESS_ACC) {
+                  /* entry for intermediate value */
+                  const INTER_ENTRY = {};
+                  /* push the intermediate value into the entries */
+                  INTER_ENTRY.key = `@\{${KEY}-${PROCESS}\}`;
+                  INTER_ENTRY.value = sqlstring.escape(INTER);
+                  ENTRIES.push(INTER_ENTRY);
+                } /* next INTER */
+              } /* next PROCESS */
+            } /* end if ('processes' in REQUEST_TYPES.schema[KEY]) */
 
-          /* put in the ENTRY key */
-          ENTRY.key = `@\{${KEY}\}`;
-          /* escape the ENTRY value */
-          ENTRY.value = sqlstring.escape(ENTRY.value);
-          /* add to entries */
-          ENTRIES.push(ENTRY);
-        } /* next TMP_VAR */
+            /* put in the ENTRY key */
+            ENTRY.key = `@\{${KEY}\}`;
+            /* escape the ENTRY value */
+            ENTRY.value = sqlstring.escape(ENTRY.value);
+            /* add to entries */
+            ENTRIES.push(ENTRY);
+          } /* next TMP_VAR */
+        } /* end if (TMP_VAR) */
 
         /* print the entries */
         console.log(ENTRIES);
@@ -201,10 +206,10 @@ fs.readFile(REQUESTS_FILE, 'utf8', (err, requests_res) => {
   } /* next METHOD */
 
   /* listen to port 8081 */
-  const SERVER = APP.listen(LISTEN_PORT, () => {
+  const SERVER = APP.listen(LISTEN_PORT, HOSTNAME, () => {
     /* get the host and port */
     const HOST = SERVER.address().address;
     const PORT = SERVER.address().port;
-    console.log(`listening to https://${HOST}:${PORT}`);
+    console.log(`listening to //${HOST}:${PORT}`);
   }); /* end callback APP.listen */
 }); /* end callback fs.readFile */
