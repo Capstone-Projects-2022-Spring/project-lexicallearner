@@ -7,6 +7,7 @@ const LanguageModal = (props) => {
         props.setPreferredLanguage(
             document.getElementById("preferredLan").value
         )
+        localStorage.setItem("preferred_language", document.getElementById("preferredLan").value);
     }
 
   return (
