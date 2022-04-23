@@ -58,7 +58,7 @@ app.get('/api/detectText', async (req, res) => {
     const fileName = req.query.file;
     const file_path = filename_table.get(fileName);
     const detected_json = await detectTextAndLangImg(file_path);
-    const detected_text = detected_json[1].description;
+    const detected_text = detected_json[0].description.trim();
     const lang = req.query.targetLang;
     const translated_text = await translateText(detected_text, lang);
     res.send(translated_text);
@@ -76,7 +76,7 @@ async function detectTextAndLangImg(fileName) {
 // Performs text detection on the local file
         const [result] = await client.textDetection(fileName);
         const detections = result.textAnnotations;
-        detections.forEach(text => console.log(text));
+        //detections.forEach(text => console.log(text));
 
         return detections;
     } catch (e) {

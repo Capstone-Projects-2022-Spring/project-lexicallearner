@@ -61,7 +61,7 @@ const Upload = () => {
         Translate
       </button>
 
-        <div>
+        <div className="translation">
             Text: {text}
         </div>
 
