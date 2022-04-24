@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+docker-compose stop lexicaldb
+docker-compose run lexicaldb
