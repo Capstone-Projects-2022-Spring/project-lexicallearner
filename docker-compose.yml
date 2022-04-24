@@ -1,0 +1,43 @@
+version: '3.1'
+services:
+  lexical-api:
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    image: lexical-api:latest
+#    restart: always
+    volumes:
+      - "./db/database/db-login.json:/app/database/db-login.json"
+#    links:
+#      - lexicaldb:mysql
+    ports:
+      - '8081:8081'
+    networks:
+      - lexical
+  lexicaldb:
+    image: mysql
+    restart: always
+    volumes:
+      - sqldata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: 'lexicaldb'
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - lexical
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+#    links:
+#      - lexicaldb:mysql
+    ports:
+      - 50016:80
+    environment:
+      - PMA_HOST=lexicaldb
+    networks:
+      - lexical
+volumes:
+  sqldata:
+networks:
+  lexical:
+    driver: bridge
+
