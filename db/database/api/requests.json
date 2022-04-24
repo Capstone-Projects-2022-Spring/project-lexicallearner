@@ -1,6 +1,30 @@
 {
   "methods": {
+    "get": [
+      {
+        "action": "/",
+        "scripts": [
+          {
+            "switch": true,
+            "paths": [
+              "./hello-world.sql"
+            ]
+          }
+        ]
+      }
+    ],
     "post": [
+      {
+        "action": "/",
+        "scripts": [
+          {
+            "switch": true,
+            "paths": [
+              "./hello-world.sql"
+            ]
+          }
+        ]
+      },
       {
         "action": "/create-account/",
         "scripts": [
