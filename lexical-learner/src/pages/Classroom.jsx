@@ -21,8 +21,9 @@ const Classroom = () => {
     return (
       <div className="Classroom">
       <Navbar />
+      <h2 className="title">{stateParamVal.title}</h2>
       <section className="chat">
-        <h2>{stateParamVal.title}</h2>
+        <h2 style={{textAlign:'center'}}>Web Chat Demo</h2>
         {user.username !== "" ? 
           <Chat user={{
             user: user, 
