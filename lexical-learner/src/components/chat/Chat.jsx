@@ -10,16 +10,14 @@ import ImageModal from "../chat-imgmodal/ImageModal";
 import FileUpload from "../chat-fileUpload/FileUpload";
 import ProfileModal from "../chat-profilemodal/ProfileModal";
 
-//connect to chat server
-/**
- * @component
- */
-
 const socket = io(process.env.REACT_APP_CHAT_SERVER_URL || "http://localhost:8000");
 const Chat = (props) => {
   let pref_lang = localStorage.getItem("preferred_language");
   if (!pref_lang) pref_lang = "es";
   const [preferredLanguage, setPreferredLanguage] = useState(pref_lang);
+
+  //auto translate
+  const [autoT, setAutoT] = useState(true);
 
   //current chat
   const [current, setCurrent] = useState("");
@@ -360,7 +358,9 @@ const Chat = (props) => {
                                 divTranslate(msg.msg, preferredLanguage, key)
                               }
                             />
-                            <div id="translateResponse"></div>
+                            <div id="translateResponse">
+                              {autoT?  divTranslate(msg.msg, preferredLanguage, key): null}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -387,6 +387,8 @@ const Chat = (props) => {
               <LanguageModal
                 preferredLanguage={preferredLanguage}
                 setPreferredLanguage={setPreferredLanguage}
+                autoT={autoT}
+                setAutoT={setAutoT}
               />
             )}
             <button onClick={() => setLanguagemodal(!languagemodal)}>
