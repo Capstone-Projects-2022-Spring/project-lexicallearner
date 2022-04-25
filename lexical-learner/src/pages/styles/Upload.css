@@ -49,6 +49,7 @@
 
 .Upload .translation{
     margin-bottom: 1rem;
+    max-width: 500px;
 }
 
 .Upload footer{

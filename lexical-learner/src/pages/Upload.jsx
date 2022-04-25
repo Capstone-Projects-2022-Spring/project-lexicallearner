@@ -21,6 +21,10 @@ const Upload = () => {
         let url = `https://lexicalimageupload.herokuapp.com/api/detectText/?file=`;
         url += oriImg;
         let targetLang = localStorage.getItem("preferred_language");
+        if (!targetLang || targetLang === "") {
+          alert("The preferred language for this user is not set. Select a language on the Profile page.");
+          return;
+        }
         url += "&targetLang=" + targetLang;
         console.log(url);
         await fetch(url, {
