@@ -55,13 +55,19 @@ app.post('/api/image_upload', (req, res) => {
 
 //detectText API call like this: https://.../api/translate/?file=...&targetLang=...    You can put a local file or a image url
 app.get('/api/detectText', async (req, res) => {
-    const fileName = req.query.file;
-    const file_path = filename_table.get(fileName);
-    const detected_json = await detectTextAndLangImg(file_path);
-    const detected_text = detected_json[0].description.trim();
-    const lang = req.query.targetLang;
-    const translated_text = await translateText(detected_text, lang);
-    res.send(translated_text);
+    try {
+        const fileName = req.query.file;
+        const file_path = filename_table.get(fileName);
+        const detected_json = await detectTextAndLangImg(file_path);
+        const detected_text = detected_json[0].description.trim();
+        const lang = req.query.targetLang;
+        const translated_text = await translateText(detected_text, lang);
+        res.send(translated_text);
+    }
+    catch (err) {
+        console.log(err);
+        res.send("There was an error translating the image, please try again.");
+    }
 });
 
 // TODO extract text from the JSON a JSON that contains the original text "locale" (ie detected language) and translated text (add target lang to params)
