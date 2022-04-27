@@ -47,6 +47,11 @@
     margin: 1rem;
 }
 
+.Upload .translation{
+    margin-bottom: 1rem;
+    max-width: 500px;
+}
+
 .Upload footer{
     display: flex;
     justify-content: center;

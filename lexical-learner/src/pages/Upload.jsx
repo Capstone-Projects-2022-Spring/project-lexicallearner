@@ -17,8 +17,15 @@ const Upload = () => {
     };
 
     async function onImageSubmit() {
-        let url = `/api/detectText/?file=./uploaded_images/`;
+        //let url = `/api/detectText/?file=./uploaded_images/`;
+        let url = `https://lexicalimageupload.herokuapp.com/api/detectText/?file=`;
         url += oriImg;
+        let targetLang = localStorage.getItem("preferred_language");
+        if (!targetLang || targetLang === "") {
+          alert("The preferred language for this user is not set. Select a language on the Profile page.");
+          return;
+        }
+        url += "&targetLang=" + targetLang;
         console.log(url);
         await fetch(url, {
             method: "GET",
@@ -27,9 +34,9 @@ const Upload = () => {
                 "Content-Type": 'application/json'
             }
         })
-        .then((res) => res.json())
+        .then((res) => res.text())
         .then((response) => {
-            setText(response[1].description);
+            setText(response);
         })
         .catch((error) => {
             console.log("There was an error with the OCR request: ", error);
@@ -49,7 +56,7 @@ const Upload = () => {
           <img src={img}/>
       </div>
 
-      <form action="api/image_upload" method="post" encType="multipart/form-data" onChange={onImageChange}>
+      <form action="https://lexicalimageupload.herokuapp.com/api/image_upload" method="post" encType="multipart/form-data" onChange={onImageChange}>
         <input type="file" accept="image/*" id="myFile" name="filename"/>
         <input type="submit" value="Submit"/>
       </form>
@@ -58,7 +65,7 @@ const Upload = () => {
         Translate
       </button>
 
-        <div>
+        <div className="translation">
             Text: {text}
         </div>
 

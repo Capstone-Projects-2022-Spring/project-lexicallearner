@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import HomeLoggedIn from './pages/HomeLoggedIn';
 import Classroom from './pages/Classroom';
 import Profile from "./pages/Profile";
+import CreateFlashCards from "./pages/CreateFlashCards";
+import ListFlashCards from "./pages/ListFlashCards";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="/homeLoggedIn" element={<HomeLoggedIn />}/>
           <Route path="/classroom" element={<Classroom />}/>
           <Route path="/profile" element={<Profile />}/>
+          <Route path="/listflashcards" element={<ListFlashCards/>}/>
+          <Route path="/createflashcards" element={<CreateFlashCards/>}/>
         </Routes>
       </BrowserRouter>
     </div>
